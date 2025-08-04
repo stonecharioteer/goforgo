@@ -10,59 +10,148 @@ import (
 
 // renderWelcome shows the welcome screen (like Rustlings)
 func (m *Model) renderWelcome() string {
-	logo := `       Welcome to...
-                 _____      ______           _____      
-                /  __ \     |  ___|          |  __ \     
-                | |  \/  ___| |_ ___  _ __    | |  \/ ___ 
-                | | __ / _ \  _/ _ \| '__|   | | __ / _ \
-                | |_\ \ (_) | || (_) | |      | |_\ \ (_) |
-                 \____/\___/|_| \___/|_|       \____/\___/`
+	// Beautiful GoForGo ASCII art logo
+	logo := `   ____       ______              ____      
+  / ___| ___  |  ___|___  _ __    / ___| ___  
+ | |  _ / _ \ | |_ / _ \| '__|  | |  _ / _ \ 
+ | |_| | (_) ||  _| (_) | |     | |_| | (_) |
+  \____|\___/ |_|  \___/|_|      \____|\___/ `
+
+	// Gradient colors for the logo
+	logoStyle := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#7C3AED")).
+		Bold(true).
+		Align(lipgloss.Center)
+
+	// Create colorful banner with gradient effect
+	banner := logoStyle.Render(logo)
+	
+	// Subtitle with gradient
+	subtitleStyle := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#A855F7")).
+		Bold(true).
+		Italic(true).
+		Align(lipgloss.Center)
+	
+	subtitle := subtitleStyle.Render("🚀 Interactive Go Learning Platform 🚀")
+
+	// Stats section with progress
+	completed := 0
+	for _, ex := range m.exercises {
+		if ex.Completed {
+			completed++
+		}
+	}
+	
+	progressBar := m.renderProgressBar(completed, m.totalCount, 30)
+	
+	statsStyle := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#10B981")).
+		Bold(true)
+	
+	statsText := statsStyle.Render(fmt.Sprintf("📊 Progress: %s %d/%d exercises completed", progressBar, completed, m.totalCount))
+
+	// Feature highlights with emojis and colors
+	featuresStyle := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#3B82F6"))
+	
+	features := featuresStyle.Render(`✨ What makes GoForGo special:
+   🔥 Real-time feedback as you code
+   🧠 Progressive hints that guide your learning  
+   📈 Smart progress tracking with auto-skip
+   🎯 TODO-driven exercises for flexible learning
+   ⚡ Instant file change detection`)
+
+	// Learning topics with nice formatting
+	topicsStyle := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#F59E0B"))
+	
+	topics := topicsStyle.Render(fmt.Sprintf(`📚 %d exercises covering:
+   • Go fundamentals & syntax        • Error handling patterns
+   • Variables & data types          • Concurrency & goroutines  
+   • Functions & methods             • Channels & sync primitives
+   • Structs & interfaces            • Popular libraries (Gin, GORM)
+   • Control flow & loops            • Real-world projects`, m.totalCount))
+
+	// Keyboard shortcuts in a nice box
+	shortcutsStyle := lipgloss.NewStyle().
+		Border(lipgloss.RoundedBorder()).
+		BorderForeground(lipgloss.Color("#EC4899")).
+		Padding(0, 1).
+		Foreground(lipgloss.Color("#EC4899"))
+	
+	shortcuts := shortcutsStyle.Render(`⌨️  Keyboard Shortcuts:
+ Enter/Space  Start your Go journey  |  h  Progressive hints
+ n / p        Next/Previous exercise |  l  List all exercises  
+ r            Run current exercise   |  q  Quit GoForGo`)
 
 	welcomeText := fmt.Sprintf(`%s
 
-🎯 Interactive Go Learning Platform
+%s
 
-Welcome to GoForGo! This tool will help you learn Go through interactive exercises.
-You'll fix broken code, learn Go concepts, and build practical skills.
+%s
 
-📚 %d exercises loaded, covering:
-   • Go fundamentals and syntax
-   • Data structures and algorithms  
-   • Concurrency and channels
-   • Popular libraries and frameworks
-   • Real-world programming patterns
+%s
 
-🎮 How it works:
-   1. Edit exercise files in your favorite editor
-   2. Save the file and watch real-time feedback
-   3. Fix errors and complete exercises progressively
-   4. Get hints when you're stuck
+%s
 
-⌨️  Keyboard shortcuts:
-   • Enter/Space: Start exercises
-   • h: Show hints
-   • l: List all exercises  
-   • n/p: Next/previous exercise
-   • r: Manually run exercise
-   • q: Quit
+%s
 
-`, titleStyle.Render(logo), m.totalCount)
+`, banner, subtitle, statsText, features, topics, shortcuts)
 
+	// Next exercise info with attractive styling
 	if m.currentExercise != nil {
-		welcomeText += fmt.Sprintf(`🚀 Ready to start with: %s
-   %s
+		nextStyle := lipgloss.NewStyle().
+			Border(lipgloss.DoubleBorder()).
+			BorderForeground(lipgloss.Color("#10B981")).
+			Padding(0, 2).
+			Foreground(lipgloss.Color("#10B981")).
+			Bold(true)
+		
+		nextExercise := nextStyle.Render(fmt.Sprintf(`🎯 Next Exercise: %s
+📖 %s
+⭐ Difficulty: %s`, 
+			m.currentExercise.Info.Name, 
+			m.currentExercise.Description.Title,
+			m.currentExercise.GetDifficultyString()))
+		
+		welcomeText += fmt.Sprintf(`%s
 
-`, successStyle.Render(m.currentExercise.Info.Name), m.currentExercise.Description.Title)
+`, nextExercise)
 	}
 
-	welcomeText += statusStyle.Render("Press Enter to begin your Go journey! 🎉")
+	// Call to action with pulsing effect styling
+	ctaStyle := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#FBBF24")).
+		Bold(true).
+		Blink(true)
+	
+	welcomeText += ctaStyle.Render("✨ Press Enter to begin your Go journey! ✨")
 
-	// Center the content
-	width := max(m.width, 80)
+	// Add decorative border using text characters
+	borderStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#7C3AED"))
+	borderLine := borderStyle.Render(strings.Repeat("═", 80))
+	
+	welcomeText = fmt.Sprintf(`%s
+%s
+%s`, borderLine, welcomeText, borderLine)
+
+	// Center and style the entire content
+	// Account for border (2 chars) and padding (4 chars) = 6 chars total
+	// Add extra margin for safety
+	contentWidth := m.width - 10
+	if contentWidth < 50 {
+		contentWidth = 50 // Minimum readable width
+	}
+	if contentWidth > 90 {
+		contentWidth = 90 // Maximum width to prevent overly wide content
+	}
+	
+	// Use a simpler approach without overall border to avoid width issues
 	style := lipgloss.NewStyle().
-		Width(width).
+		Width(contentWidth).
 		Align(lipgloss.Center).
-		Padding(2, 0)
+		Padding(1, 0)
 
 	return style.Render(welcomeText)
 }
@@ -94,7 +183,32 @@ func (m *Model) renderMain() string {
 	footer := m.renderFooter()
 	content.WriteString(footer)
 
-	return content.String()
+	// Apply consistent border styling like welcome screen
+	mainContent := content.String()
+	
+	// Add decorative border using text characters
+	borderStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#7C3AED"))
+	borderLine := borderStyle.Render(strings.Repeat("═", 80))
+	
+	borderedContent := fmt.Sprintf(`%s
+%s
+%s`, borderLine, mainContent, borderLine)
+
+	// Center and style the content consistently
+	contentWidth := m.width - 10
+	if contentWidth < 50 {
+		contentWidth = 50 // Minimum readable width
+	}
+	if contentWidth > 90 {
+		contentWidth = 90 // Maximum width to prevent overly wide content
+	}
+	
+	style := lipgloss.NewStyle().
+		Width(contentWidth).
+		Align(lipgloss.Center).
+		Padding(1, 0)
+
+	return style.Render(borderedContent)
 }
 
 // renderHeader shows the progress bar and current status
@@ -102,18 +216,15 @@ func (m *Model) renderHeader() string {
 	progress := float64(m.completedCount) / float64(m.totalCount)
 	progressPercent := int(progress * 100)
 
-	// Create progress bar
-	barWidth := max(m.width-20, 40)
-	filled := int(float64(barWidth) * progress)
-	bar := strings.Repeat("█", filled) + strings.Repeat("▒", barWidth-filled)
-
-	progressText := fmt.Sprintf("Progress: %d/%d (%d%%)", m.completedCount, m.totalCount, progressPercent)
+	// Use the existing renderProgressBar function with a reasonable width
+	progressBar := m.renderProgressBar(m.completedCount, m.totalCount, 30)
+	progressText := fmt.Sprintf("%d/%d (%d%%)", m.completedCount, m.totalCount, progressPercent)
 
 	header := fmt.Sprintf(`%s
 
-%s %s`,
+📊 Progress: %s %s`,
 		headerStyle.Render("🚀 GoForGo - Interactive Go Tutorial"),
-		progressBarStyle.Render(bar),
+		progressBar,
 		progressBarStyle.Render(progressText))
 
 	return header
@@ -224,6 +335,102 @@ func (m *Model) renderFooter() string {
 	return footer
 }
 
+// renderProgressBar creates a visual progress bar
+func (m *Model) renderProgressBar(completed, total, width int) string {
+	if total == 0 {
+		return strings.Repeat("─", width)
+	}
+	
+	progress := float64(completed) / float64(total)
+	filledWidth := int(progress * float64(width))
+	emptyWidth := width - filledWidth
+	
+	// Use different characters for visual appeal
+	filled := strings.Repeat("█", filledWidth)
+	empty := strings.Repeat("░", emptyWidth)
+	
+	// Color the progress bar
+	filledStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#10B981"))
+	emptyStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#6B7280"))
+	
+	return fmt.Sprintf("[%s%s]", filledStyle.Render(filled), emptyStyle.Render(empty))
+}
+
+// renderSplash shows an animated splash screen
+func (m *Model) renderSplash() string {
+	// Animated GoForGo logo with different frames
+	frames := []string{
+		`   ____       ______              ____      
+  / ___| ___  |  ___|___  _ __    / ___| ___  
+ | |  _ / _ \ | |_ / _ \| '__|  | |  _ / _ \ 
+ | |_| | (_) ||  _| (_) | |     | |_| | (_) |
+  \____|\___/ |_|  \___/|_|      \____|\___/ `,
+
+		`   ████       ██████              ████      
+  / ███▌ ███  ▌  █▌▌███  █ ██    / ███▌ ███  
+ ▌ ▌  █ / █ ▌ ▌ █▌ / █ ▌▌ █▌▌  ▌ ▌  █ / █ ▌ 
+ ▌ █▌█ ▌ ▌█▌ ▌▌  █▌ ▌█▌ ▌ ▌     ▌ █▌█ ▌ ▌█▌ ▌
+  ████▌████▌ ▌█▌  ███▌█▌      ████▌████▌ `,
+
+		`   ╔═══       ══════              ═══╗      
+  ╔ ═══╝ ═══  ╚  ═╝╝═══  ═ ══    ╔ ═══╝ ═══  
+ ╚ ╚  ═ ╔ ═ ╚ ╚ ═╝ ╔ ═ ╚╚ ═╚╚  ╚ ╚  ═ ╔ ═ ╚ 
+ ╚ ═╚═ ╚ ╚═╚ ╚╚  ═╚ ╚═╚ ╚ ╚     ╚ ═╚═ ╚ ╚═╚ ╚
+  ════╚════╚ ╚═╚  ═══╚═╚      ════╚════╚ `,
+	}
+	
+	// Color gradients for animation
+	colors := []string{
+		"#FF6B6B", // Red
+		"#4ECDC4", // Teal  
+		"#45B7D1", // Blue
+		"#96CEB4", // Green
+		"#FECA57", // Yellow
+		"#FF9FF3", // Pink
+		"#54A0FF", // Light Blue
+		"#5F27CD", // Purple
+	}
+	
+	// Select frame and color based on animation frame
+	frameIndex := m.splashFrame % len(frames)
+	colorIndex := m.splashFrame % len(colors)
+	
+	logoStyle := lipgloss.NewStyle().
+		Foreground(lipgloss.Color(colors[colorIndex])).
+		Bold(true).
+		Align(lipgloss.Center)
+	
+	logo := logoStyle.Render(frames[frameIndex])
+	
+	// Animated subtitle with loading dots
+	dots := strings.Repeat(".", (m.splashFrame%4)+1)
+	loadingText := fmt.Sprintf("Loading your Go learning experience%s", dots)
+	
+	subtitleStyle := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("#A855F7")).
+		Italic(true).
+		Align(lipgloss.Center)
+	
+	subtitle := subtitleStyle.Render(loadingText)
+	
+	// Create pulsing effect with different opacity
+	content := fmt.Sprintf(`%s
+
+%s
+
+🚀 Interactive Go Tutorial Platform 🚀`, logo, subtitle)
+	
+	// Center and style the splash
+	style := lipgloss.NewStyle().
+		Width(m.width).
+		Height(m.height).
+		Align(lipgloss.Center).
+		AlignHorizontal(lipgloss.Center).
+		AlignVertical(lipgloss.Center)
+	
+	return style.Render(content)
+}
+
 // renderHint shows the hint overlay
 func (m *Model) renderHint() string {
 	if m.currentExercise == nil {
@@ -277,14 +484,29 @@ func (m *Model) renderHint() string {
 		statusStyle.Render(progressInfo),
 		statusStyle.Render("Press Enter or Esc to return"))
 
-	// Center and add border
-	style := lipgloss.NewStyle().
-		Border(lipgloss.RoundedBorder()).
-		BorderForeground(lipgloss.Color("#F59E0B")).
-		Padding(2).
-		Width(min(m.width-4, 80))
+	// Apply consistent border styling
+	borderStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#F59E0B"))
+	borderLine := borderStyle.Render(strings.Repeat("═", 80))
+	
+	borderedContent := fmt.Sprintf(`%s
+%s
+%s`, borderLine, content, borderLine)
 
-	return style.Render(content)
+	// Center and style consistently
+	contentWidth := m.width - 10
+	if contentWidth < 50 {
+		contentWidth = 50
+	}
+	if contentWidth > 90 {
+		contentWidth = 90
+	}
+	
+	style := lipgloss.NewStyle().
+		Width(contentWidth).
+		Align(lipgloss.Center).
+		Padding(1, 0)
+
+	return style.Render(borderedContent)
 }
 
 // renderExerciseList shows all exercises with status
@@ -327,15 +549,30 @@ func (m *Model) renderExerciseList() string {
 
 	content.WriteString(statusStyle.Render("Press Enter or Esc to return"))
 
-	// Add scrolling if needed (simplified for now)
-	style := lipgloss.NewStyle().
-		Border(lipgloss.RoundedBorder()).
-		BorderForeground(lipgloss.Color("#7C3AED")).
-		Padding(1).
-		Width(min(m.width-4, 80)).
-		Height(min(m.height-4, 30))
+	// Apply consistent border styling
+	listContent := content.String()
+	borderStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#7C3AED"))
+	borderLine := borderStyle.Render(strings.Repeat("═", 80))
+	
+	borderedContent := fmt.Sprintf(`%s
+%s
+%s`, borderLine, listContent, borderLine)
 
-	return style.Render(content.String())
+	// Center and style consistently
+	contentWidth := m.width - 10
+	if contentWidth < 50 {
+		contentWidth = 50
+	}
+	if contentWidth > 90 {
+		contentWidth = 90
+	}
+	
+	style := lipgloss.NewStyle().
+		Width(contentWidth).
+		Align(lipgloss.Center).
+		Padding(1, 0)
+
+	return style.Render(borderedContent)
 }
 
 // renderCompleted shows completion screen

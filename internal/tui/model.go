@@ -2,6 +2,7 @@ package tui
 
 import (
 	"strings"
+	"time"
 
 	"github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -41,7 +42,9 @@ type Model struct {
 	
 	// Messages and status
 	statusMessage string
+	showSplash    bool
 	showWelcome   bool
+	splashFrame   int
 }
 
 // NewModel creates a new TUI model
@@ -74,7 +77,9 @@ func NewModel(exerciseManager *exercise.ExerciseManager, runner *runner.Runner) 
 		runner:          runner,
 		completedCount:  completedCount,
 		totalCount:      len(exercises),
-		showWelcome:     true, // Show welcome on first run
+		showSplash:      true,  // Show splash animation first
+		showWelcome:     false, // Then show welcome
+		splashFrame:     0,
 	}
 }
 
@@ -83,6 +88,7 @@ func (m *Model) Init() tea.Cmd {
 	return tea.Batch(
 		m.runCurrentExercise(),
 		m.startFileWatcher(),
+		m.splashTick(), // Start splash animation
 	)
 }
 
@@ -136,6 +142,19 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		// Continue listening for file changes
 		if m.watcher != nil {
 			return m, m.waitForFileChange(m.watcher)
+		}
+		return m, nil
+
+	case splashTickMsg:
+		if m.showSplash {
+			m.splashFrame++
+			if m.splashFrame >= 8 {
+				// End splash after 8 frames (~2 seconds)
+				m.showSplash = false
+				m.showWelcome = true
+				return m, nil
+			}
+			return m, m.splashTick()
 		}
 		return m, nil
 
@@ -205,6 +224,12 @@ func (m *Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		return m, nil
 
 	case "enter", "esc":
+		if m.showSplash {
+			// Skip splash animation
+			m.showSplash = false
+			m.showWelcome = true
+			return m, nil
+		}
 		if m.showWelcome {
 			m.showWelcome = false
 			return m, nil
@@ -223,6 +248,10 @@ func (m *Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 func (m *Model) View() string {
 	if !m.ready {
 		return "Initializing GoForGo..."
+	}
+
+	if m.showSplash {
+		return m.renderSplash()
 	}
 
 	if m.showWelcome {
@@ -260,6 +289,8 @@ type continueWatchingMsg struct{}
 type statusMsg struct {
 	message string
 }
+
+type splashTickMsg struct{}
 
 // Commands
 func (m *Model) runCurrentExercise() tea.Cmd {
@@ -412,4 +443,11 @@ func (m *Model) getMaxHintLevel() int {
 	}
 	
 	return maxLevel
+}
+
+// splashTick creates a command for splash screen animation
+func (m *Model) splashTick() tea.Cmd {
+	return tea.Tick(time.Millisecond*250, func(time.Time) tea.Msg {
+		return splashTickMsg{}
+	})
 }

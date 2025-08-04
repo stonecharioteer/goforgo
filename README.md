@@ -8,6 +8,12 @@
 
 GoForGo helps you learn Go by fixing broken code exercises with real-time feedback. It features 250+ exercises covering Go fundamentals through advanced topics and popular libraries, all with a beautiful terminal interface.
 
+## 🎬 Demo
+
+![GoForGo in action](docs/goforgo.gif)
+
+*Experience GoForGo's elegant interface: animated splash screen, comprehensive welcome screen, real-time file watching, progressive hints, and smart progress tracking with uniform styling across all pages.*
+
 ## ✨ Features
 
 - 🎯 **250+ Interactive Exercises** - From basics to advanced Go concepts
