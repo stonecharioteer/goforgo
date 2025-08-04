@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -33,17 +32,15 @@ func runInit(cmd *cobra.Command, args []string) error {
 	}
 
 	exerciseDir := filepath.Join(currentDir, "exercises")
-	
-	// Check if exercises directory already exists
+
 	if _, err := os.Stat(exerciseDir); err == nil {
 		return fmt.Errorf("exercises directory already exists in %s\nIf you want to reinitialize, please remove the directory first", currentDir)
 	}
 
 	fmt.Printf("🚀 Initializing GoForGo exercises in %s\n", currentDir)
 
-	// Create exercises directory structure
-	if err := createExerciseStructure(currentDir); err != nil {
-		return fmt.Errorf("failed to create exercise structure: %w", err)
+	if err := InitializeExercises(currentDir); err != nil {
+		return err
 	}
 
 	fmt.Printf(`✅ GoForGo initialized successfully!
@@ -63,205 +60,6 @@ Happy learning! 🎉
 `)
 
 	return nil
-}
-
-func createExerciseStructure(baseDir string) error {
-	dirs := []string{
-		"exercises",
-		"solutions", 
-		"exercises/01_basics",
-		"exercises/02_variables",
-		"exercises/03_functions",
-		"exercises/04_control_flow",
-		"exercises/05_data_structures",
-		"solutions/01_basics",
-		"solutions/02_variables", 
-		"solutions/03_functions",
-		"solutions/04_control_flow",
-		"solutions/05_data_structures",
-	}
-
-	for _, dir := range dirs {
-		fullPath := filepath.Join(baseDir, dir)
-		if err := os.MkdirAll(fullPath, 0755); err != nil {
-			return fmt.Errorf("failed to create directory %s: %w", fullPath, err)
-		}
-	}
-
-	// Create initial configuration file
-	configPath := filepath.Join(baseDir, ".goforgo.toml")
-	configContent := `# GoForGo Configuration
-version = "1.0"
-
-[user]
-# Your learning preferences
-auto_advance = true
-show_hints = true
-theme = "default"
-
-[progress]
-# This section is automatically managed
-current_exercise = ""
-completed_exercises = []
-`
-
-	if err := os.WriteFile(configPath, []byte(configContent), 0644); err != nil {
-		return fmt.Errorf("failed to create config file: %w", err)
-	}
-
-	// Copy actual exercise files from embedded content
-	return copyExerciseFiles(baseDir)
-}
-
-func copyExerciseFiles(baseDir string) error {
-	// Try to find source exercises directory (development mode)
-	sourceExercises := ""
-	sourceSolutions := ""
-	
-	// Get the binary's location to find source files relative to it
-	execPath, err := os.Executable()
-	if err != nil {
-		execPath = "" // Fallback to current directory search
-	}
-	
-	var possiblePaths []string
-	if execPath != "" {
-		// Binary-relative paths (for installed binary)
-		execDir := filepath.Dir(execPath)
-		possiblePaths = append(possiblePaths, 
-			filepath.Join(execDir, "exercises"),     // Same dir as binary
-			filepath.Join(execDir, "..", "exercises"), // Parent of binary dir
-			filepath.Join(execDir, "..", "..", "exercises"), // Go up from bin/
-		)
-	}
-	
-	// Add current-directory relative paths (for development)
-	possiblePaths = append(possiblePaths,
-		"exercises",           // Current directory
-		"../exercises",        // Parent directory 
-		"../../exercises",     // Go up from bin/
-	)
-	
-	for _, path := range possiblePaths {
-		if _, err := os.Stat(path); err == nil {
-			sourceExercises = path
-			sourceSolutions = strings.Replace(path, "exercises", "solutions", 1)
-			break
-		}
-	}
-	
-	if sourceExercises == "" {
-		// Fallback to creating just the hello exercise
-		fmt.Println("⚠️  No source exercises found, creating basic hello exercise")
-		return createPlaceholderExercise(filepath.Join(baseDir, "exercises", "01_basics"))
-	}
-	
-	fmt.Printf("📂 Copying exercises from %s\\n", sourceExercises)
-	
-	// Copy exercises directory
-	err = filepath.Walk(sourceExercises, func(srcPath string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		
-		// Calculate destination path
-		relPath, err := filepath.Rel(sourceExercises, srcPath)
-		if err != nil {
-			return err
-		}
-		destPath := filepath.Join(baseDir, "exercises", relPath)
-		
-		if info.IsDir() {
-			return os.MkdirAll(destPath, 0755)
-		}
-		
-		// Copy file
-		return copyFile(srcPath, destPath)
-	})
-	
-	if err != nil {
-		return fmt.Errorf("failed to copy exercises: %w", err)
-	}
-	
-	// Copy solutions directory if it exists
-	if _, err := os.Stat(sourceSolutions); err == nil {
-		fmt.Printf("📂 Copying solutions from %s\\n", sourceSolutions)
-		return filepath.Walk(sourceSolutions, func(srcPath string, info os.FileInfo, err error) error {
-			if err != nil {
-				return err
-			}
-			
-			relPath, err := filepath.Rel(sourceSolutions, srcPath)
-			if err != nil {
-				return err
-			}
-			destPath := filepath.Join(baseDir, "solutions", relPath)
-			
-			if info.IsDir() {
-				return os.MkdirAll(destPath, 0755)
-			}
-			
-			return copyFile(srcPath, destPath)
-		})
-	}
-	
-	return nil
-}
-
-
-func copyFile(src, dst string) error {
-	content, err := os.ReadFile(src)
-	if err != nil {
-		return err
-	}
-	return os.WriteFile(dst, content, 0644)
-}
-
-func createPlaceholderExercise(dir string) error {
-	exerciseContent := `package main
-
-import "fmt"
-
-// TODO: Fix this program to print "Hello, GoForGo!"
-func main() {
-	fmt.Println("Hello, World!")
-}
-`
-
-	exercisePath := filepath.Join(dir, "hello.go")
-	if err := os.WriteFile(exercisePath, []byte(exerciseContent), 0644); err != nil {
-		return fmt.Errorf("failed to create placeholder exercise: %w", err)
-	}
-
-	// Create corresponding TOML metadata
-	metadataContent := `[exercise]
-name = "hello"
-category = "01_basics"
-difficulty = 1
-estimated_time = "2m"
-
-[description]
-title = "Hello GoForGo"
-summary = "Your first Go program with GoForGo"
-learning_objectives = [
-  "Understand basic Go syntax",
-  "Learn about the main function",
-  "Practice string literals"
-]
-
-[validation]
-mode = "run"
-expected_output = "Hello, GoForGo!"
-timeout = "10s"
-
-[hints]
-level_1 = "Look at what the TODO comment is asking you to print"
-level_2 = "You need to change the string inside fmt.Println()"
-level_3 = "Replace 'Hello, World!' with 'Hello, GoForGo!'"
-`
-
-	metadataPath := filepath.Join(dir, "hello.toml")
-	return os.WriteFile(metadataPath, []byte(metadataContent), 0644)
 }
 
 func init() {

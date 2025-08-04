@@ -17,6 +17,7 @@ type Exercise struct {
 	FilePath     string `toml:"-"`         // Path to the .go file
 	MetadataPath string `toml:"-"`         // Path to the .toml file
 	SolutionPath string `toml:"-"`         // Path to the solution file
+	TestFilePath string `toml:"-"`         // Path to the _test.go file
 
 	// Metadata from TOML file
 	Info        ExerciseInfo        `toml:"exercise"`
@@ -29,6 +30,7 @@ type Exercise struct {
 	LastAttempt time.Time `toml:"-"`
 	Attempts    int       `toml:"-"`
 }
+
 
 // ExerciseInfo contains basic exercise information
 type ExerciseInfo struct {
@@ -49,9 +51,10 @@ type ExerciseDescription struct {
 
 // ExerciseValidation contains validation configuration
 type ExerciseValidation struct {
-	Mode           string   `toml:"mode"`           // "build", "test", "run"
+	Mode           string   `toml:"mode"`           // "build", "test", "run", "static"
 	Timeout        string   `toml:"timeout"`        // e.g., "30s"
 	ExpectedOutput string   `toml:"expected_output,omitempty"` // Expected program output
+	StaticCheck    string   `toml:"static_check,omitempty"`    // Name of the static analysis check
 	RequiredFiles  []string `toml:"required_files,omitempty"`
 }
 
@@ -159,6 +162,12 @@ func (em *ExerciseManager) loadExercise(metadataPath string) (*Exercise, error) 
 	baseName := strings.TrimSuffix(filepath.Base(metadataPath), ".toml")
 
 	exercise.FilePath = filepath.Join(dir, baseName+".go")
+
+	// Determine test file path
+	testFilePath := filepath.Join(dir, baseName+"_test.go")
+	if _, err := os.Stat(testFilePath); err == nil {
+		exercise.TestFilePath = testFilePath
+	}
 
 	// Check if the Go file exists
 	if _, err := os.Stat(exercise.FilePath); os.IsNotExist(err) {

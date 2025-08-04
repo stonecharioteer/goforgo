@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/stonecharioteer/goforgo/internal/cli"
+	_ "github.com/stonecharioteer/goforgo/internal/checks" // Import checks to register static analysis functions
 )
 
 func main() {

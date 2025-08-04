@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/stonecharioteer/goforgo/internal/analysis"
 	"github.com/stonecharioteer/goforgo/internal/exercise"
 )
 
@@ -28,9 +29,11 @@ type ValidationResult struct {
 	BuildSuccess bool   `json:"build_success"`
 	TestSuccess  bool   `json:"test_success,omitempty"`
 	RunSuccess   bool   `json:"run_success,omitempty"`
+	StaticSuccess bool  `json:"static_success,omitempty"`
 	BuildOutput  string `json:"build_output,omitempty"`
 	TestOutput   string `json:"test_output,omitempty"`
 	RunOutput    string `json:"run_output,omitempty"`
+	StaticOutput string `json:"static_output,omitempty"`
 }
 
 // Runner handles Go code compilation and execution
@@ -79,7 +82,7 @@ func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 	}
 
 	// Step 1: Always try to build first
-	buildSuccess, buildOutput, err := r.runGoCommand(exerciseDir, "build", ".")
+	buildSuccess, buildOutput, err := r.runGoCommand(exerciseDir, "build", ex.FilePath)
 	result.Validation.BuildSuccess = buildSuccess
 	result.Validation.BuildOutput = buildOutput
 
@@ -106,7 +109,13 @@ func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 
 	case "test":
 		// Test mode - run go test
-		testSuccess, testOutput, err := r.runGoCommand(exerciseDir, "test", ".")
+		if ex.TestFilePath == "" {
+			result.Success = false
+			result.Output = "❌ No test file found for this exercise. Validation mode is 'test'."
+			result.Duration = time.Since(start)
+			return result, nil
+		}
+		testSuccess, testOutput, err := r.runGoCommand(exerciseDir, "test", ex.FilePath, ex.TestFilePath)
 		result.Validation.TestSuccess = testSuccess
 		result.Validation.TestOutput = testOutput
 		
@@ -119,7 +128,7 @@ func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 
 	case "run":
 		// Run mode - execute the program
-		runSuccess, runOutput, err := r.runGoCommand(exerciseDir, "run", ".")
+		runSuccess, runOutput, err := r.runGoCommand(exerciseDir, "run", ex.FilePath)
 		result.Validation.RunSuccess = runSuccess
 		result.Validation.RunOutput = runOutput
 		
@@ -144,6 +153,33 @@ func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 				result.Success = runSuccess
 				result.Output = runOutput
 			}
+		}
+	case "static":
+		// Static analysis mode
+		if ex.Validation.StaticCheck == "" {
+			result.Success = false
+			result.Output = "❌ No static check specified for validation mode 'static'."
+			result.Duration = time.Since(start)
+			return result, nil
+		}
+
+		check, exists := analysis.GetCheck(ex.Validation.StaticCheck)
+		if !exists {
+			result.Success = false
+			result.Output = fmt.Sprintf("❌ Unknown static check: %s", ex.Validation.StaticCheck)
+			result.Duration = time.Since(start)
+			return result, nil
+		}
+
+		staticSuccess, staticOutput, err := check.Execute(ex.FilePath)
+		result.Validation.StaticSuccess = staticSuccess
+		result.Validation.StaticOutput = staticOutput
+
+		if err != nil {
+			result.Error = fmt.Sprintf("Static check failed: %v", err)
+		} else {
+			result.Success = staticSuccess
+			result.Output = staticOutput
 		}
 
 	default:
@@ -246,6 +282,12 @@ func (r *Runner) ValidateExercise(ex *exercise.Exercise) (bool, string, error) {
 	if ex.Validation.Mode == "run" && !result.Validation.RunSuccess {
 		feedback.WriteString("🏃 Runtime Issues:\n")
 		feedback.WriteString(result.Validation.RunOutput)
+		feedback.WriteString("\n\n")
+	}
+
+	if ex.Validation.Mode == "static" && !result.Validation.StaticSuccess {
+		feedback.WriteString("🔍 Static Analysis Issues:\n")
+		feedback.WriteString(result.Validation.StaticOutput)
 		feedback.WriteString("\n\n")
 	}
 

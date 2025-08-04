@@ -101,7 +101,20 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.lastResult = msg.result
 		m.isRunning = false
 		m.statusMessage = ""
-		return m, nil
+		
+		// Mark exercise as completed if successful
+		if msg.result.Success && m.currentExercise != nil {
+			if err := m.exerciseManager.MarkExerciseCompleted(m.currentExercise.Info.Name); err == nil {
+				// Update local completion tracking
+				m.currentExercise.Completed = true
+				m.completedCount++
+				
+				// Update exercises list with fresh completion status
+				m.exercises = m.exerciseManager.GetExercises()
+			}
+		}
+		
+		return m, m.waitForFileChange(m.watcher)
 
 	case exerciseRunningMsg:
 		m.isRunning = true
@@ -109,16 +122,10 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, nil
 
 	case fileChangedMsg:
-		var cmd tea.Cmd
 		if !m.isRunning {
-			cmd = m.runCurrentExercise()
+			return m, m.runCurrentExercise()
 		}
-		// Continue listening for more file changes
-		continueCmd := m.waitForFileChange(m.watcher)
-		if cmd != nil {
-			return m, tea.Batch(cmd, continueCmd)
-		}
-		return m, continueCmd
+		return m, nil
 
 	case watcherErrorMsg:
 		m.watcherErr = msg.err
@@ -285,9 +292,9 @@ func (m *Model) startFileWatcher() tea.Cmd {
 
 	m.watcher = w
 
-	// Watch the exercises directory
+	// Watch the exercises directory recursively
 	exercisesDir := m.exerciseManager.ExercisesPath
-	if err := w.Add(exercisesDir); err != nil {
+	if err := w.WatchRecursive(exercisesDir); err != nil {
 		return func() tea.Msg {
 			return watcherErrorMsg{err: err}
 		}
@@ -313,7 +320,9 @@ func (m *Model) waitForFileChange(w *watcher.Watcher) tea.Cmd {
 }
 
 func (m *Model) shouldProcessFileEvent(event watcher.Event) bool {
-	if !event.IsWrite() {
+	// Many editors use atomic writes (create, rename), so we watch for more than just Write events.
+	isModification := event.IsWrite() || event.IsCreate() || event.IsRename()
+	if !isModification {
 		return false
 	}
 

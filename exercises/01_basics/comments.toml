@@ -15,8 +15,8 @@ learning_objectives = [
 ]
 
 [validation]
-mode = "build"
-timeout = "10s"
+mode = "static"
+static_check = "has_line_comment"
 
 [hints]
 level_1 = "Go has two types of comments: // for single line and /* */ for multi-line"

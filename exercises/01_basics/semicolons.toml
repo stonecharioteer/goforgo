@@ -15,8 +15,8 @@ learning_objectives = [
 ]
 
 [validation]
-mode = "run"
-timeout = "10s"
+mode = "static"
+static_check = "no_unnecessary_semicolon"
 
 [hints]
 level_1 = "Go automatically inserts semicolons at the end of lines"
