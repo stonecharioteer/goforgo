@@ -10,12 +10,14 @@ import (
 
 // renderWelcome shows the welcome screen (like Rustlings)
 func (m *Model) renderWelcome() string {
-	// Beautiful GoForGo ASCII art logo
-	logo := `   ____       ______              ____      
-  / ___| ___  |  ___|___  _ __    / ___| ___  
- | |  _ / _ \ | |_ / _ \| '__|  | |  _ / _ \ 
- | |_| | (_) ||  _| (_) | |     | |_| | (_) |
-  \____|\___/ |_|  \___/|_|      \____|\___/ `
+	// Beautiful GoForGo text logo
+	logo := `
+   ██████╗  ██████╗ ███████╗ ██████╗ ██████╗  ██████╗  ██████╗ 
+  ██╔════╝ ██╔═══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔═══██╗
+  ██║  ███╗██║   ██║█████╗  ██║   ██║██████╔╝██║  ███╗██║   ██║
+  ██║   ██║██║   ██║██╔══╝  ██║   ██║██╔══██╗██║   ██║██║   ██║
+  ╚██████╔╝╚██████╔╝██║     ╚██████╔╝██║  ██║╚██████╔╝╚██████╔╝
+   ╚═════╝  ╚═════╝ ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝`
 
 	// Gradient colors for the logo
 	logoStyle := lipgloss.NewStyle().
@@ -35,21 +37,14 @@ func (m *Model) renderWelcome() string {
 	
 	subtitle := subtitleStyle.Render("🚀 Interactive Go Learning Platform 🚀")
 
-	// Stats section with progress
-	completed := 0
-	for _, ex := range m.exercises {
-		if ex.Completed {
-			completed++
-		}
-	}
-	
-	progressBar := m.renderProgressBar(completed, m.totalCount, 30)
+	// Stats section with progress - use cached completed count
+	progressBar := m.renderProgressBar(m.completedCount, m.getTotalCount(), 30)
 	
 	statsStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#10B981")).
 		Bold(true)
 	
-	statsText := statsStyle.Render(fmt.Sprintf("📊 Progress: %s %d/%d exercises completed", progressBar, completed, m.totalCount))
+	statsText := statsStyle.Render(fmt.Sprintf("📊 Progress: %s %d/%d exercises completed", progressBar, m.completedCount, m.getTotalCount()))
 
 	// Feature highlights with emojis and colors
 	featuresStyle := lipgloss.NewStyle().
@@ -71,7 +66,7 @@ func (m *Model) renderWelcome() string {
    • Variables & data types          • Concurrency & goroutines  
    • Functions & methods             • Channels & sync primitives
    • Structs & interfaces            • Popular libraries (Gin, GORM)
-   • Control flow & loops            • Real-world projects`, m.totalCount))
+   • Control flow & loops            • Real-world projects`, m.getTotalCount()))
 
 	// Keyboard shortcuts in a nice box
 	shortcutsStyle := lipgloss.NewStyle().
@@ -213,12 +208,12 @@ func (m *Model) renderMain() string {
 
 // renderHeader shows the progress bar and current status
 func (m *Model) renderHeader() string {
-	progress := float64(m.completedCount) / float64(m.totalCount)
+	progress := float64(m.completedCount) / float64(m.getTotalCount())
 	progressPercent := int(progress * 100)
 
 	// Use the existing renderProgressBar function with a reasonable width
-	progressBar := m.renderProgressBar(m.completedCount, m.totalCount, 30)
-	progressText := fmt.Sprintf("%d/%d (%d%%)", m.completedCount, m.totalCount, progressPercent)
+	progressBar := m.renderProgressBar(m.completedCount, m.getTotalCount(), 30)
+	progressText := fmt.Sprintf("%d/%d (%d%%)", m.completedCount, m.getTotalCount(), progressPercent)
 
 	header := fmt.Sprintf(`%s
 
@@ -245,7 +240,7 @@ func (m *Model) renderExerciseInfo() string {
 		titleStyle.Render(ex.Description.Title),
 		filePath,
 		difficulty,
-		statusStyle.Render(fmt.Sprintf("(Exercise %d of %d)", m.currentIndex+1, m.totalCount)),
+		statusStyle.Render(fmt.Sprintf("(Exercise %d of %d)", m.currentIndex+1, m.getTotalCount())),
 		ex.Description.Summary)
 
 	if len(ex.Description.LearningObjectives) > 0 {
@@ -360,23 +355,29 @@ func (m *Model) renderProgressBar(completed, total, width int) string {
 func (m *Model) renderSplash() string {
 	// Animated GoForGo logo with different frames
 	frames := []string{
-		`   ____       ______              ____      
-  / ___| ___  |  ___|___  _ __    / ___| ___  
- | |  _ / _ \ | |_ / _ \| '__|  | |  _ / _ \ 
- | |_| | (_) ||  _| (_) | |     | |_| | (_) |
-  \____|\___/ |_|  \___/|_|      \____|\___/ `,
+		`
+   ██████╗  ██████╗ ███████╗ ██████╗ ██████╗  ██████╗  ██████╗ 
+  ██╔════╝ ██╔═══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝ ██╔═══██╗
+  ██║  ███╗██║   ██║█████╗  ██║   ██║██████╔╝██║  ███╗██║   ██║
+  ██║   ██║██║   ██║██╔══╝  ██║   ██║██╔══██╗██║   ██║██║   ██║
+  ╚██████╔╝╚██████╔╝██║     ╚██████╔╝██║  ██║╚██████╔╝╚██████╔╝
+   ╚═════╝  ╚═════╝ ╚═╝      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚═════╝`,
 
-		`   ████       ██████              ████      
-  / ███▌ ███  ▌  █▌▌███  █ ██    / ███▌ ███  
- ▌ ▌  █ / █ ▌ ▌ █▌ / █ ▌▌ █▌▌  ▌ ▌  █ / █ ▌ 
- ▌ █▌█ ▌ ▌█▌ ▌▌  █▌ ▌█▌ ▌ ▌     ▌ █▌█ ▌ ▌█▌ ▌
-  ████▌████▌ ▌█▌  ███▌█▌      ████▌████▌ `,
+		`
+   ██████▓  ██████▓ ███████▓ ██████▓ ██████▓  ██████▓  ██████▓ 
+  ██▔════▓ ██▔═══██▓██▔════▓██▔═══██▓██▔══██▓██▔════▓ ██▔═══██▓
+  ██║  ███▓██║   ██▓█████▓  ██║   ██▓██████▔▓██║  ███▓██║   ██▓
+  ██║   ██▓██║   ██▓██▔══▓  ██║   ██▓██▔══██▓██║   ██▓██║   ██▓
+  ╚██████▔▓╚██████▔▓██║     ╚██████▔▓██║  ██▓╚██████▔▓╚██████▔▓
+   ╚═════▓  ╚═════▓ ╚═╝      ╚═════▓ ╚═╝  ╚═▓ ╚═════▓  ╚═════▓`,
 
-		`   ╔═══       ══════              ═══╗      
-  ╔ ═══╝ ═══  ╚  ═╝╝═══  ═ ══    ╔ ═══╝ ═══  
- ╚ ╚  ═ ╔ ═ ╚ ╚ ═╝ ╔ ═ ╚╚ ═╚╚  ╚ ╚  ═ ╔ ═ ╚ 
- ╚ ═╚═ ╚ ╚═╚ ╚╚  ═╚ ╚═╚ ╚ ╚     ╚ ═╚═ ╚ ╚═╚ ╚
-  ════╚════╚ ╚═╚  ═══╚═╚      ════╚════╚ `,
+		`
+   ██████▒  ██████▒ ███████▒ ██████▒ ██████▒  ██████▒  ██████▒ 
+  ██▔════▒ ██▔═══██▒██▔════▒██▔═══██▒██▔══██▒██▔════▒ ██▔═══██▒
+  ██║  ███▒██║   ██▒█████▒  ██║   ██▒██████▔▒██║  ███▒██║   ██▒
+  ██║   ██▒██║   ██▒██▔══▒  ██║   ██▒██▔══██▒██║   ██▒██║   ██▒
+  ╚██████▔▒╚██████▔▒██║     ╚██████▔▒██║  ██▒╚██████▔▒╚██████▔▒
+   ╚═════▒  ╚═════▒ ╚═╝      ╚═════▒ ╚═╝  ╚═▒ ╚═════▒  ╚═════▒`,
 	}
 	
 	// Color gradients for animation
@@ -420,13 +421,19 @@ func (m *Model) renderSplash() string {
 
 🚀 Interactive Go Tutorial Platform 🚀`, logo, subtitle)
 	
-	// Center and style the splash
+	// Center and style the splash consistently with other views
+	contentWidth := m.width - 10
+	if contentWidth < 50 {
+		contentWidth = 50
+	}
+	if contentWidth > 90 {
+		contentWidth = 90
+	}
+	
 	style := lipgloss.NewStyle().
-		Width(m.width).
-		Height(m.height).
+		Width(contentWidth).
 		Align(lipgloss.Center).
-		AlignHorizontal(lipgloss.Center).
-		AlignVertical(lipgloss.Center)
+		Padding(1, 0)
 	
 	return style.Render(content)
 }

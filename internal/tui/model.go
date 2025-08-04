@@ -38,7 +38,7 @@ type Model struct {
 	
 	// Progress and statistics
 	completedCount int
-	totalCount     int
+	// totalCount removed - now calculated dynamically as len(m.exercises)
 	
 	// Messages and status
 	statusMessage string
@@ -76,7 +76,6 @@ func NewModel(exerciseManager *exercise.ExerciseManager, runner *runner.Runner) 
 		exercises:       exercises,
 		runner:          runner,
 		completedCount:  completedCount,
-		totalCount:      len(exercises),
 		showSplash:      true,  // Show splash animation first
 		showWelcome:     false, // Then show welcome
 		splashFrame:     0,
@@ -109,8 +108,8 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.isRunning = false
 		m.statusMessage = ""
 		
-		// Mark exercise as completed if successful
-		if msg.result.Success && m.currentExercise != nil {
+		// Mark exercise as completed if successful and not already completed
+		if msg.result.Success && m.currentExercise != nil && !m.currentExercise.Completed {
 			if err := m.exerciseManager.MarkExerciseCompleted(m.currentExercise.Info.Name); err == nil {
 				// Update local completion tracking
 				m.currentExercise.Completed = true
@@ -424,6 +423,11 @@ var (
 		Foreground(lipgloss.Color("#6B7280")).
 		Italic(true)
 )
+
+// getTotalCount returns the total number of exercises (dynamic)
+func (m *Model) getTotalCount() int {
+	return len(m.exercises)
+}
 
 // getMaxHintLevel returns the maximum hint level available for the current exercise
 func (m *Model) getMaxHintLevel() int {

@@ -450,6 +450,243 @@ Mock them in tests to avoid side effects.
 | E2E   | Use `go-expect` for integration tests only  |
 | IO    | Abstract dependencies to mock in unit tests |
 
+## 🎨 UI/UX Implementation Insights & Learnings
+
+_Key insights from implementing professional-grade TUI features_
+
+### **Animated Splash Screen Implementation**
+
+#### **Multi-Frame Animation Strategy**
+Successfully implemented smooth 8-frame animation using `tea.Tick()` with 250ms intervals:
+
+```go
+func (m *Model) splashTick() tea.Cmd {
+    return tea.Tick(time.Millisecond*250, func(time.Time) tea.Msg {
+        return splashTickMsg{}
+    })
+}
+```
+
+**Key Learnings:**
+- **State Management**: Added `showSplash`, `showWelcome`, and `splashFrame` to model
+- **Timing Control**: 8 frames × 250ms = 2 seconds optimal for user engagement
+- **Skip Functionality**: Enter key immediately transitions to welcome screen
+- **Color Cycling**: 8 colors create beautiful rainbow effect during animation
+
+#### **ASCII Art Frame Design**
+Created 3 distinct visual styles for smooth transitions:
+1. **Basic ASCII**: Clean line-drawing characters
+2. **Block Style**: Heavy Unicode blocks (█, ▌, ▐)
+3. **Box Drawing**: Professional box-drawing characters (╔, ═, ╗)
+
+### **Border Rendering Solutions**
+
+#### **The LipGloss Border Problem**
+**Issue**: `lipgloss.RoundedBorder()` caused width calculation problems leading to cut-off borders in terminals.
+
+**Root Cause**: LipGloss borders add extra width beyond calculated content width, and different terminals handle this inconsistently.
+
+**Solution**: Text-based decorative borders using Unicode characters:
+```go
+borderLine := borderStyle.Render(strings.Repeat("═", 80))
+borderedContent := fmt.Sprintf(`%s\n%s\n%s`, borderLine, content, borderLine)
+```
+
+**Benefits:**
+- ✅ Reliable cross-platform rendering
+- ✅ No width calculation surprises  
+- ✅ Professional appearance maintained
+- ✅ Easy to customize colors per section
+
+#### **Width Calculation Best Practices**
+Conservative approach prevents overflow:
+```go
+contentWidth := m.width - 10  // Extra margin for safety
+if contentWidth < 50 { contentWidth = 50 }  // Minimum readable
+if contentWidth > 90 { contentWidth = 90 }  // Maximum for focus
+```
+
+### **Progressive Hints System**
+
+#### **State-Based Hint Progression**
+Implemented cumulative hint display rather than attempt-based:
+
+```go
+type Model struct {
+    currentHintLevel int  // 0=none, 1=level1, 2=level1+2, 3=all
+}
+```
+
+**User Flow:**
+1. Press 'h' → Show Hint 1
+2. Press 'h' → Show Hints 1 + 2  
+3. Press 'h' → Show Hints 1 + 2 + 3
+4. Press 'h' → Hide all hints, reset to 0
+
+**Key Implementation Details:**
+- **getMaxHintLevel()**: Dynamically detects available hints per exercise
+- **Reset on Exercise Change**: `currentHintLevel = 0` when navigating
+- **Progress Indicators**: Clear feedback about hint availability
+- **Cumulative Display**: Previous hints remain visible for context
+
+### **Progress Tracking & Auto-Skip**
+
+#### **Critical UX Fix: MarkExerciseCompleted Integration**
+**Problem**: TUI never called `MarkExerciseCompleted()` so progress never updated.
+
+**Solution**: Enhanced `exerciseResultMsg` handler:
+```go
+case exerciseResultMsg:
+    if msg.result.Success && m.currentExercise != nil {
+        if err := m.exerciseManager.MarkExerciseCompleted(m.currentExercise.Info.Name); err == nil {
+            m.currentExercise.Completed = true
+            m.completedCount++
+            m.exercises = m.exerciseManager.GetExercises() // Refresh
+        }
+    }
+```
+
+#### **Auto-Skip Implementation**
+`GetNextExercise()` already implemented skip logic:
+```go
+func (em *ExerciseManager) GetNextExercise() *Exercise {
+    for _, exercise := range em.exercises {
+        if !exercise.Completed {
+            return exercise
+        }
+    }
+    return nil // All completed
+}
+```
+
+**Key Insight**: The infrastructure was already there, just needed proper integration between TUI and exercise manager.
+
+### **TODO Comment Validation**
+
+#### **Universal Validation Strategy**
+Added TODO detection as final validation step after main validation passes:
+
+```go
+// Universal TODO comment check - runs after main validation if it succeeded
+if result.Success {
+    todoPresent, todoOutput := r.checkForTodoComments(ex.FilePath)
+    if todoPresent {
+        result.Success = false
+        result.Output = todoOutput
+    }
+}
+```
+
+**Benefits:**
+- ✅ Works with any validation mode (build, test, run, static)
+- ✅ Enables "untestable" exercises controlled by TODO completion
+- ✅ Clear feedback showing exactly which TODOs need completion
+- ✅ Line-by-line analysis with helpful guidance
+
+### **File Watching Excellence**
+
+#### **Recursive Directory Monitoring**
+**Problem**: `w.Add(exercisesDir)` only watched top-level directory.
+
+**Solution**: `w.WatchRecursive(exercisesDir)` monitors all subdirectories:
+```go
+func (w *Watcher) WatchRecursive(root string) error {
+    return filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+        if err != nil { return err }
+        if info.IsDir() { return w.Add(path) }
+        return nil
+    })
+}
+```
+
+#### **Smart Event Filtering**
+Enhanced file change detection for editor compatibility:
+```go
+func (m *Model) shouldProcessFileEvent(event watcher.Event) bool {
+    isModification := event.IsWrite() || event.IsCreate() || event.IsRename()
+    return isModification && 
+           strings.HasSuffix(event.Name, ".go") && 
+           strings.Contains(event.Name, m.currentExercise.Info.Name)
+}
+```
+
+**Editor Compatibility**: Handles different save patterns from vim, VSCode, emacs, etc.
+
+### **Visual Design Principles**
+
+#### **Professional Color Scheme**
+Consistent purple/violet theme across all interfaces:
+- **Primary**: `#7C3AED` (Purple) - Borders, headers, primary elements
+- **Secondary**: `#A855F7` (Light Purple) - Subtitles, secondary text
+- **Success**: `#10B981` (Green) - Progress bars, checkmarks
+- **Warning**: `#F59E0B` (Orange) - Hints, warnings
+- **Error**: `#EF4444` (Red) - Error messages
+
+#### **Typography Hierarchy**
+Clear information architecture:
+1. **Headers**: Bold, colored, prominent
+2. **Body Text**: Regular weight, high contrast
+3. **Code**: Monospace with background highlighting
+4. **Status**: Italic, muted colors for secondary info
+
+### **Performance Optimizations**
+
+#### **Efficient Animation Loop**
+Splash screen uses minimal resources:
+- **250ms intervals**: Smooth but not resource-intensive
+- **Automatic cleanup**: State properly reset after animation
+- **Skip mechanism**: Immediate transition available
+
+#### **Progress Bar Sizing**
+Fixed-width progress bars prevent layout shifts:
+```go
+progressBar := m.renderProgressBar(completed, total, 30) // Fixed 30 chars
+```
+
+## 🚀 Recent Implementation Improvements (2025-08-04)
+
+### **Critical Bug Fixes & UX Enhancements**
+
+#### **1. Progress Tracking Bug Fixes**
+- **Fixed Progress Bar Advancing on Navigation**: Progress bar was incorrectly incrementing when pressing 'n'/'p' to cycle through exercises
+  - **Root Cause**: `exerciseResultMsg` handler was incrementing `completedCount` for already-completed exercises
+  - **Solution**: Added `!m.currentExercise.Completed` condition to only increment for newly completed exercises
+  - **Files**: `internal/tui/model.go:113`
+
+#### **2. Dynamic Total Count Implementation**
+- **Replaced Static `totalCount`**: Changed from cached field to dynamic `getTotalCount()` method
+  - **Benefits**: Real-time accuracy, supports future exercise filtering/categorization
+  - **Performance**: Negligible impact (O(1) slice length operation)
+  - **Files**: `internal/tui/model.go:427-430`, updated all references across `views.go` and `tui.go`
+
+#### **3. ASCII Art Branding Overhaul**
+- **Fixed "GoForGo" Display**: Replaced garbled ASCII art that showed "Go For Go" or "GoFORo" 
+  - **Solution**: Professional Unicode block text showing clear "GOFORGO" branding
+  - **Consistency**: Same logo across welcome screen and 3-frame splash animation
+  - **Visual Appeal**: Clean, readable branding that maintains professionalism
+  - **Files**: `internal/tui/views.go:14-20, 356-381`
+
+#### **4. Screen Sizing Consistency**
+- **Unified Layout Dimensions**: Made splash screen use same width constraints as other views
+  - **Before**: Splash used full terminal width, other views constrained to 50-90 chars
+  - **After**: All screens use consistent 50-90 character width for better recording quality
+  - **Benefit**: Cleaner asciinema recordings, professional appearance
+  - **Files**: `internal/tui/views.go:421-431`
+
+### **Key Technical Improvements**
+
+1. **Progress State Management**: More robust completion tracking that prevents duplicate counting
+2. **Dynamic Data Display**: Total counts now reflect real-time state changes
+3. **Visual Consistency**: Unified branding and layout across all TUI screens
+4. **Recording-Friendly**: Optimized screen dimensions for documentation/demo purposes
+
+### **User Experience Impact**
+
+- ✅ **Accurate Progress**: Users see correct completion percentage during navigation
+- ✅ **Professional Branding**: Clean, readable "GoForGo" logo throughout the application
+- ✅ **Consistent Layout**: All screens maintain same visual dimensions
+- ✅ **Better Recordings**: Optimized for creating clean demo videos/screenshots
+
 ## Implementation Memories
 
 ### Development Environment & Workflow

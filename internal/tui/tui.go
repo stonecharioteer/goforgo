@@ -36,7 +36,7 @@ func RunTUI(exerciseManager *exercise.ExerciseManager, runner *runner.Runner) er
 
 	// Check if we need to show any final messages
 	if m, ok := finalModel.(*Model); ok {
-		if m.completedCount == m.totalCount {
+		if m.completedCount == m.getTotalCount() {
 			fmt.Println("🎉 Congratulations on completing all exercises!")
 		}
 	}
