@@ -6,13 +6,15 @@
 
 **Interactive Go tutorial CLI inspired by Rustlings** 📚
 
+![GoForGo](docs/preview.png)
+
 GoForGo helps you learn Go by fixing broken code exercises with real-time feedback. It features 250+ exercises covering Go fundamentals through advanced topics and popular libraries, all with a beautiful terminal interface.
 
 ## 🎬 Demo
 
 ![GoForGo in action](docs/goforgo.gif)
 
-*Experience GoForGo's elegant interface: animated splash screen, comprehensive welcome screen, real-time file watching, progressive hints, and smart progress tracking with uniform styling across all pages.*
+_Experience GoForGo's elegant interface: animated splash screen, comprehensive welcome screen, real-time file watching, progressive hints, and smart progress tracking with uniform styling across all pages._
 
 ## ✨ Features
 
@@ -37,7 +39,7 @@ cd goforgo
 # Build and install
 just build  # or: go build -o bin/goforgo ./cmd/goforgo
 
-# Initialize exercises in your learning directory  
+# Initialize exercises in your learning directory
 mkdir ~/learn-go && cd ~/learn-go
 ~/path/to/goforgo/bin/goforgo init
 
@@ -60,6 +62,7 @@ goforgo init
 ```
 
 This creates:
+
 - `exercises/` - 250+ Go exercises organized by topic
 - `solutions/` - Complete reference solutions
 - `.goforgo.toml` - Your progress and preferences
@@ -71,8 +74,9 @@ goforgo
 ```
 
 This launches the interactive mode with:
+
 - ⚡ Real-time file watching and compilation
-- 📊 Progress tracking and visual feedback  
+- 📊 Progress tracking and visual feedback
 - ⌨️ Keyboard shortcuts for navigation
 - 💡 Progressive hints and guidance
 
@@ -88,14 +92,14 @@ goforgo list --all             # Show completed exercises too
 
 ### Available Commands
 
-| Command | Description |
-|---------|-------------|
-| `goforgo` | Start interactive watch mode (default) |
-| `goforgo init` | Initialize exercises in current directory |
-| `goforgo run [exercise]` | Run specific exercise or next incomplete |
-| `goforgo hint [exercise]` | Show progressive hints |
-| `goforgo list [--all] [--category=...]` | List exercises with filters |
-| `goforgo watch` | Explicit watch mode with file monitoring |
+| Command                                 | Description                               |
+| --------------------------------------- | ----------------------------------------- |
+| `goforgo`                               | Start interactive watch mode (default)    |
+| `goforgo init`                          | Initialize exercises in current directory |
+| `goforgo run [exercise]`                | Run specific exercise or next incomplete  |
+| `goforgo hint [exercise]`               | Show progressive hints                    |
+| `goforgo list [--all] [--category=...]` | List exercises with filters               |
+| `goforgo watch`                         | Explicit watch mode with file monitoring  |
 
 ## 🏗️ Building from Source
 
@@ -115,7 +119,7 @@ cd goforgo
 # Install development dependencies
 just install-deps
 
-# Build for development  
+# Build for development
 just dev-build
 
 # Run tests
@@ -176,8 +180,9 @@ GOOS=windows GOARCH=amd64 go build -o dist/goforgo-windows-amd64.exe ./cmd/gofor
 GoForGo includes exercises in these categories:
 
 ### Core Go (150+ exercises)
+
 - **01_basics** - Hello world, syntax, comments
-- **02_variables** - Types, declarations, zero values  
+- **02_variables** - Types, declarations, zero values
 - **03_functions** - Parameters, returns, methods
 - **04_control_flow** - if/else, loops, switch
 - **05_data_structures** - Arrays, slices, maps
@@ -187,7 +192,8 @@ GoForGo includes exercises in these categories:
 - **09_error_handling** - Patterns, wrapping, custom errors
 - **10_packages** - Modules, imports, visibility
 
-### Concurrency (50+ exercises)  
+### Concurrency (50+ exercises)
+
 - **11_goroutines** - Basic concurrency, race conditions
 - **12_channels** - Communication, buffering, patterns
 - **13_select** - Multiplexing, timeouts, non-blocking
@@ -195,6 +201,7 @@ GoForGo includes exercises in these categories:
 - **15_context** - Request scoping, cancellation
 
 ### Modern Go (40+ exercises)
+
 - **16_generics** - Type parameters, constraints, inference
 - **17_testing** - Units, benchmarks, examples, fuzzing
 - **18_reflection** - Type inspection, dynamic calls
@@ -202,6 +209,7 @@ GoForGo includes exercises in these categories:
 - **20_http** - Servers, clients, middleware
 
 ### Popular Libraries (50+ exercises)
+
 - **21_bubbletea** - TUI applications, Elm architecture
 - **22_cobra** - CLI applications, commands, flags
 - **23_gin** - Web APIs, middleware, JSON binding
@@ -211,11 +219,12 @@ GoForGo includes exercises in these categories:
 ## 🎯 Learning Path
 
 1. **🌱 Beginner** (1-50): Syntax, variables, functions, control flow
-2. **🌿 Intermediate** (51-120): Data structures, interfaces, error handling  
+2. **🌿 Intermediate** (51-120): Data structures, interfaces, error handling
 3. **🌳 Advanced** (121-200): Concurrency, generics, reflection
 4. **🚀 Expert** (201-250): Performance, libraries, real-world projects
 
 Each exercise includes:
+
 - 📝 Clear learning objectives
 - ⭐ Difficulty rating (1-5 stars)
 - ⏱️ Estimated completion time
@@ -238,7 +247,7 @@ We welcome contributions! See our [contribution guidelines](CONTRIBUTING.md) for
 git clone https://github.com/yourusername/goforgo.git
 cd goforgo
 
-# 2. Install dependencies  
+# 2. Install dependencies
 just install-deps
 
 # 3. Make changes and test
@@ -250,7 +259,7 @@ just pre-commit
 ## 📖 Documentation
 
 - 📋 [**TODO.md**](TODO.md) - Development roadmap and tasks
-- 🎯 [**GAMEPLAN.md**](GAMEPLAN.md) - Project architecture and phases  
+- 🎯 [**GAMEPLAN.md**](GAMEPLAN.md) - Project architecture and phases
 - 🧠 [**CLAUDE.md**](CLAUDE.md) - Development insights and learnings
 - 📚 [**docs/**](docs/) - Additional documentation
 
@@ -267,6 +276,6 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-**Happy Learning! 🎉** 
+**Happy Learning! 🎉**
 
-*Start your Go journey today with `goforgo init`*
+_Start your Go journey today with `goforgo init`_
