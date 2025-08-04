@@ -1,0 +1,29 @@
+[exercise]
+name = "return_values"
+category = "03_functions"
+difficulty = 2
+estimated_time = "7m"
+go_version = "1.16+"
+
+[description]
+title = "Function Return Values"
+summary = "Learn how functions can return data back to the caller"
+learning_objectives = [
+  "Understand return value syntax",
+  "Learn how to capture returned values",
+  "Practice with multiple return values"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["return_values.go"]
+
+[hints]
+level_1 = "Return values are specified after the parameter list: func name() returnType { return value }"
+level_2 = "Multiple return values use parentheses: func name() (type1, type2) { return val1, val2 }"
+level_3 = "Example: func double(x int) int { return x * 2 } and result := double(5)"
+
+[metadata]
+tags = ["functions", "return", "multiple-returns"]
+related_exercises = ["03_functions/parameters.go"]

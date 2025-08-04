@@ -1,0 +1,29 @@
+[exercise]
+name = "defer_statements"
+category = "04_control_flow"
+difficulty = 3
+estimated_time = "10m"
+go_version = "1.16+"
+
+[description]
+title = "Defer Statements and Cleanup"
+summary = "Learn how defer ensures code runs at function exit, crucial for resource management"
+learning_objectives = [
+  "Understand defer statement syntax and execution timing",
+  "Learn LIFO execution order of multiple defers",
+  "Practice with defer argument capture and cleanup patterns"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["defer_statements.go"]
+
+[hints]
+level_1 = "defer statement: defer function(). Executes when surrounding function returns"
+level_2 = "Multiple defers execute in LIFO order (last deferred, first executed)"
+level_3 = "defer evaluates arguments immediately but executes function at return time"
+
+[metadata]
+tags = ["control-flow", "defer", "cleanup", "LIFO", "resource-management"]
+related_exercises = ["09_error_handling/error_basics.go"]

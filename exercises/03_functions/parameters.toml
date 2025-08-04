@@ -1,0 +1,29 @@
+[exercise]
+name = "parameters"
+category = "03_functions"
+difficulty = 1
+estimated_time = "5m"
+go_version = "1.16+"
+
+[description]
+title = "Function Parameters"
+summary = "Learn how to pass data to functions using parameters"
+learning_objectives = [
+  "Understand function parameter syntax",
+  "Learn how to pass arguments to functions",
+  "Practice with different parameter types"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["parameters.go"]
+
+[hints]
+level_1 = "Function parameters are declared inside the parentheses: func name(param type) { }"
+level_2 = "Multiple parameters are separated by commas: func name(param1 type1, param2 type2) { }"
+level_3 = "Example: func greetPerson(name string) { fmt.Println(\"Hello,\", name + \"!\") }"
+
+[metadata]
+tags = ["functions", "parameters", "arguments"]
+related_exercises = ["03_functions/function_definition.go"]

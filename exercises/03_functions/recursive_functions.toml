@@ -1,0 +1,29 @@
+[exercise]
+name = "recursive_functions"
+category = "03_functions"
+difficulty = 3
+estimated_time = "10m"
+go_version = "1.16+"
+
+[description]
+title = "Recursive Functions"
+summary = "Learn how functions can call themselves to solve problems iteratively"
+learning_objectives = [
+  "Understand recursion concept and base cases",
+  "Learn how to write recursive functions",
+  "Practice with classic recursive problems"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["recursive_functions.go"]
+
+[hints]
+level_1 = "Recursive functions need a base case to stop and a recursive case that calls itself"
+level_2 = "Always make progress toward the base case in each recursive call"
+level_3 = "Example: func factorial(n int) int { if n <= 1 { return 1 }; return n * factorial(n-1) }"
+
+[metadata]
+tags = ["functions", "recursion", "base-case", "mathematical"]
+related_exercises = ["03_functions/function_definition.go", "04_control_flow/if_statements.go"]

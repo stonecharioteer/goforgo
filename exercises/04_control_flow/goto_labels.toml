@@ -1,0 +1,29 @@
+[exercise]
+name = "goto_labels"
+category = "04_control_flow"
+difficulty = 2
+estimated_time = "6m"
+go_version = "1.16+"
+
+[description]
+title = "Goto and Labels"
+summary = "Learn about goto statements and labels (used sparingly in modern Go)"
+learning_objectives = [
+  "Understand goto syntax and label declarations",
+  "Learn appropriate use cases for goto",
+  "Practice with cleanup patterns using goto"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["goto_labels.go"]
+
+[hints]
+level_1 = "Labels are declared with name: and jumped to with goto name"
+level_2 = "goto can only jump forward or to the same block level"
+level_3 = "Common uses: error handling cleanup, breaking out of deeply nested loops"
+
+[metadata]
+tags = ["control-flow", "goto", "labels", "cleanup", "error-handling"]
+related_exercises = ["04_control_flow/break_continue.go"]

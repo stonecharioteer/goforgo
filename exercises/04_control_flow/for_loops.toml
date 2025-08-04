@@ -1,0 +1,29 @@
+[exercise]
+name = "for_loops"
+category = "04_control_flow"
+difficulty = 2
+estimated_time = "8m"
+go_version = "1.16+"
+
+[description]
+title = "For Loops and Iteration"
+summary = "Learn all the different ways to use for loops in Go"
+learning_objectives = [
+  "Master the classic for loop with initialization, condition, and increment",
+  "Learn while-style and infinite for loops",
+  "Practice with break, continue, and nested loops"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["for_loops.go"]
+
+[hints]
+level_1 = "For loops have three parts: for init; condition; increment { }"
+level_2 = "While-style loops: for condition { }, infinite loops: for { }"
+level_3 = "Use break to exit a loop early, continue to skip to the next iteration"
+
+[metadata]
+tags = ["control-flow", "for", "loops", "iteration", "break", "continue"]
+related_exercises = ["04_control_flow/if_statements.go"]

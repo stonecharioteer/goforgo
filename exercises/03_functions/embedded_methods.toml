@@ -1,0 +1,29 @@
+[exercise]
+name = "embedded_methods"
+category = "03_functions"
+difficulty = 4
+estimated_time = "12m"
+go_version = "1.16+"
+
+[description]
+title = "Method Inheritance through Embedding"
+summary = "Learn how embedded structs promote their methods to the embedding struct"
+learning_objectives = [
+  "Understand struct embedding and method promotion",
+  "Learn how to access embedded methods",
+  "Practice with composition over inheritance"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["embedded_methods.go"]
+
+[hints]
+level_1 = "Embedded structs promote their methods automatically: car.Start() calls the Engine's Start method"
+level_2 = "Embed a struct by including it without a field name: type Car struct { Engine; brand string }"
+level_3 = "Example: type Car struct { Engine; brand string } - now car.Start() calls engine.Start()"
+
+[metadata]
+tags = ["methods", "embedding", "composition", "promotion", "structs"]
+related_exercises = ["03_functions/methods_basics.go", "06_structs/struct_embedding.go"]

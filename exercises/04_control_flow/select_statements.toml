@@ -1,0 +1,29 @@
+[exercise]
+name = "select_statements"
+category = "04_control_flow"
+difficulty = 4
+estimated_time = "12m"
+go_version = "1.16+"
+
+[description]
+title = "Select Statements for Channel Operations"
+summary = "Learn how to use select for non-blocking channel operations and timeouts"
+learning_objectives = [
+  "Understand select statement syntax for channels",
+  "Learn about default cases and timeouts",
+  "Practice with concurrent channel operations"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["select_statements.go"]
+
+[hints]
+level_1 = "select works like switch but for channel operations: select { case <-ch: }"
+level_2 = "default case runs when no channels are ready, time.After creates timeout channels"
+level_3 = "select chooses randomly when multiple channels are ready simultaneously"
+
+[metadata]
+tags = ["control-flow", "select", "channels", "concurrency", "goroutines", "timeout"]
+related_exercises = ["11_goroutines/goroutine_basics.go", "12_channels/channel_basics.go"]

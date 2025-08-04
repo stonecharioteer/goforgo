@@ -1,0 +1,29 @@
+[exercise]
+name = "switch_statements"
+category = "04_control_flow"
+difficulty = 2
+estimated_time = "8m"
+go_version = "1.16+"
+
+[description]
+title = "Switch Statements and Pattern Matching"
+summary = "Learn how to use switch statements for cleaner conditional logic"
+learning_objectives = [
+  "Master basic switch statement syntax",
+  "Learn multiple values per case and expressionless switch",
+  "Practice with fallthrough and switch initialization"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["switch_statements.go"]
+
+[hints]
+level_1 = "Switch syntax: switch expression { case value1: // code case value2: // code }"
+level_2 = "Multiple values: case 1, 2, 3: // code. No expression: switch { case condition: }"
+level_3 = "Use fallthrough to continue to next case, initialize: switch x := expr; x { }"
+
+[metadata]
+tags = ["control-flow", "switch", "case", "fallthrough", "pattern-matching"]
+related_exercises = ["04_control_flow/if_statements.go"]
