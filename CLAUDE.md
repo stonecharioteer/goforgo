@@ -449,3 +449,10 @@ Mock them in tests to avoid side effects.
 | Input | Use table-driven tests                      |
 | E2E   | Use `go-expect` for integration tests only  |
 | IO    | Abstract dependencies to mock in unit tests |
+
+## Implementation Memories
+
+### Development Environment & Workflow
+
+- **When running the exercises in a live-context, like trying to run `goforgo run X` or `goforgo init` you must run these in a temp folder in the current directory, ./tmp/, and never commit them.**
+- **You must build to ./bin/goforgo,**

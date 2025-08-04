@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 
@@ -33,6 +34,7 @@ type Exercise struct {
 type ExerciseInfo struct {
 	Name          string `toml:"name"`
 	Category      string `toml:"category"`
+	Order         int    `toml:"order"`         // Exercise order within category
 	Difficulty    int    `toml:"difficulty"`    // 1-5 scale
 	EstimatedTime string `toml:"estimated_time"` // e.g., "5m", "15m"
 	GoVersion     string `toml:"go_version,omitempty"` // Minimum Go version required
@@ -47,9 +49,10 @@ type ExerciseDescription struct {
 
 // ExerciseValidation contains validation configuration
 type ExerciseValidation struct {
-	Mode          string   `toml:"mode"`           // "build", "test", "run"
-	Timeout       string   `toml:"timeout"`        // e.g., "30s"
-	RequiredFiles []string `toml:"required_files,omitempty"`
+	Mode           string   `toml:"mode"`           // "build", "test", "run"
+	Timeout        string   `toml:"timeout"`        // e.g., "30s"
+	ExpectedOutput string   `toml:"expected_output,omitempty"` // Expected program output
+	RequiredFiles  []string `toml:"required_files,omitempty"`
 }
 
 // ExerciseHints contains progressive hints
@@ -63,16 +66,34 @@ type ExerciseHints struct {
 type ExerciseManager struct {
 	ExercisesPath string
 	SolutionsPath string
+	ProgressPath  string
 	exercises     []*Exercise
+	progress      *Progress
+}
+
+// Progress tracks user progress through exercises
+type Progress struct {
+	CompletedExercises map[string]bool `toml:"completed_exercises"`
+	CurrentExercise    string          `toml:"current_exercise"`
+	LastUpdated        time.Time       `toml:"last_updated"`
 }
 
 // NewExerciseManager creates a new exercise manager
 func NewExerciseManager(basePath string) *ExerciseManager {
-	return &ExerciseManager{
+	em := &ExerciseManager{
 		ExercisesPath: filepath.Join(basePath, "exercises"),
 		SolutionsPath: filepath.Join(basePath, "solutions"),
+		ProgressPath:  filepath.Join(basePath, ".goforgo-progress.toml"),
 		exercises:     make([]*Exercise, 0),
+		progress: &Progress{
+			CompletedExercises: make(map[string]bool),
+		},
 	}
+	
+	// Load existing progress
+	em.loadProgress()
+	
+	return em
 }
 
 // LoadExercises discovers and loads all exercises from the exercises directory
@@ -106,6 +127,17 @@ func (em *ExerciseManager) LoadExercises() error {
 	if len(em.exercises) == 0 {
 		return fmt.Errorf("no exercises found in %s. Run 'goforgo init' to set up exercises", em.ExercisesPath)
 	}
+
+	// Sort exercises by category and then by order within category
+	sort.Slice(em.exercises, func(i, j int) bool {
+		if em.exercises[i].Info.Category != em.exercises[j].Info.Category {
+			return em.exercises[i].Info.Category < em.exercises[j].Info.Category
+		}
+		return em.exercises[i].Info.Order < em.exercises[j].Info.Order
+	})
+
+	// Update exercise completion status based on saved progress
+	em.UpdateExerciseProgress()
 
 	fmt.Printf("📚 Loaded %d exercises\n", len(em.exercises))
 	return nil
@@ -208,5 +240,72 @@ func (e *Exercise) GetHint() string {
 		return e.Hints.Level1
 	default:
 		return "No hints available for this exercise."
+	}
+}
+
+// loadProgress loads user progress from the progress file
+func (em *ExerciseManager) loadProgress() {
+	if _, err := os.Stat(em.ProgressPath); os.IsNotExist(err) {
+		// No progress file exists yet, start fresh
+		return
+	}
+
+	if _, err := toml.DecodeFile(em.ProgressPath, em.progress); err != nil {
+		// Failed to load progress, start fresh
+		em.progress = &Progress{
+			CompletedExercises: make(map[string]bool),
+		}
+	}
+}
+
+// saveProgress saves user progress to the progress file
+func (em *ExerciseManager) saveProgress() error {
+	em.progress.LastUpdated = time.Now()
+
+	file, err := os.Create(em.ProgressPath)
+	if err != nil {
+		return fmt.Errorf("failed to create progress file: %w", err)
+	}
+	defer file.Close()
+
+	encoder := toml.NewEncoder(file)
+	if err := encoder.Encode(em.progress); err != nil {
+		return fmt.Errorf("failed to encode progress: %w", err)
+	}
+
+	return nil
+}
+
+// MarkExerciseCompleted marks an exercise as completed and updates progress
+func (em *ExerciseManager) MarkExerciseCompleted(exerciseName string) error {
+	// Find and mark the exercise as completed
+	for _, exercise := range em.exercises {
+		if exercise.Info.Name == exerciseName {
+			exercise.Completed = true
+			break
+		}
+	}
+
+	// Update progress tracking
+	em.progress.CompletedExercises[exerciseName] = true
+	
+	// Set next exercise as current
+	nextExercise := em.GetNextExercise()
+	if nextExercise != nil {
+		em.progress.CurrentExercise = nextExercise.Info.Name
+	} else {
+		em.progress.CurrentExercise = "" // All completed
+	}
+
+	// Save progress
+	return em.saveProgress()
+}
+
+// UpdateExerciseProgress updates the completion status of exercises based on progress
+func (em *ExerciseManager) UpdateExerciseProgress() {
+	for _, exercise := range em.exercises {
+		if completed, exists := em.progress.CompletedExercises[exercise.Info.Name]; exists && completed {
+			exercise.Completed = true
+		}
 	}
 }

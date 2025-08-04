@@ -1,6 +1,7 @@
 [exercise]
 name = "semicolons"
 category = "01_basics"
+order = 8
 difficulty = 1
 estimated_time = "3m"
 

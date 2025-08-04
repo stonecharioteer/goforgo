@@ -125,9 +125,25 @@ func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 		
 		if err != nil {
 			result.Error = fmt.Sprintf("Run command failed: %v", err)
-		} else {
-			result.Success = runSuccess
-			result.Output = runOutput
+		} else if runSuccess {
+			// Check if expected output matches (if specified)
+			if ex.Validation.ExpectedOutput != "" {
+				actualOutput := strings.TrimSpace(runOutput)
+				expectedOutput := strings.TrimSpace(ex.Validation.ExpectedOutput)
+				
+				
+				if actualOutput == expectedOutput {
+					result.Success = true
+					result.Output = runOutput
+				} else {
+					result.Success = false
+					result.Output = fmt.Sprintf("Expected output:\n%s\n\nActual output:\n%s", expectedOutput, actualOutput)
+				}
+			} else {
+				// No expected output specified, just check if it ran successfully
+				result.Success = runSuccess
+				result.Output = runOutput
+			}
 		}
 
 	default:

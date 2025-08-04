@@ -1,6 +1,7 @@
 [exercise]
 name = "comments"
 category = "01_basics"
+order = 7
 difficulty = 1
 estimated_time = "4m"
 

@@ -2,7 +2,6 @@ package cli
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -30,10 +29,10 @@ Examples:
 }
 
 func listExercises(cmd *cobra.Command, args []string) error {
-	// Get current working directory
-	cwd, err := os.Getwd()
+	// Get working directory
+	cwd, err := GetWorkingDirectory()
 	if err != nil {
-		return fmt.Errorf("failed to get current directory: %w", err)
+		return fmt.Errorf("failed to get working directory: %w", err)
 	}
 
 	// Initialize exercise manager

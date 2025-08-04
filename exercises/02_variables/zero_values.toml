@@ -1,0 +1,25 @@
+[exercise]
+name = "zero_values"
+category = "02_variables"
+order = 4
+difficulty = 2
+estimated_time = "4m"
+
+[description]
+title = "Zero Values"
+summary = "Learn about Go's zero values for different types"
+learning_objectives = [
+  "Understand zero values in Go",
+  "Learn what happens when variables aren't initialized",
+  "Practice declaring variables without initial values"
+]
+
+[validation]
+mode = "run"
+expected_output = "String: '', Int: 0, Bool: false, Float: 0.0"
+timeout = "10s"
+
+[hints]
+level_1 = "Declare variables without assigning values: var name string"
+level_2 = "Use var name string, var count int, var active bool, var price float64"
+level_3 = "Four declarations: var name string; var count int; var active bool; var price float64"

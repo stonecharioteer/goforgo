@@ -1,6 +1,7 @@
 [exercise]
 name = "formatting"
 category = "01_basics"
+order = 9
 difficulty = 2
 estimated_time = "6m"
 

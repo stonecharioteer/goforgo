@@ -1,6 +1,7 @@
 [exercise]
 name = "imports"
 category = "01_basics"
+order = 5
 difficulty = 1
 estimated_time = "3m"
 

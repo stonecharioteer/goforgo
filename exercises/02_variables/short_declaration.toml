@@ -1,0 +1,25 @@
+[exercise]
+name = "short_declaration"
+category = "02_variables"
+order = 2
+difficulty = 1
+estimated_time = "3m"
+
+[description]
+title = "Short Declaration"
+summary = "Learn the := shorthand for declaring variables"
+learning_objectives = [
+  "Understand := syntax",
+  "Learn when to use := vs var",
+  "Practice concise variable declaration"
+]
+
+[validation]
+mode = "run"
+expected_output = "Count: 42"
+timeout = "10s"
+
+[hints]
+level_1 = "Use := to declare and assign in one step"
+level_2 = "count := 42"
+level_3 = "Add the line: count := 42"

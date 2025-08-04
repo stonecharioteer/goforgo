@@ -2,7 +2,6 @@ package cli
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/spf13/cobra"
 	"github.com/stonecharioteer/goforgo/internal/exercise"
@@ -24,10 +23,10 @@ Examples:
 }
 
 func runExercise(cmd *cobra.Command, args []string) error {
-	// Get current working directory
-	cwd, err := os.Getwd()
+	// Get working directory
+	cwd, err := GetWorkingDirectory()
 	if err != nil {
-		return fmt.Errorf("failed to get current directory: %w", err)
+		return fmt.Errorf("failed to get working directory: %w", err)
 	}
 
 	// Initialize exercise manager
@@ -71,6 +70,11 @@ func runExercise(cmd *cobra.Command, args []string) error {
 	fmt.Println(feedback)
 
 	if success {
+		// Mark the exercise as completed
+		if err := em.MarkExerciseCompleted(ex.Info.Name); err != nil {
+			fmt.Printf("⚠️  Warning: Failed to save progress: %v\n", err)
+		}
+		
 		fmt.Printf("🎯 Exercise '%s' completed! 🎉\n", ex.Info.Name)
 		
 		// Suggest next steps
@@ -82,6 +86,8 @@ func runExercise(cmd *cobra.Command, args []string) error {
 			fmt.Println("\n🏆 All exercises completed! You're a Go expert now!")
 		}
 	} else {
+		// Increment attempt count for better hint selection
+		ex.Attempts++
 		fmt.Printf("💡 Hint: %s\n", ex.GetHint())
 		fmt.Printf("\n🔧 Edit the file and run 'goforgo run %s' again, or use 'goforgo' for watch mode.\n", ex.Info.Name)
 	}

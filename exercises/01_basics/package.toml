@@ -1,6 +1,7 @@
 [exercise]
 name = "package"
 category = "01_basics"
+order = 2
 difficulty = 1
 estimated_time = "3m"
 

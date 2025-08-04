@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -26,9 +27,9 @@ The exercises directory will contain:
 }
 
 func runInit(cmd *cobra.Command, args []string) error {
-	currentDir, err := os.Getwd()
+	currentDir, err := GetWorkingDirectory()
 	if err != nil {
-		return fmt.Errorf("failed to get current directory: %w", err)
+		return fmt.Errorf("failed to get working directory: %w", err)
 	}
 
 	exerciseDir := filepath.Join(currentDir, "exercises")
@@ -108,9 +109,112 @@ completed_exercises = []
 		return fmt.Errorf("failed to create config file: %w", err)
 	}
 
-	// TODO: Copy actual exercise files here
-	// For now, create a placeholder exercise
-	return createPlaceholderExercise(filepath.Join(baseDir, "exercises", "01_basics"))
+	// Copy actual exercise files from embedded content
+	return copyExerciseFiles(baseDir)
+}
+
+func copyExerciseFiles(baseDir string) error {
+	// Try to find source exercises directory (development mode)
+	sourceExercises := ""
+	sourceSolutions := ""
+	
+	// Get the binary's location to find source files relative to it
+	execPath, err := os.Executable()
+	if err != nil {
+		execPath = "" // Fallback to current directory search
+	}
+	
+	var possiblePaths []string
+	if execPath != "" {
+		// Binary-relative paths (for installed binary)
+		execDir := filepath.Dir(execPath)
+		possiblePaths = append(possiblePaths, 
+			filepath.Join(execDir, "exercises"),     // Same dir as binary
+			filepath.Join(execDir, "..", "exercises"), // Parent of binary dir
+			filepath.Join(execDir, "..", "..", "exercises"), // Go up from bin/
+		)
+	}
+	
+	// Add current-directory relative paths (for development)
+	possiblePaths = append(possiblePaths,
+		"exercises",           // Current directory
+		"../exercises",        // Parent directory 
+		"../../exercises",     // Go up from bin/
+	)
+	
+	for _, path := range possiblePaths {
+		if _, err := os.Stat(path); err == nil {
+			sourceExercises = path
+			sourceSolutions = strings.Replace(path, "exercises", "solutions", 1)
+			break
+		}
+	}
+	
+	if sourceExercises == "" {
+		// Fallback to creating just the hello exercise
+		fmt.Println("⚠️  No source exercises found, creating basic hello exercise")
+		return createPlaceholderExercise(filepath.Join(baseDir, "exercises", "01_basics"))
+	}
+	
+	fmt.Printf("📂 Copying exercises from %s\\n", sourceExercises)
+	
+	// Copy exercises directory
+	err = filepath.Walk(sourceExercises, func(srcPath string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		
+		// Calculate destination path
+		relPath, err := filepath.Rel(sourceExercises, srcPath)
+		if err != nil {
+			return err
+		}
+		destPath := filepath.Join(baseDir, "exercises", relPath)
+		
+		if info.IsDir() {
+			return os.MkdirAll(destPath, 0755)
+		}
+		
+		// Copy file
+		return copyFile(srcPath, destPath)
+	})
+	
+	if err != nil {
+		return fmt.Errorf("failed to copy exercises: %w", err)
+	}
+	
+	// Copy solutions directory if it exists
+	if _, err := os.Stat(sourceSolutions); err == nil {
+		fmt.Printf("📂 Copying solutions from %s\\n", sourceSolutions)
+		return filepath.Walk(sourceSolutions, func(srcPath string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			
+			relPath, err := filepath.Rel(sourceSolutions, srcPath)
+			if err != nil {
+				return err
+			}
+			destPath := filepath.Join(baseDir, "solutions", relPath)
+			
+			if info.IsDir() {
+				return os.MkdirAll(destPath, 0755)
+			}
+			
+			return copyFile(srcPath, destPath)
+		})
+	}
+	
+	return nil
+}
+
+
+func copyFile(src, dst string) error {
+	content, err := os.ReadFile(src)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(dst, content, 0644)
 }
 
 func createPlaceholderExercise(dir string) error {
@@ -147,6 +251,7 @@ learning_objectives = [
 
 [validation]
 mode = "run"
+expected_output = "Hello, GoForGo!"
 timeout = "10s"
 
 [hints]

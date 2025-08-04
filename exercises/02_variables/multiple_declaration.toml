@@ -1,0 +1,25 @@
+[exercise]
+name = "multiple_declaration"
+category = "02_variables"
+order = 7
+difficulty = 2
+estimated_time = "5m"
+
+[description]
+title = "Multiple Variable Declaration"
+summary = "Learn to declare multiple variables in a single statement"
+learning_objectives = [
+  "Understand var() block syntax",
+  "Practice declaring multiple variables at once",
+  "Learn different ways to group declarations"
+]
+
+[validation]
+mode = "run"
+expected_output = "Name: Alice, Age: 30, City: Boston"
+timeout = "10s"
+
+[hints]
+level_1 = "Use var() with multiple declarations inside"
+level_2 = "var (name = \"Alice\"; age = 30; city = \"Boston\")"
+level_3 = "var (\n  name = \"Alice\"\n  age = 30\n  city = \"Boston\"\n)"

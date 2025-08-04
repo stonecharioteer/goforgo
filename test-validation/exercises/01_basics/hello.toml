@@ -1,7 +1,6 @@
 [exercise]
 name = "hello"
 category = "01_basics"
-order = 1
 difficulty = 1
 estimated_time = "2m"
 
@@ -9,14 +8,13 @@ estimated_time = "2m"
 title = "Hello GoForGo"
 summary = "Your first Go program with GoForGo"
 learning_objectives = [
-  "Understand basic Go program structure",
+  "Understand basic Go syntax",
   "Learn about the main function",
   "Practice string literals"
 ]
 
 [validation]
 mode = "run"
-expected_output = "Hello, GoForGo!"
 timeout = "10s"
 
 [hints]

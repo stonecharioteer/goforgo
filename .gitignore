@@ -56,3 +56,4 @@ test-init/
 *.temp
 goforgo
 mise.toml
+tmp/

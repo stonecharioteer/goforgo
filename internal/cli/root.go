@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -10,6 +11,9 @@ var (
 	version = "dev"
 	commit  = "unknown"
 	date    = "unknown"
+	
+	// Global flags
+	workingDirectory string
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -34,6 +38,14 @@ func Execute() error {
 }
 
 func init() {
-	// Global flags can be defined here
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.goforgo.yaml)")
+	// Global flags
+	rootCmd.PersistentFlags().StringVarP(&workingDirectory, "directory", "d", "", "working directory for exercises (default: current directory)")
+}
+
+// GetWorkingDirectory returns the working directory, defaulting to current directory
+func GetWorkingDirectory() (string, error) {
+	if workingDirectory != "" {
+		return workingDirectory, nil
+	}
+	return os.Getwd()
 }

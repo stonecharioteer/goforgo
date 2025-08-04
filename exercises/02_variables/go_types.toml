@@ -1,0 +1,25 @@
+[exercise]
+name = "go_types"
+category = "02_variables"
+order = 3
+difficulty = 2
+estimated_time = "5m"
+
+[description]
+title = "Go Basic Types"
+summary = "Learn about Go's basic data types (string, int, float64, bool)"
+learning_objectives = [
+  "Understand Go's basic types",
+  "Learn explicit type declaration",
+  "Practice working with different data types"
+]
+
+[validation]
+mode = "run"
+expected_output = "Language: Go 1.21, Open: true, Users: 1000000"
+timeout = "10s"
+
+[hints]
+level_1 = "Use var with explicit types: var name string = \"Go\""
+level_2 = "Declare each variable with its type: string, float64, bool, int"
+level_3 = "var name string = \"Go\"; var version float64 = 1.21; var isOpen bool = true; var users int = 1000000"

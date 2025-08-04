@@ -109,13 +109,26 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, nil
 
 	case fileChangedMsg:
+		var cmd tea.Cmd
 		if !m.isRunning {
-			return m, m.runCurrentExercise()
+			cmd = m.runCurrentExercise()
 		}
-		return m, nil
+		// Continue listening for more file changes
+		continueCmd := m.waitForFileChange(m.watcher)
+		if cmd != nil {
+			return m, tea.Batch(cmd, continueCmd)
+		}
+		return m, continueCmd
 
 	case watcherErrorMsg:
 		m.watcherErr = msg.err
+		return m, nil
+
+	case continueWatchingMsg:
+		// Continue listening for file changes
+		if m.watcher != nil {
+			return m, m.waitForFileChange(m.watcher)
+		}
 		return m, nil
 
 	case statusMsg:
@@ -219,6 +232,8 @@ type watcherErrorMsg struct {
 	err error
 }
 
+type continueWatchingMsg struct{}
+
 type statusMsg struct {
 	message string
 }
@@ -279,16 +294,20 @@ func (m *Model) startFileWatcher() tea.Cmd {
 	}
 
 	// Start watching for file changes
+	return m.waitForFileChange(w)
+}
+
+func (m *Model) waitForFileChange(w *watcher.Watcher) tea.Cmd {
 	return func() tea.Msg {
-		for {
-			select {
-			case event := <-w.Events():
-				if m.shouldProcessFileEvent(event) {
-					return fileChangedMsg{path: event.Name}
-				}
-			case err := <-w.Errors():
-				return watcherErrorMsg{err: err}
+		select {
+		case event := <-w.Events():
+			if m.shouldProcessFileEvent(event) {
+				return fileChangedMsg{path: event.Name}
 			}
+			// Event not relevant, continue listening
+			return continueWatchingMsg{}
+		case err := <-w.Errors():
+			return watcherErrorMsg{err: err}
 		}
 	}
 }
