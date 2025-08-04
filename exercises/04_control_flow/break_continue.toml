@@ -1,0 +1,29 @@
+[exercise]
+name = "break_continue"
+category = "04_control_flow"
+difficulty = 3
+estimated_time = "12m"
+go_version = "1.16+"
+
+[description]
+title = "Break and Continue Statements"
+summary = "Learn how to control loop execution with break and continue, including labeled statements"
+learning_objectives = [
+  "Master break and continue in simple loops",
+  "Learn labeled break and continue for nested loops",
+  "Practice with real-world loop control scenarios"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["break_continue.go"]
+
+[hints]
+level_1 = "break exits the current loop, continue skips to the next iteration"
+level_2 = "Labeled break/continue: Label: for { for { break Label } }"
+level_3 = "Use break for early termination, continue for filtering iterations"
+
+[metadata]
+tags = ["control-flow", "break", "continue", "labels", "nested-loops"]
+related_exercises = ["04_control_flow/for_loops.go", "04_control_flow/range_loops.go"]

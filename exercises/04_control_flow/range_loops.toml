@@ -1,0 +1,29 @@
+[exercise]
+name = "range_loops"
+category = "04_control_flow"
+difficulty = 2
+estimated_time = "10m"
+go_version = "1.16+"
+
+[description]
+title = "Range Loops for Collections"
+summary = "Learn how to iterate over slices, maps, strings, and channels using range"
+learning_objectives = [
+  "Master range syntax for different collection types",
+  "Learn how to use or ignore index/key and value parts",
+  "Practice with slices, maps, strings, and channels"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["range_loops.go"]
+
+[hints]
+level_1 = "Range syntax: for index, value := range collection { }"
+level_2 = "Ignore parts with _: for _, value := range slice or for key := range map"
+level_3 = "Range works on slices, arrays, maps, strings, and channels"
+
+[metadata]
+tags = ["control-flow", "range", "iteration", "slices", "maps", "strings", "channels"]
+related_exercises = ["04_control_flow/for_loops.go", "05_data_structures/slice_basics.go"]

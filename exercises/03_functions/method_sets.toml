@@ -1,0 +1,29 @@
+[exercise]
+name = "method_sets"
+category = "03_functions"
+difficulty = 3
+estimated_time = "8m"
+go_version = "1.16+"
+
+[description]
+title = "Method Sets and Type Promotion"
+summary = "Learn how Go automatically promotes method calls between values and pointers"
+learning_objectives = [
+  "Understand method sets for values and pointers",
+  "Learn about automatic method promotion",
+  "Practice with mixed receiver types"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["method_sets.go"]
+
+[hints]
+level_1 = "Go automatically converts between *T and T when calling methods"
+level_2 = "A pointer can call both pointer and value receiver methods"
+level_3 = "A value can call value receiver methods and pointer receiver methods (Go takes address automatically)"
+
+[metadata]
+tags = ["methods", "method-sets", "pointers", "promotion", "receivers"]
+related_exercises = ["03_functions/pointer_receivers.go"]

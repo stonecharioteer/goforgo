@@ -1,0 +1,29 @@
+[exercise]
+name = "function_definition"
+category = "03_functions"
+difficulty = 1
+estimated_time = "3m"
+go_version = "1.16+"
+
+[description]
+title = "Basic Function Definition"
+summary = "Learn how to define and call functions in Go"
+learning_objectives = [
+  "Understand function syntax with func keyword",
+  "Learn how to call functions",
+  "Practice basic function structure"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["function_definition.go"]
+
+[hints]
+level_1 = "Functions in Go are defined with the 'func' keyword followed by the function name and parentheses"
+level_2 = "The syntax is: func functionName() { // function body }"
+level_3 = "Define 'func greet() { fmt.Println(\"Hello from a function!\") }' and call it with 'greet()' in main"
+
+[metadata]
+tags = ["functions", "basics", "syntax"]
+related_exercises = ["01_basics/hello.go"]

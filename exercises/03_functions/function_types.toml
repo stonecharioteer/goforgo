@@ -1,0 +1,29 @@
+[exercise]
+name = "function_types"
+category = "03_functions"
+difficulty = 3
+estimated_time = "10m"
+go_version = "1.16+"
+
+[description]
+title = "Functions as First-Class Values"
+summary = "Learn how functions can be assigned to variables and passed as parameters"
+learning_objectives = [
+  "Understand function types and signatures",
+  "Learn how to assign functions to variables", 
+  "Practice passing functions as parameters"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["function_types.go"]
+
+[hints]
+level_1 = "Function types are written as: func(paramTypes) returnType"
+level_2 = "You can assign functions to variables: var myFunc func(int, int) int = add"
+level_3 = "Functions can be parameters: func operate(a, b int, op func(int, int) int) int { return op(a, b) }"
+
+[metadata]
+tags = ["functions", "function-types", "first-class", "higher-order"]
+related_exercises = ["03_functions/parameters.go"]

@@ -1,0 +1,29 @@
+[exercise]
+name = "methods_basics"
+category = "03_functions"
+difficulty = 2
+estimated_time = "8m"
+go_version = "1.16+"
+
+[description]
+title = "Methods on Custom Types"
+summary = "Learn how to define methods on struct types"
+learning_objectives = [
+  "Understand method definition syntax",
+  "Learn how methods are attached to types",
+  "Practice calling methods on struct instances"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["methods_basics.go"]
+
+[hints]
+level_1 = "Methods are functions with a receiver: func (r ReceiverType) MethodName() returnType { }"
+level_2 = "The receiver goes between 'func' and the method name: func (rect Rectangle) Area() float64 { }"
+level_3 = "Example: func (r Rectangle) Area() float64 { return r.width * r.height }"
+
+[metadata]
+tags = ["methods", "structs", "receivers", "types"]
+related_exercises = ["06_structs/struct_basics.go", "03_functions/function_definition.go"]

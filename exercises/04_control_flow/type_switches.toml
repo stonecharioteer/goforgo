@@ -1,0 +1,29 @@
+[exercise]
+name = "type_switches"
+category = "04_control_flow"
+difficulty = 3
+estimated_time = "10m"
+go_version = "1.16+"
+
+[description]
+title = "Type Switches and Interface Handling"
+summary = "Learn how to use type switches to handle different types in interface{} values"
+learning_objectives = [
+  "Understand type switch syntax and type assertions",
+  "Learn how to handle interface{} values safely",
+  "Practice with multiple types and default cases"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["type_switches.go"]
+
+[hints]
+level_1 = "Type switch syntax: switch value.(type) { case string: case int: }"
+level_2 = "Use variable assignment: switch v := value.(type) { case string: // v is string }"
+level_3 = "Multiple types in one case: case int, int32, int64: // handle all integer types"
+
+[metadata]
+tags = ["control-flow", "type-switch", "interfaces", "type-assertion", "reflection"]
+related_exercises = ["07_interfaces/interface_basics.go", "04_control_flow/switch_statements.go"]

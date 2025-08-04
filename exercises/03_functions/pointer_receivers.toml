@@ -1,0 +1,29 @@
+[exercise]
+name = "pointer_receivers"
+category = "03_functions"
+difficulty = 3
+estimated_time = "10m"
+go_version = "1.16+"
+
+[description]
+title = "Pointer vs Value Receivers"
+summary = "Learn the difference between pointer and value receivers for methods"
+learning_objectives = [
+  "Understand when to use pointer receivers",
+  "Learn how pointer receivers can modify the struct",
+  "Practice with value receivers for read-only operations"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["pointer_receivers.go"]
+
+[hints]
+level_1 = "Pointer receivers use *: func (c *Counter) Increment() { c.count++ }"
+level_2 = "Use pointer receivers when you need to modify the struct's fields"
+level_3 = "Use value receivers for read-only operations: func (c Counter) Value() int { return c.count }"
+
+[metadata]
+tags = ["methods", "pointers", "receivers", "mutation", "structs"]
+related_exercises = ["03_functions/methods_basics.go", "08_pointers/pointer_basics.go"]

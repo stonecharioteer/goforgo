@@ -1,0 +1,29 @@
+[exercise]
+name = "named_returns"
+category = "03_functions"
+difficulty = 2
+estimated_time = "5m"
+go_version = "1.16+"
+
+[description]
+title = "Named Return Values"
+summary = "Learn about named return parameters and naked return statements"
+learning_objectives = [
+  "Understand named return parameter syntax",
+  "Learn how to use naked return statements",
+  "Practice with multiple named returns"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["named_returns.go"]
+
+[hints]
+level_1 = "Named returns are declared like variables: func name() (resultName type) { return }"
+level_2 = "Multiple named returns: func name() (name1 type1, name2 type2) { return }"
+level_3 = "Example: func calc() (area, perimeter float64) { area = 5.0; perimeter = 10.0; return }"
+
+[metadata]
+tags = ["functions", "named-returns", "naked-return"]
+related_exercises = ["03_functions/return_values.go"]

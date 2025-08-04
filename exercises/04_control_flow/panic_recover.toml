@@ -1,0 +1,29 @@
+[exercise]
+name = "panic_recover"
+category = "04_control_flow"
+difficulty = 4
+estimated_time = "15m"
+go_version = "1.16+"
+
+[description]
+title = "Panic and Recover Mechanisms"
+summary = "Learn Go's panic/recover system for handling exceptional situations"
+learning_objectives = [
+  "Understand when and how to use panic",
+  "Learn recover mechanism for catching panics",
+  "Practice with deferred recovery patterns"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["panic_recover.go"]
+
+[hints]
+level_1 = "panic() stops normal execution, recover() can only catch panics in deferred functions"
+level_2 = "recover() returns nil if no panic occurred, otherwise returns the panic value"
+level_3 = "Use defer + anonymous function: defer func() { if r := recover(); r != nil { /* handle */ } }()"
+
+[metadata]
+tags = ["control-flow", "panic", "recover", "defer", "error-handling"]
+related_exercises = ["04_control_flow/defer_statements.go", "09_error_handling/error_basics.go"]

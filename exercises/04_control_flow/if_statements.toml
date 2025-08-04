@@ -1,0 +1,29 @@
+[exercise]
+name = "if_statements"
+category = "04_control_flow"
+difficulty = 1
+estimated_time = "5m"
+go_version = "1.16+"
+
+[description]
+title = "If Statements and Conditional Logic"
+summary = "Learn how to make decisions in your code using if statements"
+learning_objectives = [
+  "Understand basic if statement syntax",
+  "Learn if-else and if-else if chains",
+  "Practice with nested conditions and initialization"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["if_statements.go"]
+
+[hints]
+level_1 = "If statements use the syntax: if condition { // code }"
+level_2 = "You can chain conditions: if condition1 { } else if condition2 { } else { }"
+level_3 = "You can initialize variables in if: if x := someValue; x > 0 { // use x }"
+
+[metadata]
+tags = ["control-flow", "if", "else", "conditions", "boolean"]
+related_exercises = ["02_variables/go_types.go"]

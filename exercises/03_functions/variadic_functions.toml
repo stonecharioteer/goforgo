@@ -1,0 +1,29 @@
+[exercise]
+name = "variadic_functions"
+category = "03_functions"
+difficulty = 3
+estimated_time = "8m"
+go_version = "1.16+"
+
+[description]
+title = "Variadic Functions"
+summary = "Learn how to create functions that accept variable numbers of arguments"
+learning_objectives = [
+  "Understand variadic parameter syntax with ...",
+  "Learn how to iterate over variadic parameters",
+  "Practice using slice expansion with variadic functions"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+required_files = ["variadic_functions.go"]
+
+[hints]
+level_1 = "Variadic parameters use ... before the type: func name(params ...type) { }"
+level_2 = "Inside the function, variadic parameters become a slice that you can iterate over with range"
+level_3 = "Example: func sum(nums ...int) int { total := 0; for _, n := range nums { total += n }; return total }"
+
+[metadata]
+tags = ["functions", "variadic", "slices", "range"]
+related_exercises = ["03_functions/parameters.go", "05_slices/slice_basics.go"]
