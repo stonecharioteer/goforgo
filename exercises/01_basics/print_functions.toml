@@ -1,0 +1,24 @@
+[exercise]
+name = "print_functions"
+category = "01_basics"
+difficulty = 2
+estimated_time = "5m"
+
+[description]
+title = "Printf vs Println"
+summary = "Learn the different print functions in the fmt package"
+learning_objectives = [
+  "Understand fmt.Printf for formatted output",
+  "Learn about format specifiers (%s, %d)",
+  "Compare Printf with Println"
+]
+
+[validation]
+mode = "run"
+expected_output = "Hello, my name is Gopher and I am 5 years old."
+timeout = "10s"
+
+[hints]
+level_1 = "fmt.Printf allows you to format strings with placeholders"
+level_2 = "Use %s for string values and %d for integer values"
+level_3 = "Replace fmt.Println with fmt.Printf and use format specifiers"

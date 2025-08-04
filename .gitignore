@@ -54,3 +54,5 @@ test-init/
 # Temporary files
 *.tmp
 *.temp
+goforgo
+mise.toml

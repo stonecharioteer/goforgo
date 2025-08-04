@@ -1,0 +1,24 @@
+[exercise]
+name = "hello"
+category = "01_basics"
+difficulty = 1
+estimated_time = "2m"
+
+[description]
+title = "Hello GoForGo"
+summary = "Your first Go program with GoForGo"
+learning_objectives = [
+  "Understand basic Go program structure",
+  "Learn about the main function",
+  "Practice string literals"
+]
+
+[validation]
+mode = "run"
+expected_output = "Hello, GoForGo!"
+timeout = "10s"
+
+[hints]
+level_1 = "Look at what the TODO comment is asking you to print"
+level_2 = "You need to change the string inside fmt.Println()"
+level_3 = "Replace 'Hello, World!' with 'Hello, GoForGo!'"

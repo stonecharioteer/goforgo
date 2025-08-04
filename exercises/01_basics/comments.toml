@@ -1,0 +1,23 @@
+[exercise]
+name = "comments"
+category = "01_basics"
+difficulty = 1
+estimated_time = "4m"
+
+[description]
+title = "Comments in Go"
+summary = "Learn how to write comments in Go"
+learning_objectives = [
+  "Understand single-line comments with //",
+  "Learn about multi-line comments with /* */",
+  "Practice documenting code"
+]
+
+[validation]
+mode = "build"
+timeout = "10s"
+
+[hints]
+level_1 = "Go has two types of comments: // for single line and /* */ for multi-line"
+level_2 = "Add /* at the start and */ at the end for multi-line comments"
+level_3 = "Comments should explain what the code does, not just repeat it"

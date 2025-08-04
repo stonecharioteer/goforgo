@@ -1,0 +1,23 @@
+[exercise]
+name = "formatting"
+category = "01_basics"
+difficulty = 2
+estimated_time = "6m"
+
+[description]
+title = "Go Formatting Standards"
+summary = "Learn about Go's formatting conventions and gofmt"
+learning_objectives = [
+  "Understand Go's formatting standards",
+  "Learn about proper spacing and indentation",
+  "Practice writing idiomatic Go code"
+]
+
+[validation]
+mode = "build"
+timeout = "10s"
+
+[hints]
+level_1 = "Go has strict formatting conventions - use proper spacing"
+level_2 = "Add spaces around operators and after commas"
+level_3 = "Run 'gofmt' on your code or add proper spacing manually"

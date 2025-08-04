@@ -1,0 +1,24 @@
+[exercise]
+name = "main_function"
+category = "01_basics"
+difficulty = 2
+estimated_time = "5m"
+
+[description]
+title = "The Main Function"
+summary = "Learn about Go's main function as the program entry point"
+learning_objectives = [
+  "Understand the main function's role",
+  "Learn that code outside functions won't compile",
+  "Practice function declaration syntax"
+]
+
+[validation]
+mode = "run"
+expected_output = "This is the main function!"
+timeout = "10s"
+
+[hints]
+level_1 = "Every executable Go program needs a main function"
+level_2 = "The main function has no parameters and no return values"
+level_3 = "Move the fmt.Println inside a func main() { } block"

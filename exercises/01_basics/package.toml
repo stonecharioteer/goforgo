@@ -1,0 +1,24 @@
+[exercise]
+name = "package"
+category = "01_basics"
+difficulty = 1
+estimated_time = "3m"
+
+[description]
+title = "Package Declaration"
+summary = "Learn about Go's package system"
+learning_objectives = [
+  "Understand the package declaration",
+  "Learn about the main package",
+  "Recognize that every Go file starts with package"
+]
+
+[validation]
+mode = "run"
+expected_output = "Package declaration is working!"
+timeout = "10s"
+
+[hints]
+level_1 = "Every Go file must start with a package declaration"
+level_2 = "Executable programs use the 'main' package"
+level_3 = "Add 'package main' at the very top of the file"
