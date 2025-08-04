@@ -1,0 +1,24 @@
+[exercise]
+name = "semicolons"
+category = "01_basics"
+order = 8
+difficulty = 1
+estimated_time = "3m"
+
+[description]
+title = "Semicolons in Go"
+summary = "Learn about Go's automatic semicolon insertion"
+learning_objectives = [
+  "Understand that semicolons are usually optional in Go",
+  "Learn about automatic semicolon insertion",
+  "Practice clean Go syntax"
+]
+
+[validation]
+mode = "static"
+static_check = "no_unnecessary_semicolon"
+
+[hints]
+level_1 = "Go automatically inserts semicolons at the end of lines"
+level_2 = "You can remove the semicolons after each Println statement"
+level_3 = "Delete the ';' characters - they're not needed in Go"

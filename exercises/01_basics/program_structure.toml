@@ -1,0 +1,25 @@
+[exercise]
+name = "program_structure"
+category = "01_basics"
+order = 10
+difficulty = 3
+estimated_time = "8m"
+
+[description]
+title = "Go Program Structure"
+summary = "Put it all together - complete program structure"
+learning_objectives = [
+  "Practice complete Go program structure",
+  "Understand the order: package -> imports -> code",
+  "Apply all basic concepts learned so far"
+]
+
+[validation]
+mode = "run"
+expected_output = "Understanding Go program structure!\nPackage -> Imports -> Functions -> Code"
+timeout = "10s"
+
+[hints]
+level_1 = "Start with 'package main', then imports, then functions"
+level_2 = "Every Go program follows: package declaration, imports, then code"
+level_3 = "Build the complete structure: package main, import fmt, func main with two Println statements"

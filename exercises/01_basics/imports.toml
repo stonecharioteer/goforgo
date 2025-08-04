@@ -1,0 +1,25 @@
+[exercise]
+name = "imports"
+category = "01_basics"
+order = 5
+difficulty = 1
+estimated_time = "3m"
+
+[description]
+title = "Import Statements"
+summary = "Learn how to import packages in Go"
+learning_objectives = [
+  "Understand import statements",
+  "Learn about the fmt package",
+  "Practice using imported functions"
+]
+
+[validation]
+mode = "run"
+expected_output = "Learning about imports!"
+timeout = "10s"
+
+[hints]
+level_1 = "You need to import a package to use its functions"
+level_2 = "Use 'import \"fmt\"' to import the fmt package"
+level_3 = "Add the import statement after package main and before func main()"

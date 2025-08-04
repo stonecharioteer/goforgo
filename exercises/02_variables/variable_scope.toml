@@ -1,0 +1,25 @@
+[exercise]
+name = "variable_scope"
+category = "02_variables"
+order = 9
+difficulty = 3
+estimated_time = "7m"
+
+[description]
+title = "Variable Scope"
+summary = "Learn about variable scope in Go (package, function, block)"
+learning_objectives = [
+  "Understand package-level variables",
+  "Learn function-level scope",
+  "Practice block-level scope"
+]
+
+[validation]
+mode = "run"
+expected_output = "Global Local Block\nGlobal Local"
+timeout = "10s"
+
+[hints]
+level_1 = "Declare globalMessage outside main(), localMessage inside main(), blockMessage inside if block"
+level_2 = "var globalMessage = \"Global\" goes before main()"
+level_3 = "Add: var globalMessage = \"Global\" (top), localMessage := \"Local\" (in main), blockMessage := \"Block\" (in if)"

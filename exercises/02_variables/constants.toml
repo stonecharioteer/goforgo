@@ -1,0 +1,25 @@
+[exercise]
+name = "constants"
+category = "02_variables"
+order = 5
+difficulty = 2
+estimated_time = "4m"
+
+[description]
+title = "Constants"
+summary = "Learn to declare and use constants in Go"
+learning_objectives = [
+  "Understand the difference between constants and variables",
+  "Learn const declaration syntax",
+  "Practice declaring typed and untyped constants"
+]
+
+[validation]
+mode = "run"
+expected_output = "App: GoForGo, PI: 3.14159"
+timeout = "10s"
+
+[hints]
+level_1 = "Use const keyword to declare constants"
+level_2 = "const PI = 3.14159 and const AppName = \"GoForGo\""
+level_3 = "Add both lines: const PI = 3.14159 and const AppName = \"GoForGo\""

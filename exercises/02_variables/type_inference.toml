@@ -1,0 +1,25 @@
+[exercise]
+name = "type_inference"
+category = "02_variables"
+order = 6
+difficulty = 2
+estimated_time = "4m"
+
+[description]
+title = "Type Inference"
+summary = "Learn how Go infers types automatically"
+learning_objectives = [
+  "Understand automatic type inference with :=",
+  "Learn when to use := vs var",
+  "Practice letting Go infer variable types"
+]
+
+[validation]
+mode = "run"
+expected_output = "Language: Go 1.21, Active: true"
+timeout = "10s"
+
+[hints]
+level_1 = "Use := and let Go infer the types from the values"
+level_2 = "language := \"Go\", version := 1.21, isActive := true"
+level_3 = "Three lines: language := \"Go\"; version := 1.21; isActive := true"

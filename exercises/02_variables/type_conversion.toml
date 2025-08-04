@@ -1,0 +1,25 @@
+[exercise]
+name = "type_conversion"
+category = "02_variables"
+order = 8
+difficulty = 3
+estimated_time = "6m"
+
+[description]
+title = "Type Conversion"
+summary = "Learn to convert between different types in Go"
+learning_objectives = [
+  "Understand explicit type conversion",
+  "Learn to convert between numeric types",
+  "Practice string to number conversion"
+]
+
+[validation]
+mode = "run"
+expected_output = "Float: 42.00, Int: 3, Converted: 123"
+timeout = "10s"
+
+[hints]
+level_1 = "Use type(variable) syntax for conversion: float64(number)"
+level_2 = "Need to import strconv and use strconv.Atoi(message)"
+level_3 = "floatNumber := float64(number); intPi := int(pi); convertedNumber, _ := strconv.Atoi(message)"

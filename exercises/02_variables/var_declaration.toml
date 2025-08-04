@@ -1,0 +1,25 @@
+[exercise]
+name = "var_declaration"
+category = "02_variables"
+order = 1
+difficulty = 1
+estimated_time = "3m"
+
+[description]
+title = "Variable Declaration"
+summary = "Learn the basic var syntax for declaring variables"
+learning_objectives = [
+  "Understand var keyword syntax",
+  "Learn to declare and initialize variables",
+  "Practice basic variable usage"
+]
+
+[validation]
+mode = "run"
+expected_output = "Hello Variables!"
+timeout = "10s"
+
+[hints]
+level_1 = "Use the var keyword to declare a variable"
+level_2 = "var message = \"Hello Variables!\""
+level_3 = "Add the line: var message = \"Hello Variables!\""

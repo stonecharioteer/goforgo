@@ -1,0 +1,24 @@
+[exercise]
+name = "multiple_imports"
+category = "01_basics"
+order = 6
+difficulty = 2
+estimated_time = "4m"
+
+[description]
+title = "Multiple Imports"
+summary = "Learn how to import multiple packages efficiently"
+learning_objectives = [
+  "Understand grouped import syntax",
+  "Learn to import multiple packages at once",
+  "Practice using functions from different packages"
+]
+
+[validation]
+mode = "run"
+timeout = "10s"
+
+[hints]
+level_1 = "You can group multiple imports using parentheses"
+level_2 = "Use import ( \"package1\" \"package2\" ) syntax"
+level_3 = "Import both \"fmt\" and \"time\" in a single import block"
