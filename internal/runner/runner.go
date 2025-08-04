@@ -30,10 +30,12 @@ type ValidationResult struct {
 	TestSuccess  bool   `json:"test_success,omitempty"`
 	RunSuccess   bool   `json:"run_success,omitempty"`
 	StaticSuccess bool  `json:"static_success,omitempty"`
+	TodoCheck     bool   `json:"todo_check,omitempty"`
 	BuildOutput  string `json:"build_output,omitempty"`
 	TestOutput   string `json:"test_output,omitempty"`
 	RunOutput    string `json:"run_output,omitempty"`
 	StaticOutput string `json:"static_output,omitempty"`
+	TodoOutput   string `json:"todo_output,omitempty"`
 }
 
 // Runner handles Go code compilation and execution
@@ -186,6 +188,18 @@ func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 		result.Error = fmt.Sprintf("Unknown validation mode: %s", ex.Validation.Mode)
 	}
 
+	// Universal TODO comment check - runs after main validation if it succeeded
+	if result.Success {
+		todoPresent, todoOutput := r.checkForTodoComments(ex.FilePath)
+		result.Validation.TodoCheck = !todoPresent
+		result.Validation.TodoOutput = todoOutput
+		
+		if todoPresent {
+			result.Success = false
+			result.Output = todoOutput
+		}
+	}
+
 	result.Duration = time.Since(start)
 	return result, nil
 }
@@ -291,6 +305,12 @@ func (r *Runner) ValidateExercise(ex *exercise.Exercise) (bool, string, error) {
 		feedback.WriteString("\n\n")
 	}
 
+	if !result.Validation.TodoCheck {
+		feedback.WriteString("📝 TODO Comments Found:\n")
+		feedback.WriteString(result.Validation.TodoOutput)
+		feedback.WriteString("\n\n")
+	}
+
 	if result.Error != "" {
 		feedback.WriteString("⚠️  Error: ")
 		feedback.WriteString(result.Error)
@@ -309,4 +329,34 @@ func FormatDuration(d time.Duration) string {
 		return fmt.Sprintf("%.1fms", float64(d.Nanoseconds())/1000000)
 	}
 	return fmt.Sprintf("%.2fs", d.Seconds())
+}
+
+// checkForTodoComments checks if the exercise file contains TODO comments
+func (r *Runner) checkForTodoComments(filePath string) (bool, string) {
+	content, err := os.ReadFile(filePath)
+	if err != nil {
+		return false, fmt.Sprintf("❌ Could not read file to check for TODO comments: %v", err)
+	}
+
+	lines := strings.Split(string(content), "\n")
+	todoLines := make([]string, 0)
+
+	for i, line := range lines {
+		// Check for TODO comments (case insensitive)
+		if strings.Contains(strings.ToUpper(line), "TODO") {
+			todoLines = append(todoLines, fmt.Sprintf("Line %d: %s", i+1, strings.TrimSpace(line)))
+		}
+	}
+
+	if len(todoLines) > 0 {
+		message := "❌ TODO comments found. Complete the following tasks:\n\n"
+		for _, todoLine := range todoLines {
+			message += "  " + todoLine + "\n"
+		}
+		message += "\n💡 Remove or complete all TODO comments to finish this exercise."
+		return true, message
+	}
+
+	// No TODO comments found
+	return false, "✅ No TODO comments found."
 }

@@ -24,6 +24,7 @@ type Model struct {
 	isRunning     bool
 	showingHint   bool
 	showingList   bool
+	currentHintLevel int  // Track current hint level (0=none, 1=level1, 2=level1+2, 3=all)
 	
 	// File watching
 	watcher    *watcher.Watcher
@@ -171,9 +172,23 @@ func (m *Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		return m, m.previousExercise()
 
 	case "h":
-		// Toggle hint
-		m.showingHint = !m.showingHint
-		m.showingList = false
+		// Show next hint level or hide if at max
+		if !m.showingHint {
+			// Starting to show hints - show level 1
+			m.currentHintLevel = 1
+			m.showingHint = true
+			m.showingList = false
+		} else {
+			// Already showing hints - advance to next level or hide
+			maxLevel := m.getMaxHintLevel()
+			if m.currentHintLevel < maxLevel {
+				m.currentHintLevel++
+			} else {
+				// At max level, hide hints and reset
+				m.showingHint = false
+				m.currentHintLevel = 0
+			}
+		}
 		return m, nil
 
 	case "l":
@@ -197,6 +212,7 @@ func (m *Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		// Dismiss hint or list
 		m.showingHint = false
 		m.showingList = false
+		m.currentHintLevel = 0  // Reset hint level when dismissing
 		return m, nil
 	}
 
@@ -264,6 +280,7 @@ func (m *Model) nextExercise() tea.Cmd {
 	if m.currentIndex < len(m.exercises)-1 {
 		m.currentIndex++
 		m.currentExercise = m.exercises[m.currentIndex]
+		m.currentHintLevel = 0  // Reset hint level for new exercise
 		return m.runCurrentExercise()
 	}
 	return func() tea.Msg {
@@ -275,6 +292,7 @@ func (m *Model) previousExercise() tea.Cmd {
 	if m.currentIndex > 0 {
 		m.currentIndex--
 		m.currentExercise = m.exercises[m.currentIndex]
+		m.currentHintLevel = 0  // Reset hint level for new exercise
 		return m.runCurrentExercise()
 	}
 	return func() tea.Msg {
@@ -375,3 +393,23 @@ var (
 		Foreground(lipgloss.Color("#6B7280")).
 		Italic(true)
 )
+
+// getMaxHintLevel returns the maximum hint level available for the current exercise
+func (m *Model) getMaxHintLevel() int {
+	if m.currentExercise == nil {
+		return 0
+	}
+	
+	maxLevel := 0
+	if m.currentExercise.Hints.Level1 != "" {
+		maxLevel = 1
+	}
+	if m.currentExercise.Hints.Level2 != "" {
+		maxLevel = 2
+	}
+	if m.currentExercise.Hints.Level3 != "" {
+		maxLevel = 3
+	}
+	
+	return maxLevel
+}

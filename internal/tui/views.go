@@ -230,19 +230,51 @@ func (m *Model) renderHint() string {
 		return "No exercise selected."
 	}
 
-	hint := m.currentExercise.GetHint()
+	// Build progressive hints based on current hint level
+	var hints []string
+	maxLevel := m.getMaxHintLevel()
+	
+	if m.currentHintLevel >= 1 && m.currentExercise.Hints.Level1 != "" {
+		hints = append(hints, fmt.Sprintf("💡 Hint 1:\n%s", m.currentExercise.Hints.Level1))
+	}
+	if m.currentHintLevel >= 2 && m.currentExercise.Hints.Level2 != "" {
+		hints = append(hints, fmt.Sprintf("💡 Hint 2:\n%s", m.currentExercise.Hints.Level2))
+	}
+	if m.currentHintLevel >= 3 && m.currentExercise.Hints.Level3 != "" {
+		hints = append(hints, fmt.Sprintf("💡 Hint 3:\n%s", m.currentExercise.Hints.Level3))
+	}
+	
+	var hintText string
+	if len(hints) == 0 {
+		hintText = "No hints available for this exercise."
+	} else {
+		hintText = strings.Join(hints, "\n\n")
+	}
+	
+	// Show progression info
+	var progressInfo string
+	if maxLevel > 1 {
+		if m.currentHintLevel < maxLevel {
+			progressInfo = fmt.Sprintf("Press 'h' again for more hints (%d/%d)", m.currentHintLevel, maxLevel)
+		} else {
+			progressInfo = fmt.Sprintf("All hints shown (%d/%d) - Press 'h' to hide", m.currentHintLevel, maxLevel)
+		}
+	} else {
+		progressInfo = "Press 'h' to hide hint"
+	}
 
 	content := fmt.Sprintf(`%s
 
 📝 Exercise: %s
 
-💡 Hint:
 %s
 
+%s
 %s`,
-		headerStyle.Render("💡 Hint"),
+		headerStyle.Render("💡 Hints"),
 		titleStyle.Render(m.currentExercise.Description.Title),
-		hintStyle.Render(hint),
+		hintStyle.Render(hintText),
+		statusStyle.Render(progressInfo),
 		statusStyle.Render("Press Enter or Esc to return"))
 
 	// Center and add border
