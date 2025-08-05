@@ -36,6 +36,11 @@ type Model struct {
 	height int
 	ready  bool
 	
+	// List view state for scrollable exercise list
+	listSelectedIndex int // Currently selected item in list
+	listScrollOffset  int // Scroll offset for list view
+	listViewHeight    int // Available height for list items
+	
 	// Progress and statistics
 	completedCount int
 	// totalCount removed - now calculated dynamically as len(m.exercises)
@@ -211,14 +216,63 @@ func (m *Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 
 	case "l":
 		// Toggle exercise list
-		m.showingList = !m.showingList
-		m.showingHint = false
+		if !m.showingList {
+			// Initialize list view
+			m.showingList = true
+			m.showingHint = false
+			m.listSelectedIndex = m.currentIndex // Start at current exercise
+			m.listScrollOffset = 0
+			m.listViewHeight = max(m.height-8, 10) // Reserve space for header/footer, min 10 lines
+			m.ensureSelectedVisible()
+		} else {
+			m.showingList = false
+		}
 		return m, nil
 
 	case "r":
 		// Manually run exercise
 		if !m.isRunning {
 			return m, m.runCurrentExercise()
+		}
+		return m, nil
+
+	case "up", "k":
+		if m.showingList {
+			return m, m.moveListSelection(-1)
+		}
+		return m, nil
+
+	case "down", "j":
+		if m.showingList {
+			return m, m.moveListSelection(1)
+		}
+		return m, nil
+
+	case "page_up":
+		if m.showingList {
+			return m, m.moveListSelection(-m.listViewHeight)
+		}
+		return m, nil
+
+	case "page_down":
+		if m.showingList {
+			return m, m.moveListSelection(m.listViewHeight)
+		}
+		return m, nil
+
+	case "home":
+		if m.showingList {
+			m.listSelectedIndex = 0
+			m.ensureSelectedVisible()
+			return m, nil
+		}
+		return m, nil
+
+	case "end":
+		if m.showingList {
+			m.listSelectedIndex = len(m.exercises) - 1
+			m.ensureSelectedVisible()
+			return m, nil
 		}
 		return m, nil
 
@@ -232,6 +286,16 @@ func (m *Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		if m.showWelcome {
 			m.showWelcome = false
 			return m, nil
+		}
+		if m.showingList && msg.String() == "enter" {
+			// Select the highlighted exercise
+			if m.listSelectedIndex >= 0 && m.listSelectedIndex < len(m.exercises) {
+				m.currentIndex = m.listSelectedIndex
+				m.currentExercise = m.exercises[m.currentIndex]
+				m.currentHintLevel = 0 // Reset hint level for new exercise
+				m.showingList = false
+				return m, m.runCurrentExercise()
+			}
 		}
 		// Dismiss hint or list
 		m.showingHint = false
@@ -454,4 +518,37 @@ func (m *Model) splashTick() tea.Cmd {
 	return tea.Tick(time.Millisecond*250, func(time.Time) tea.Msg {
 		return splashTickMsg{}
 	})
+}
+
+// moveListSelection moves the selection in the list view
+func (m *Model) moveListSelection(delta int) tea.Cmd {
+	newIndex := m.listSelectedIndex + delta
+	
+	// Clamp to valid range (no wrapping)
+	if newIndex < 0 {
+		newIndex = 0
+	} else if newIndex >= len(m.exercises) {
+		newIndex = len(m.exercises) - 1
+	}
+	
+	m.listSelectedIndex = newIndex
+	m.ensureSelectedVisible()
+	
+	return nil
+}
+
+// ensureSelectedVisible adjusts scroll offset to keep selected item visible
+func (m *Model) ensureSelectedVisible() {
+	if m.listSelectedIndex < m.listScrollOffset {
+		// Selected item is above visible area
+		m.listScrollOffset = m.listSelectedIndex
+	} else if m.listSelectedIndex >= m.listScrollOffset+m.listViewHeight {
+		// Selected item is below visible area
+		m.listScrollOffset = m.listSelectedIndex - m.listViewHeight + 1
+	}
+	
+	// Ensure scroll offset doesn't go negative
+	if m.listScrollOffset < 0 {
+		m.listScrollOffset = 0
+	}
 }
