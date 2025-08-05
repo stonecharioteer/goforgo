@@ -1,0 +1,30 @@
+[exercise]
+name = "regexp_advanced"
+category = "14_stdlib"
+difficulty = 4
+estimated_time = "35m"
+go_version = "1.16+"
+
+[description]
+title = "Advanced Regular Expressions"
+summary = "Master complex regex patterns, named groups, and text processing"
+learning_objectives = [
+  "Create regex patterns with named capture groups",
+  "Validate and parse emails, URLs, and structured data",
+  "Implement advanced text replacements",
+  "Extract data from logs and HTML content",
+  "Build data validation with regex patterns"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Named groups: (?P<name>pattern) and use SubexpNames() to get names"
+level_2 = "ReplaceAllStringFunc allows custom replacement logic"
+level_3 = "Use regexp.MustCompile() for patterns that should always be valid"
+
+[metadata]
+tags = ["regex", "pattern-matching", "text-processing", "validation"]
+related_exercises = ["14_stdlib/strings_manipulation.go", "18_regex/regex_basics.go"]

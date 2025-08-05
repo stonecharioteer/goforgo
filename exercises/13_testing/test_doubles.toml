@@ -1,0 +1,30 @@
+[exercise]
+name = "test_doubles"
+category = "13_testing"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Test Doubles"
+summary = "Learn mocks, stubs, fakes, and dependency injection for testing"
+learning_objectives = [
+  "Implement dependency injection with interfaces",
+  "Create mock objects for behavior verification",
+  "Build stub objects for predetermined responses",
+  "Design fake objects as simple working implementations",
+  "Test error scenarios with controlled dependencies"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Define interfaces for dependencies and inject them into structs"
+level_2 = "Mocks record method calls, stubs return fixed values, fakes work simply"
+level_3 = "Use constructor functions to inject dependencies: NewService(db Database, email EmailService)"
+
+[metadata]
+tags = ["testing", "mocks", "stubs", "fakes", "dependency-injection"]
+related_exercises = ["13_testing/testing_basics.go", "13_testing/benchmarks.go"]

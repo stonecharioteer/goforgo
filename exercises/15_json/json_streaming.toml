@@ -1,0 +1,30 @@
+[exercise]
+name = "json_streaming"
+category = "15_json"
+difficulty = 3
+estimated_time = "20m"
+go_version = "1.16+"
+
+[description]
+title = "JSON Streaming"
+summary = "Learn JSON streaming for processing large datasets efficiently"
+learning_objectives = [
+  "Use json.NewEncoder() and json.NewDecoder() for streaming",
+  "Implement token-level JSON parsing",
+  "Process JSON Lines format",
+  "Handle large JSON datasets without loading into memory",
+  "Create custom marshaling for streaming operations"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use json.NewEncoder() and json.NewDecoder() for streaming operations"
+level_2 = "For token-level parsing, use decoder.Token() method"
+level_3 = "JSON Lines format processes one JSON object per line"
+
+[metadata]
+tags = ["json", "streaming", "encoding", "performance"]
+related_exercises = ["15_json/json_basics.go", "15_json/json_validation.go"]

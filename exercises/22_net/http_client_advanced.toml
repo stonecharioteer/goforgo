@@ -1,0 +1,30 @@
+[exercise]
+name = "http_client_advanced"
+category = "22_net"
+difficulty = 5
+estimated_time = "40m"
+go_version = "1.16+"
+
+[description]
+title = "Advanced HTTP Client"
+summary = "Build sophisticated HTTP clients with custom transports, retries, and middleware"
+learning_objectives = [
+  "Create HTTP clients with builder pattern configuration",
+  "Implement custom transports for logging and authentication",
+  "Add retry logic with exponential backoff",
+  "Build circuit breaker pattern for fault tolerance",
+  "Chain middleware for cross-cutting concerns"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Implement http.RoundTripper interface for custom transports"
+level_2 = "Use exponential backoff: time.Duration(math.Pow(2, attempt)) * baseDelay"
+level_3 = "Chain middleware by wrapping transports: middleware(nextTransport)"
+
+[metadata]
+tags = ["http", "client", "middleware", "retry", "circuit-breaker", "networking"]
+related_exercises = ["22_net/tcp_client_server.go", "16_http/http_client.go"]

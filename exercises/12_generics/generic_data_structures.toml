@@ -1,0 +1,30 @@
+[exercise]
+name = "generic_data_structures"
+category = "12_generics"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.18+"
+
+[description]
+title = "Generic Data Structures"
+summary = "Implement generic data structures using Go generics"
+learning_objectives = [
+  "Create generic Stack with type parameters",
+  "Implement generic Queue for FIFO operations",
+  "Build generic Map with comparable key constraints",
+  "Design generic Set for unique collections",
+  "Apply type constraints effectively"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use type parameters: type Stack[T any] struct { items []T }"
+level_2 = "Comparable constraint for maps: type Map[K comparable, V any]"
+level_3 = "Return zero values and boolean for empty checks"
+
+[metadata]
+tags = ["generics", "data-structures", "type-parameters", "constraints"]
+related_exercises = ["12_generics/generic_basics.go", "12_generics/generic_constraints.go"]

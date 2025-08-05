@@ -12,5 +12,6 @@ _Notes and insights from building GoForGo - an interactive Go tutorial CLI inspi
 - **You must build to ./bin/goforgo,**
 - Use `fd` and `ripgrep` instead of the native posix tools where possible
 - After creating an exercise and its solution, update the TODO.md file with the path to the exercise so that your progress is recorded automatically.
+- **You must add at least 3 exercises per category**
 
 [... rest of existing content remains unchanged ...]
