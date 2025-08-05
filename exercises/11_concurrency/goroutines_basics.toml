@@ -1,0 +1,30 @@
+[exercise]
+name = "goroutines_basics"
+category = "11_concurrency"
+difficulty = 2
+estimated_time = "12m"
+go_version = "1.16+"
+
+[description]
+title = "Goroutines Basics"
+summary = "Learn how to create and manage goroutines in Go"
+learning_objectives = [
+  "Start goroutines with the go keyword",
+  "Understand goroutine execution order",
+  "Use sync.WaitGroup to wait for goroutines",
+  "Communicate with goroutines using channels",
+  "Get runtime information about goroutines"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Start goroutine: go functionName(args)"
+level_2 = "WaitGroup: wg.Add(n), wg.Done(), wg.Wait()"
+level_3 = "Anonymous goroutine: go func() { ... }()"
+
+[metadata]
+tags = ["concurrency", "goroutines", "waitgroup", "channels"]
+related_exercises = ["04_control_flow/select_statements.go"]

@@ -1,0 +1,30 @@
+[exercise]
+name = "error_wrapping"
+category = "10_errors"
+difficulty = 3
+estimated_time = "20m"
+go_version = "1.13+"
+
+[description]
+title = "Error Wrapping and Unwrapping"
+summary = "Master error wrapping patterns introduced in Go 1.13+"
+learning_objectives = [
+  "Use fmt.Errorf with %w verb for wrapping",
+  "Implement Unwrap() method in custom errors",
+  "Use errors.Is() to check for specific errors",
+  "Use errors.As() to extract error types",
+  "Handle error chains and multiple errors"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Wrap error: fmt.Errorf(\"context: %w\", err)"
+level_2 = "Check wrapped: errors.Is(err, target)"
+level_3 = "Extract type: errors.As(err, &target)"
+
+[metadata]
+tags = ["errors", "wrapping", "error-chains", "go1.13+"]
+related_exercises = ["10_errors/error_custom.go"]

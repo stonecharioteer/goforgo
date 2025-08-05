@@ -1,0 +1,30 @@
+[exercise]
+name = "reflection_basics"
+category = "19_reflection"
+difficulty = 4
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Reflection Basics"
+summary = "Learn runtime type inspection and manipulation with reflection"
+learning_objectives = [
+  "Inspect types and values at runtime",
+  "Access struct fields and methods",
+  "Read struct tags via reflection",
+  "Modify values through reflection",
+  "Create instances dynamically"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Type info: reflect.TypeOf(), reflect.ValueOf()"
+level_2 = "Fields: value.NumField(), value.Field(i)"
+level_3 = "Modify: value.Elem(), field.Set(newValue)"
+
+[metadata]
+tags = ["reflection", "runtime", "meta-programming", "types"]
+related_exercises = ["08_structs/struct_tags.go", "09_interfaces/interface_empty.go"]

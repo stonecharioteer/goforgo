@@ -1,0 +1,30 @@
+[exercise]
+name = "interface_composition"
+category = "09_interfaces"
+difficulty = 3
+estimated_time = "20m"
+go_version = "1.16+"
+
+[description]
+title = "Interface Composition"
+summary = "Master interface composition and create flexible, reusable designs"
+learning_objectives = [
+  "Compose simple interfaces into complex ones",
+  "Implement composed interfaces",
+  "Use interface embedding effectively",
+  "Create flexible functions that work with interface hierarchies",
+  "Understand interface upgrade and downgrade patterns"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Interface composition: embed interfaces in other interfaces"
+level_2 = "Implement all methods from composed interfaces"
+level_3 = "Use type assertion to check for additional interface support"
+
+[metadata]
+tags = ["interfaces", "composition", "embedding", "hierarchy", "io"]
+related_exercises = ["09_interfaces/interface_assertion.go", "10_errors/error_basics.go"]

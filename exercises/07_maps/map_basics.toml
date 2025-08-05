@@ -1,0 +1,30 @@
+[exercise]
+name = "map_basics"
+category = "07_maps"
+difficulty = 1
+estimated_time = "8m"
+go_version = "1.16+"
+
+[description]
+title = "Map Basics"
+summary = "Learn how to create, access, and modify maps in Go"
+learning_objectives = [
+  "Create maps using make() and map literals",
+  "Add and access map elements",
+  "Use the comma ok idiom to check key existence",
+  "Delete map elements",
+  "Understand nil maps and zero values"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Make map: make(map[string]int)"
+level_2 = "Map literal: map[string]int{\"key\": value}"
+level_3 = "Check existence: value, ok := map[key]"
+
+[metadata]
+tags = ["maps", "basics", "key-value", "make"]
+related_exercises = ["02_variables/zero_values.go"]

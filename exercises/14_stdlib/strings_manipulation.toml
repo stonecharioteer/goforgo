@@ -1,0 +1,30 @@
+[exercise]
+name = "strings_manipulation"
+category = "14_stdlib"
+difficulty = 2
+estimated_time = "15m"
+go_version = "1.16+"
+
+[description]
+title = "String Manipulation"
+summary = "Master the strings package for text processing"
+learning_objectives = [
+  "Use string inspection functions",
+  "Perform string searching and replacement",
+  "Split and join strings",
+  "Trim and clean strings",
+  "Use strings.Builder for efficient construction"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "String functions: strings.Contains, strings.HasPrefix, strings.Split"
+level_2 = "String building: var b strings.Builder; b.WriteString()"
+level_3 = "String replacement: strings.Replace, strings.ReplaceAll"
+
+[metadata]
+tags = ["stdlib", "strings", "text-processing", "builder"]
+related_exercises = ["18_regex/regex_basics.go"]

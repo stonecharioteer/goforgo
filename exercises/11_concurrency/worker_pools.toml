@@ -1,0 +1,30 @@
+[exercise]
+name = "worker_pools"
+category = "11_concurrency"
+difficulty = 4
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Worker Pool Patterns"
+summary = "Learn how to implement worker pools for concurrent task processing"
+learning_objectives = [
+  "Create basic worker pools with job queues",
+  "Implement priority-based worker pools",
+  "Handle graceful shutdown of worker pools",
+  "Use context for worker pool cancellation",
+  "Collect and process results from workers"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Worker pool: job channel + result channel + worker goroutines"
+level_2 = "Priority: separate high/low priority job channels"
+level_3 = "Shutdown: close job channel, wait for workers, cancel context"
+
+[metadata]
+tags = ["concurrency", "worker-pools", "job-queues", "patterns"]
+related_exercises = ["11_concurrency/goroutines_basics.go", "11_concurrency/context_usage.go"]

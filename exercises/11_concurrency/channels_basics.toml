@@ -1,0 +1,30 @@
+[exercise]
+name = "channels_basics"
+category = "11_concurrency"
+difficulty = 2
+estimated_time = "15m"
+go_version = "1.16+"
+
+[description]
+title = "Channels Basics"
+summary = "Learn how to use channels for goroutine communication"
+learning_objectives = [
+  "Create unbuffered and buffered channels",
+  "Send and receive values through channels",
+  "Use channel directions (send-only, receive-only)",
+  "Use select statements with channels",
+  "Close channels properly"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Unbuffered channel: make(chan Type)"
+level_2 = "Buffered channel: make(chan Type, capacity)"
+level_3 = "Select: select { case val := <-ch: ... }"
+
+[metadata]
+tags = ["concurrency", "channels", "select", "communication"]
+related_exercises = ["11_concurrency/goroutines_basics.go"]

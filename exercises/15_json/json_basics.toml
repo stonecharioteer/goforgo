@@ -1,0 +1,30 @@
+[exercise]
+name = "json_basics"
+category = "15_json"
+difficulty = 2
+estimated_time = "16m"
+go_version = "1.16+"
+
+[description]
+title = "JSON Basics"
+summary = "Master JSON encoding and decoding in Go"
+learning_objectives = [
+  "Marshal structs to JSON",
+  "Unmarshal JSON to structs",
+  "Work with JSON struct tags",
+  "Handle nested JSON structures",
+  "Process JSON arrays and maps"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Marshal: json.Marshal(value), Unmarshal: json.Unmarshal(data, &value)"
+level_2 = "Struct tags: `json:\"field_name,omitempty\"`"
+level_3 = "Pretty print: json.MarshalIndent(value, \"\", \"  \")"
+
+[metadata]
+tags = ["json", "encoding", "struct-tags", "serialization"]
+related_exercises = ["08_structs/struct_tags.go"]

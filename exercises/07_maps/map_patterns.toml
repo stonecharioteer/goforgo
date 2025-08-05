@@ -1,0 +1,32 @@
+[exercise]
+name = "map_patterns"
+category = "07_maps"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Common Map Usage Patterns"
+summary = "Master real-world map patterns: counting, grouping, sets, caching, and nested maps"
+learning_objectives = [
+  "Count occurrences using maps",
+  "Group data by categories",
+  "Implement set operations with maps",
+  "Use maps for caching/memoization",
+  "Handle default values in configurations",
+  "Work with nested maps (maps of maps)"
+]
+
+[validation]
+mode = "run"
+timeout = "30s"
+required_files = ["map_patterns.go"]
+
+[hints]
+level_1 = "For counting: iterate through items and increment map[item]++"
+level_2 = "For grouping: use append to add items to map[category]"
+level_3 = "For set operations: check existence with _, exists := map[key]"
+
+[metadata]
+tags = ["maps", "patterns", "real-world", "algorithms", "data-structures"]
+related_exercises = ["07_maps/map_basics.go", "07_maps/map_advanced.go"]

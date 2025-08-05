@@ -1,0 +1,30 @@
+[exercise]
+name = "pipeline_patterns"
+category = "20_advanced"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Pipeline Patterns"
+summary = "Master advanced concurrency patterns: pipelines, fan-in, fan-out"
+learning_objectives = [
+  "Build processing pipelines with channels",
+  "Implement fan-out pattern for work distribution",
+  "Implement fan-in pattern for result aggregation",
+  "Create multi-stage processing pipelines",
+  "Handle pipeline cancellation and cleanup"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Pipeline stage: func stage(in <-chan T) <-chan U { ... }"
+level_2 = "Fan-out: distribute work from one channel to many workers"
+level_3 = "Fan-in: combine results from many channels to one"
+
+[metadata]
+tags = ["concurrency", "pipelines", "fan-in", "fan-out", "advanced"]
+related_exercises = ["11_concurrency/channels_basics.go", "11_concurrency/context_usage.go"]

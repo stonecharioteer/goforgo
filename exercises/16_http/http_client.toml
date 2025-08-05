@@ -1,0 +1,30 @@
+[exercise]
+name = "http_client"
+category = "16_http"
+difficulty = 3
+estimated_time = "20m"
+go_version = "1.16+"
+
+[description]
+title = "HTTP Client Operations"
+summary = "Learn HTTP client programming in Go"
+learning_objectives = [
+  "Make GET and POST requests",
+  "Handle JSON request/response bodies",
+  "Use custom HTTP clients with timeouts",
+  "Set custom headers",
+  "Make concurrent HTTP requests"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "GET request: http.Get(url), POST: http.Post(url, contentType, body)"
+level_2 = "Custom client: &http.Client{Timeout: time.Duration}"
+level_3 = "Custom request: http.NewRequest(), client.Do(request)"
+
+[metadata]
+tags = ["http", "client", "json", "concurrency", "api"]
+related_exercises = ["15_json/json_basics.go", "11_concurrency/goroutines_basics.go"]

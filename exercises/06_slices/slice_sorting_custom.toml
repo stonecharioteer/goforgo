@@ -1,0 +1,31 @@
+[exercise]
+name = "slice_sorting_custom"
+category = "06_slices"
+difficulty = 3
+estimated_time = "18m"
+go_version = "1.16+"
+
+[description]
+title = "Custom Slice Sorting with sort.Slice"
+summary = "Master custom sorting using sort.Slice and sort.SliceStable for complex data"
+learning_objectives = [
+  "Use sort.Slice() with custom comparison functions",
+  "Sort structs by different fields",
+  "Implement multi-level sorting criteria",
+  "Use sort.SliceStable() for stable sorting",
+  "Sort by complex conditions and computed values"
+]
+
+[validation]
+mode = "run"
+timeout = "30s"
+required_files = ["slice_sorting_custom.go"]
+
+[hints]
+level_1 = "Define Person struct with Name, Age, and Salary fields"
+level_2 = "sort.Slice takes a slice and a comparison function: func(i, j int) bool"
+level_3 = "For multi-level sorting, use sort.SliceStable and check primary condition first"
+
+[metadata]
+tags = ["slices", "sorting", "custom-sorting", "structs", "advanced"]
+related_exercises = ["05_arrays/array_sorting.go", "08_structs/struct_basics.go"]

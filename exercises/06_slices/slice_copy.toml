@@ -1,0 +1,29 @@
+[exercise]
+name = "slice_copy"
+category = "06_slices"
+difficulty = 2
+estimated_time = "10m"
+go_version = "1.16+"
+
+[description]
+title = "Slice Copying"
+summary = "Understand the difference between shallow and deep copying of slices"
+learning_objectives = [
+  "Understand slice references and shared underlying arrays",
+  "Create shallow copies with slice operations",
+  "Create deep copies with copy() function",
+  "Handle different sized slices during copying"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Shallow copy: newSlice := originalSlice[:]"
+level_2 = "Deep copy: copy(destination, source)"
+level_3 = "copy() returns the number of elements copied"
+
+[metadata]
+tags = ["slices", "copy", "references", "memory"]
+related_exercises = ["06_slices/slice_basics.go"]

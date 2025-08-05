@@ -1,0 +1,30 @@
+[exercise]
+name = "error_custom"
+category = "10_errors"
+difficulty = 3
+estimated_time = "18m"
+go_version = "1.16+"
+
+[description]
+title = "Custom Error Types"
+summary = "Learn how to create custom error types and implement the error interface"
+learning_objectives = [
+  "Define custom error types",
+  "Implement the error interface",
+  "Create sentinel errors",
+  "Add methods to custom errors",
+  "Use type assertions with custom errors"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Error interface: type MyError struct {...}; func (e MyError) Error() string"
+level_2 = "Sentinel errors: var ErrNotFound = errors.New(\"not found\")"
+level_3 = "Type assertion: if customErr, ok := err.(MyError); ok { ... }"
+
+[metadata]
+tags = ["errors", "custom-types", "interfaces", "sentinel-errors"]
+related_exercises = ["10_errors/error_basics.go", "09_interfaces/interface_basics.go"]

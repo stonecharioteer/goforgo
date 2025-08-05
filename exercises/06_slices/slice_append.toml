@@ -1,0 +1,30 @@
+[exercise]
+name = "slice_append"
+category = "06_slices"
+difficulty = 2
+estimated_time = "8m"
+go_version = "1.16+"
+
+[description]
+title = "Slice Append Operations"
+summary = "Master the append() function and understand slice growth behavior"
+learning_objectives = [
+  "Use append() to add single elements",
+  "Use append() to add multiple elements",
+  "Use append() with slice expansion (...)",
+  "Understand capacity growth during append",
+  "Append to nil slices"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "append() returns a new slice: slice = append(slice, element)"
+level_2 = "Multiple elements: append(slice, elem1, elem2, elem3)"
+level_3 = "Expand slice: append(slice1, slice2...)"
+
+[metadata]
+tags = ["slices", "append", "capacity", "growth"]
+related_exercises = ["06_slices/slice_basics.go"]

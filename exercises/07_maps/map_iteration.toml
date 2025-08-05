@@ -1,0 +1,30 @@
+[exercise]
+name = "map_iteration"
+category = "07_maps"
+difficulty = 2
+estimated_time = "10m"
+go_version = "1.16+"
+
+[description]
+title = "Map Iteration"
+summary = "Master different ways to iterate over maps and perform calculations"
+learning_objectives = [
+  "Iterate over maps with keys and values",
+  "Iterate over keys or values only",
+  "Perform aggregations during iteration",
+  "Sort map keys for ordered iteration",
+  "Apply filtering conditions during iteration"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Range over map: for key, value := range map { ... }"
+level_2 = "Keys only: for key := range map { ... }"
+level_3 = "Sort keys: extract to slice, use sort.Strings()"
+
+[metadata]
+tags = ["maps", "iteration", "range", "sorting"]
+related_exercises = ["04_control_flow/range_loops.go", "07_maps/map_basics.go"]
