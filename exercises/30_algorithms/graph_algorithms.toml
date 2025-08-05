@@ -1,0 +1,30 @@
+[exercise]
+name = "graph_algorithms"
+category = "30_algorithms"
+difficulty = 5
+estimated_time = "45m"
+go_version = "1.16+"
+
+[description]
+title = "Graph Algorithms"
+summary = "Learn graph algorithms: BFS, DFS, shortest path, and graph traversal"
+learning_objectives = [
+  "Implement graph representation with adjacency lists",
+  "Perform breadth-first and depth-first search traversals",
+  "Find shortest paths using BFS and Dijkstra's algorithm",
+  "Detect cycles and perform topological sorting",
+  "Find strongly connected components using Kosaraju's algorithm"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use adjacency list: [][]Edge where Edge has 'to' and 'weight' fields"
+level_2 = "BFS uses queue, DFS uses stack (or recursion), both track visited vertices"
+level_3 = "Dijkstra uses priority queue, topological sort works only on DAGs"
+
+[metadata]
+tags = ["graphs", "algorithms", "bfs", "dfs", "dijkstra", "topological-sort"]
+related_exercises = ["30_algorithms/dynamic_programming.go", "29_data_structures/stack_queue.go"]

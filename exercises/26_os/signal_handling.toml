@@ -1,0 +1,30 @@
+[exercise]
+name = "signal_handling"
+category = "26_os"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Signal Handling"
+summary = "Learn signal handling for graceful shutdowns and process control"
+learning_objectives = [
+  "Handle OS signals like SIGINT and SIGTERM",
+  "Implement graceful shutdown patterns with context",
+  "Coordinate multiple goroutines during shutdown",
+  "Use signals for configuration reload and process control",
+  "Apply signal safety best practices"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use signal.Notify() to register for signals and channels to receive them"
+level_2 = "Use context.WithCancel() and sync.WaitGroup for coordinated shutdown"
+level_3 = "Use atomic operations for signal-safe modifications of shared state"
+
+[metadata]
+tags = ["signals", "graceful-shutdown", "concurrency", "process-control"]
+related_exercises = ["26_os/process_management.go", "11_concurrency/context_usage.go"]

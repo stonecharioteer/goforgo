@@ -1,0 +1,30 @@
+[exercise]
+name = "dynamic_programming"
+category = "30_algorithms"
+difficulty = 5
+estimated_time = "50m"
+go_version = "1.16+"
+
+[description]
+title = "Dynamic Programming"
+summary = "Learn dynamic programming: memoization, tabulation, and optimization problems"
+learning_objectives = [
+  "Understand memoization (top-down) vs tabulation (bottom-up) approaches",
+  "Solve classic DP problems: Fibonacci, LCS, Knapsack, Coin Change",
+  "Implement space-optimized DP solutions",
+  "Apply DP to string and array problems",
+  "Recognize DP patterns and optimization techniques"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Start with recursive solution, then add memoization, finally convert to tabulation"
+level_2 = "Define state clearly: what parameters uniquely identify each subproblem?"
+level_3 = "Look for optimal substructure and overlapping subproblems"
+
+[metadata]
+tags = ["dynamic-programming", "memoization", "optimization", "algorithms"]
+related_exercises = ["30_algorithms/graph_algorithms.go", "28_sorting/sorting_algorithms.go"]

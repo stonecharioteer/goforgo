@@ -36,14 +36,14 @@ func (m *Model) renderWelcome() string {
 	
 	subtitle := subtitleStyle.Render("🚀 Interactive Go Learning Platform 🚀")
 
-	// Stats section with progress - use cached completed count
-	progressBar := m.renderProgressBar(m.completedCount, m.getTotalCount(), 30)
+	// Stats section with progress - use dynamic completed count
+	progressBar := m.renderProgressBar(m.getCompletedCount(), m.getTotalCount(), 30)
 	
 	statsStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#10B981")).
 		Bold(true)
 	
-	statsText := statsStyle.Render(fmt.Sprintf("📊 Progress: %s %d/%d exercises completed", progressBar, m.completedCount, m.getTotalCount()))
+	statsText := statsStyle.Render(fmt.Sprintf("📊 Progress: %s %d/%d exercises completed", progressBar, m.getCompletedCount(), m.getTotalCount()))
 
 	// Feature highlights with emojis and colors
 	featuresStyle := lipgloss.NewStyle().
@@ -207,12 +207,12 @@ func (m *Model) renderMain() string {
 
 // renderHeader shows the progress bar and current status
 func (m *Model) renderHeader() string {
-	progress := float64(m.completedCount) / float64(m.getTotalCount())
+	progress := float64(m.getCompletedCount()) / float64(m.getTotalCount())
 	progressPercent := int(progress * 100)
 
 	// Use the existing renderProgressBar function with a reasonable width
-	progressBar := m.renderProgressBar(m.completedCount, m.getTotalCount(), 30)
-	progressText := fmt.Sprintf("%d/%d (%d%%)", m.completedCount, m.getTotalCount(), progressPercent)
+	progressBar := m.renderProgressBar(m.getCompletedCount(), m.getTotalCount(), 30)
+	progressText := fmt.Sprintf("%d/%d (%d%%)", m.getCompletedCount(), m.getTotalCount(), progressPercent)
 
 	header := fmt.Sprintf(`%s
 

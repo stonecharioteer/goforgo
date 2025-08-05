@@ -1,0 +1,30 @@
+[exercise]
+name = "json_validation"
+category = "15_json"
+difficulty = 3
+estimated_time = "20m"
+go_version = "1.16+"
+
+[description]
+title = "JSON Validation"
+summary = "Learn JSON validation techniques and schema enforcement"
+learning_objectives = [
+  "Validate JSON structure and data types",
+  "Implement custom JSON validation rules",
+  "Use struct tags for validation constraints",
+  "Handle validation errors gracefully",
+  "Build robust JSON processing pipelines"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use json.Unmarshal() and check for errors to detect malformed JSON"
+level_2 = "Implement custom validation functions to check business rules"
+level_3 = "Use reflection to validate struct fields based on tags"
+
+[metadata]
+tags = ["json", "validation", "struct-tags", "error-handling"]
+related_exercises = ["15_json/json_basics.go", "15_json/json_streaming.go"]

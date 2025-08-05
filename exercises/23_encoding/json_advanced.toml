@@ -1,0 +1,30 @@
+[exercise]
+name = "json_advanced"
+category = "23_encoding"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Advanced JSON Processing"
+summary = "Master advanced JSON techniques including custom marshaling and streaming"
+learning_objectives = [
+  "Implement custom JSON marshaling and unmarshaling",
+  "Handle complex nested JSON structures",
+  "Use JSON streaming for large datasets",
+  "Work with dynamic JSON using interface{}",
+  "Implement JSON validation and transformation"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Implement MarshalJSON() and UnmarshalJSON() methods for custom types"
+level_2 = "Use json.Decoder for streaming and json.RawMessage for delayed parsing"
+level_3 = "Type assertions help work with interface{} values from JSON"
+
+[metadata]
+tags = ["json", "encoding", "streaming", "marshaling", "advanced"]
+related_exercises = ["15_json/json_basics.go", "15_json/json_streaming.go"]

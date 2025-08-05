@@ -1,0 +1,30 @@
+[exercise]
+name = "udp_communication"
+category = "22_net"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "UDP Communication"
+summary = "Implement UDP client-server communication for connectionless networking"
+learning_objectives = [
+  "Create UDP servers and clients",
+  "Handle connectionless packet communication",
+  "Implement broadcast and multicast patterns",
+  "Handle packet loss and ordering issues",
+  "Compare UDP vs TCP trade-offs"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use net.ListenUDP() for servers and net.DialUDP() for clients"
+level_2 = "ReadFromUDP() and WriteToUDP() handle packets with addresses"
+level_3 = "UDP is connectionless - each packet is independent"
+
+[metadata]
+tags = ["networking", "udp", "packets", "connectionless", "broadcast"]
+related_exercises = ["22_net/tcp_client_server.go", "22_net/http_client_advanced.go"]

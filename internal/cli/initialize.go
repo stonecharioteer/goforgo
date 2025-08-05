@@ -5,13 +5,22 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	
+	"github.com/stonecharioteer/goforgo/internal/exercise"
 )
 
-func InitializeExercises(baseDir string) error {
+func InitializeExercises(baseDir string) (int, error) {
 	if err := createExerciseStructure(baseDir); err != nil {
-		return fmt.Errorf("failed to create exercise structure: %w", err)
+		return 0, fmt.Errorf("failed to create exercise structure: %w", err)
 	}
-	return nil
+	
+	// Count the exercises that were copied using the same logic as ExerciseManager
+	exerciseCount, err := exercise.CountExercisesInDirectory(filepath.Join(baseDir, "exercises"))
+	if err != nil {
+		return 0, fmt.Errorf("failed to count exercises: %w", err)
+	}
+	
+	return exerciseCount, nil
 }
 
 func createExerciseStructure(baseDir string) error {

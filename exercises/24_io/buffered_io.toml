@@ -1,0 +1,30 @@
+[exercise]
+name = "buffered_io"
+category = "24_io"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Buffered IO Operations"
+summary = "Learn buffered IO for efficient reading and writing operations"
+learning_objectives = [
+  "Use bufio package for buffered operations",
+  "Implement efficient line-by-line reading",
+  "Handle buffered writing with flush control",
+  "Compare buffered vs unbuffered performance",
+  "Process large files with minimal memory usage"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use bufio.NewReader() and bufio.NewWriter() for buffered operations"
+level_2 = "ReadLine(), ReadString(), and Scanner provide different reading approaches"
+level_3 = "Call Flush() on writers to ensure data is written to underlying storage"
+
+[metadata]
+tags = ["io", "buffered", "performance", "files", "streaming"]
+related_exercises = ["24_io/io_interfaces.go", "17_files/file_operations.go"]

@@ -1,0 +1,30 @@
+[exercise]
+name = "tcp_client_server"
+category = "22_net"
+difficulty = 4
+estimated_time = "35m"
+go_version = "1.16+"
+
+[description]
+title = "TCP Client-Server Communication"
+summary = "Build TCP client and server applications with proper connection handling"
+learning_objectives = [
+  "Create TCP servers that accept multiple connections",
+  "Build robust TCP clients with connection management",
+  "Handle concurrent client connections",
+  "Implement proper error handling and timeouts",
+  "Use protocol design for client-server communication"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use net.Listen() for servers and net.Dial() for clients"
+level_2 = "Handle each client connection in a separate goroutine"
+level_3 = "Set timeouts with SetDeadline() and handle connection errors gracefully"
+
+[metadata]
+tags = ["networking", "tcp", "client-server", "concurrency", "sockets"]
+related_exercises = ["22_net/http_client_advanced.go", "11_concurrency/goroutines_basics.go"]

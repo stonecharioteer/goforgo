@@ -49,14 +49,8 @@ func listExercises(cmd *cobra.Command, args []string) error {
 
 	// Filter exercises based on flags
 	var filteredExercises []*exercise.Exercise
-	var completedCount, totalCount int
 
 	for _, ex := range exercises {
-		totalCount++
-		if ex.Completed {
-			completedCount++
-		}
-
 		// Apply filters
 		if !listAll && ex.Completed {
 			continue // Skip completed exercises unless --all is specified
@@ -69,9 +63,10 @@ func listExercises(cmd *cobra.Command, args []string) error {
 		filteredExercises = append(filteredExercises, ex)
 	}
 
-	// Display header with progress
+	// Display header with progress using centralized counting
+	completedCount, totalCount, percentage := em.GetProgressStats()
 	fmt.Printf("GoForGo Exercises - Progress: %d/%d (%.1f%% complete)\n", 
-		completedCount, totalCount, float64(completedCount)/float64(totalCount)*100)
+		completedCount, totalCount, percentage)
 	fmt.Println(strings.Repeat("═", 60))
 
 	if len(filteredExercises) == 0 {

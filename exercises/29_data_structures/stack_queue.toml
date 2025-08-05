@@ -1,0 +1,30 @@
+[exercise]
+name = "stack_queue"
+category = "29_data_structures"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Stack and Queue Implementation"
+summary = "Implement stack and queue data structures with proper interfaces"
+learning_objectives = [
+  "Implement stack with push, pop, and peek operations",
+  "Build queue with enqueue, dequeue, and front operations",
+  "Handle empty container edge cases gracefully",
+  "Use slices efficiently for underlying storage",
+  "Apply stack/queue patterns to solve problems"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use slices as underlying storage; stack pushes/pops from end"
+level_2 = "Queue can use slice with head/tail indices or append/slice operations"
+level_3 = "Return bool for empty checks; use (value, ok) pattern for safe operations"
+
+[metadata]
+tags = ["data-structures", "stack", "queue", "algorithms", "collections"]
+related_exercises = ["29_data_structures/linked_list.go", "12_generics/generic_data_structures.go"]

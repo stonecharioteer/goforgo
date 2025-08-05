@@ -1,0 +1,30 @@
+[exercise]
+name = "environment_variables"
+category = "26_os"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Environment Variables"
+summary = "Master environment variable management: reading, setting, parsing, and validation"
+learning_objectives = [
+  "Read and set environment variables programmatically",
+  "Parse environment variables into different data types",
+  "Validate environment variable values and formats",
+  "Implement configuration management with environment variables",
+  "Handle sensitive environment variables securely"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use os.Getenv() to read and os.Setenv() to set environment variables"
+level_2 = "Parse strings to other types: strconv.Atoi(), strconv.ParseBool(), time.ParseDuration()"
+level_3 = "Always validate environment variables at startup and provide defaults"
+
+[metadata]
+tags = ["environment", "configuration", "validation", "security"]
+related_exercises = ["26_os/process_management.go", "33_cli/flag_parsing.go"]

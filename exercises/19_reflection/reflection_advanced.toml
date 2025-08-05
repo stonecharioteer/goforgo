@@ -1,0 +1,30 @@
+[exercise]
+name = "reflection_advanced"
+category = "19_reflection"
+difficulty = 5
+estimated_time = "40m"
+go_version = "1.16+"
+
+[description]
+title = "Advanced Reflection"
+summary = "Master advanced reflection techniques for dynamic programming and code introspection"
+learning_objectives = [
+  "Use reflection to inspect types and values dynamically",
+  "Implement generic serialization/deserialization",
+  "Call methods dynamically with reflect.Call",
+  "Work with struct tags and field metadata",
+  "Build flexible APIs using reflection patterns"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use reflect.TypeOf() and reflect.ValueOf() to inspect types and values"
+level_2 = "FieldByName() and MethodByName() let you access struct members dynamically"
+level_3 = "Check Value.CanSet() before modifying values; use Elem() for pointers"
+
+[metadata]
+tags = ["reflection", "metaprogramming", "dynamic", "introspection", "advanced"]
+related_exercises = ["19_reflection/reflection_basics.go", "15_json/json_basics.go"]

@@ -1,0 +1,30 @@
+[exercise]
+name = "design_patterns"
+category = "20_advanced"
+difficulty = 5
+estimated_time = "45m"
+go_version = "1.16+"
+
+[description]
+title = "Go Design Patterns"
+summary = "Implement common design patterns using Go's idioms and language features"
+learning_objectives = [
+  "Implement Singleton, Factory, and Builder patterns",
+  "Use Observer and Strategy patterns with interfaces",
+  "Build middleware and decorator patterns",
+  "Apply functional programming patterns",
+  "Understand Go-specific pattern adaptations"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use sync.Once for thread-safe singleton implementation"
+level_2 = "Factory patterns work well with interface returns and struct embedding"
+level_3 = "Functional patterns use higher-order functions and closures effectively"
+
+[metadata]
+tags = ["design-patterns", "architecture", "interfaces", "advanced", "oop"]
+related_exercises = ["20_advanced/pipeline_patterns.go", "09_interfaces/interface_basics.go"]

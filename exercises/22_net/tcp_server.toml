@@ -1,0 +1,30 @@
+[exercise]
+name = "tcp_server"
+category = "22_net"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "TCP Server Implementation"
+summary = "Build TCP servers that handle multiple concurrent client connections"
+learning_objectives = [
+  "Create TCP servers using net.Listen()",
+  "Accept and handle multiple client connections",
+  "Use goroutines for concurrent client handling",
+  "Implement command processing and responses",
+  "Manage connection timeouts and resource limits"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use net.Listen('tcp', ':port') to create server and Accept() for connections"
+level_2 = "Handle each client in a separate goroutine with go handleClient(conn)"
+level_3 = "Use bufio.NewReader(conn) for reading and conn.Write() for responses"
+
+[metadata]
+tags = ["networking", "tcp", "server", "concurrency", "goroutines"]
+related_exercises = ["22_net/tcp_client.go", "11_concurrency/goroutines_basics.go"]

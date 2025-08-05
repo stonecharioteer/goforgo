@@ -8,7 +8,7 @@
 
 ![GoForGo](docs/preview.png)
 
-GoForGo helps you learn Go by fixing broken code exercises with real-time feedback. It features 250+ exercises covering Go fundamentals through advanced topics and popular libraries, all with a beautiful terminal interface.
+GoForGo helps you learn Go by fixing broken code exercises with real-time feedback. It features 100+ exercises covering Go fundamentals through advanced topics and popular libraries, all with a beautiful terminal interface.
 
 ## 🎬 Demo
 
@@ -18,7 +18,7 @@ _Experience GoForGo's elegant interface: animated splash screen, comprehensive w
 
 ## ✨ Features
 
-- 🎯 **250+ Interactive Exercises** - From basics to advanced Go concepts
+- 🎯 **100+ Interactive Exercises** - From basics to advanced Go concepts
 - 👁️ **Real-time File Watching** - Automatic compilation and feedback as you code
 - 🎨 **Beautiful TUI** - Clean terminal interface with progress tracking
 - 📚 **Progressive Learning** - Structured curriculum with difficulty levels
@@ -63,7 +63,7 @@ goforgo init
 
 This creates:
 
-- `exercises/` - 250+ Go exercises organized by topic
+- `exercises/` - 100+ Go exercises organized by topic
 - `solutions/` - Complete reference solutions
 - `.goforgo.toml` - Your progress and preferences
 
@@ -179,7 +179,7 @@ GOOS=windows GOARCH=amd64 go build -o dist/goforgo-windows-amd64.exe ./cmd/gofor
 
 GoForGo includes exercises in these categories:
 
-### Core Go (150+ exercises)
+### Core Go (65+ exercises)
 
 - **01_basics** - Hello world, syntax, comments
 - **02_variables** - Types, declarations, zero values
@@ -192,7 +192,7 @@ GoForGo includes exercises in these categories:
 - **09_error_handling** - Patterns, wrapping, custom errors
 - **10_packages** - Modules, imports, visibility
 
-### Concurrency (50+ exercises)
+### Concurrency (20+ exercises)
 
 - **11_goroutines** - Basic concurrency, race conditions
 - **12_channels** - Communication, buffering, patterns
@@ -200,7 +200,7 @@ GoForGo includes exercises in these categories:
 - **14_sync** - Mutex, WaitGroup, atomic operations
 - **15_context** - Request scoping, cancellation
 
-### Modern Go (40+ exercises)
+### Modern Go (10+ exercises)
 
 - **16_generics** - Type parameters, constraints, inference
 - **17_testing** - Units, benchmarks, examples, fuzzing
@@ -208,7 +208,7 @@ GoForGo includes exercises in these categories:
 - **19_json** - Encoding, decoding, streaming
 - **20_http** - Servers, clients, middleware
 
-### Popular Libraries (50+ exercises)
+### Popular Libraries (6+ exercises)
 
 - **21_bubbletea** - TUI applications, Elm architecture
 - **22_cobra** - CLI applications, commands, flags
@@ -219,9 +219,9 @@ GoForGo includes exercises in these categories:
 ## 🎯 Learning Path
 
 1. **🌱 Beginner** (1-50): Syntax, variables, functions, control flow
-2. **🌿 Intermediate** (51-120): Data structures, interfaces, error handling
-3. **🌳 Advanced** (121-200): Concurrency, generics, reflection
-4. **🚀 Expert** (201-250): Performance, libraries, real-world projects
+2. **🌿 Intermediate** (26-50): Data structures, interfaces, error handling
+3. **🌳 Advanced** (51-75): Concurrency, generics, reflection
+4. **🚀 Expert** (75-101): Performance, libraries, real-world projects
 
 Each exercise includes:
 
