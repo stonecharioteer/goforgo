@@ -1,0 +1,31 @@
+[exercise]
+name = "map_advanced"
+category = "07_maps"
+difficulty = 3
+estimated_time = "15m"
+go_version = "1.16+"
+
+[description]
+title = "Advanced Map Operations"
+summary = "Work with complex map structures and advanced patterns"
+learning_objectives = [
+  "Create maps with slice and struct values",
+  "Work with nested maps",
+  "Safely access nested map values",
+  "Use maps as sets",
+  "Merge maps",
+  "Handle map modifications with struct values"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Map of slices: map[string][]int"
+level_2 = "Nested maps: map[string]map[string]int"
+level_3 = "Maps as sets: use keys, ignore values (set to true/struct{})"
+
+[metadata]
+tags = ["maps", "advanced", "nested", "structs", "sets"]
+related_exercises = ["07_maps/map_basics.go", "08_structs/struct_basics.go"]

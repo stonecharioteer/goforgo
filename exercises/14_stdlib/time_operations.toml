@@ -1,0 +1,30 @@
+[exercise]
+name = "time_operations"
+category = "14_stdlib"
+difficulty = 2
+estimated_time = "18m"
+go_version = "1.16+"
+
+[description]
+title = "Time Operations"
+summary = "Learn comprehensive time and date handling in Go"
+learning_objectives = [
+  "Create and parse time values",
+  "Format time in different layouts",
+  "Perform time arithmetic",
+  "Use timers and tickers",
+  "Work with time zones"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Current time: time.Now(), Parse: time.Parse(layout, value)"
+level_2 = "Format: time.Format(\"2006-01-02 15:04:05\")"
+level_3 = "Duration: time.Duration, Add/Sub operations"
+
+[metadata]
+tags = ["stdlib", "time", "duration", "formatting", "timezones"]
+related_exercises = ["11_concurrency/goroutines_basics.go"]

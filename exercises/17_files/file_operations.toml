@@ -1,0 +1,30 @@
+[exercise]
+name = "file_operations"
+category = "17_files"
+difficulty = 2
+estimated_time = "18m"
+go_version = "1.16+"
+
+[description]
+title = "File I/O Operations"
+summary = "Master file and directory operations in Go"
+learning_objectives = [
+  "Read and write files",
+  "Use buffered I/O for performance",
+  "Get file information and stats",
+  "Work with directories and paths",
+  "Copy files and handle cleanup"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Read: os.ReadFile(), Write: os.WriteFile()"
+level_2 = "Buffered: bufio.NewReader(), bufio.NewWriter()"
+level_3 = "Paths: filepath.Join(), filepath.Dir(), filepath.Base()"
+
+[metadata]
+tags = ["files", "io", "filesystem", "buffered-io", "paths"]
+related_exercises = ["14_stdlib/strings_manipulation.go"]

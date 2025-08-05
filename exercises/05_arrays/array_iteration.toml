@@ -1,0 +1,29 @@
+[exercise]
+name = "array_iteration"
+category = "05_arrays"
+difficulty = 2
+estimated_time = "8m"
+go_version = "1.16+"
+
+[description]
+title = "Array Iteration"
+summary = "Master different ways to iterate over arrays in Go"
+learning_objectives = [
+  "Use traditional for loops with arrays",
+  "Use range to iterate with index and value",
+  "Use range with blank identifier to ignore index",
+  "Perform calculations during iteration"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Traditional for loop: for i := 0; i < len(array); i++ { ... }"
+level_2 = "Range with index and value: for i, v := range array { ... }"
+level_3 = "Range values only: for _, v := range array { ... }"
+
+[metadata]
+tags = ["arrays", "iteration", "for-loops", "range"]
+related_exercises = ["04_control_flow/for_loops.go", "04_control_flow/range_loops.go"]

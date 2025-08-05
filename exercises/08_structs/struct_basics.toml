@@ -1,0 +1,30 @@
+[exercise]
+name = "struct_basics"
+category = "08_structs"
+difficulty = 1
+estimated_time = "10m"
+go_version = "1.16+"
+
+[description]
+title = "Struct Basics"
+summary = "Learn how to define and use structs in Go"
+learning_objectives = [
+  "Define struct types",
+  "Create struct instances with literals",
+  "Access and modify struct fields",
+  "Use struct embedding",
+  "Compare and copy structs"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Define struct: type Name struct { Field Type }"
+level_2 = "Struct literal: Name{Field: value}"
+level_3 = "Embedding: include struct type without field name"
+
+[metadata]
+tags = ["structs", "basics", "types", "embedding"]
+related_exercises = ["02_variables/go_types.go"]

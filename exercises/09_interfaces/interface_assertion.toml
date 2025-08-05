@@ -1,0 +1,30 @@
+[exercise]
+name = "interface_assertion"
+category = "09_interfaces"
+difficulty = 3
+estimated_time = "18m"
+go_version = "1.16+"
+
+[description]
+title = "Advanced Interface Assertions"
+summary = "Master advanced type assertion patterns and interface checking"
+learning_objectives = [
+  "Check if values implement specific interfaces",
+  "Handle multiple interface implementations",
+  "Perform conditional method calls based on interface support",
+  "Handle nil interfaces safely",
+  "Create flexible functions that work with multiple types"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Interface check: if iface, ok := value.(InterfaceType); ok { ... }"
+level_2 = "Multiple checks: chain type assertions for different interfaces"
+level_3 = "Nil interface: interface{} with nil pointer is not nil"
+
+[metadata]
+tags = ["interfaces", "type-assertion", "nil-handling", "polymorphism"]
+related_exercises = ["09_interfaces/interface_empty.go", "09_interfaces/interface_composition.go"]

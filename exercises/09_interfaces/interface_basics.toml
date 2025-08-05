@@ -1,0 +1,30 @@
+[exercise]
+name = "interface_basics"
+category = "09_interfaces"
+difficulty = 2
+estimated_time = "12m"
+go_version = "1.16+"
+
+[description]
+title = "Interface Basics"
+summary = "Learn how to define and implement interfaces in Go"
+learning_objectives = [
+  "Define interface types",
+  "Implement interfaces with structs",
+  "Use interfaces for polymorphism",
+  "Pass interfaces as function parameters",
+  "Store different types in interface slices"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Interface definition: type Name interface { Method() ReturnType }"
+level_2 = "Implementation is implicit - just define the methods"
+level_3 = "Interface values can hold any type that implements the interface"
+
+[metadata]
+tags = ["interfaces", "basics", "polymorphism", "methods"]
+related_exercises = ["08_structs/struct_methods.go"]

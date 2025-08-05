@@ -1,0 +1,30 @@
+[exercise]
+name = "encryption_aes"
+category = "21_crypto"
+difficulty = 4
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "AES Encryption and Decryption"
+summary = "Master AES encryption in GCM and CBC modes"
+learning_objectives = [
+  "Use AES cipher for symmetric encryption",
+  "Implement AES-GCM for authenticated encryption",
+  "Implement AES-CBC with PKCS7 padding",
+  "Generate secure random keys and IVs",
+  "Understand encryption security best practices"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "AES cipher: block, err := aes.NewCipher(key)"
+level_2 = "GCM mode: gcm, err := cipher.NewGCM(block)"
+level_3 = "CBC mode: cipher.NewCBCEncrypter(block, iv)"
+
+[metadata]
+tags = ["crypto", "aes", "encryption", "security", "advanced"]
+related_exercises = ["21_crypto/hashing_basics.go"]

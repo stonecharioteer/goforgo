@@ -1,0 +1,30 @@
+[exercise]
+name = "generic_basics"
+category = "12_generics"
+difficulty = 2
+estimated_time = "15m"
+go_version = "1.18+"
+
+[description]
+title = "Generics Basics"
+summary = "Learn the fundamentals of generics in Go 1.18+"
+learning_objectives = [
+  "Define and use generic functions",
+  "Create generic data structures",
+  "Use type constraints (comparable, any)",
+  "Implement generic algorithms",
+  "Work with generic slices and higher-order functions"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Generic function: func Name[T TypeConstraint](param T) T"
+level_2 = "Generic struct: type Name[T any] struct { field T }"
+level_3 = "Type constraints: comparable, any, or custom interfaces"
+
+[metadata]
+tags = ["generics", "type-parameters", "constraints", "algorithms"]
+related_exercises = ["09_interfaces/interface_basics.go"]

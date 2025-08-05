@@ -1,0 +1,29 @@
+[exercise]
+name = "multidimensional_arrays"
+category = "05_arrays"
+difficulty = 3
+estimated_time = "10m"
+go_version = "1.16+"
+
+[description]
+title = "Multidimensional Arrays"
+summary = "Work with 2D arrays (matrices) and understand nested array structures"
+learning_objectives = [
+  "Declare and initialize 2D arrays",
+  "Access elements using double indexing",
+  "Use nested loops for iteration",
+  "Calculate array dimensions"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "2D array declaration: var name [rows][cols]type"
+level_2 = "2D array initialization: [2][3]int{{1,2,3}, {4,5,6}}"
+level_3 = "Nested loops: for i := range outer { for j := range inner { ... } }"
+
+[metadata]
+tags = ["arrays", "2d-arrays", "matrices", "nested-loops"]
+related_exercises = ["05_arrays/array_iteration.go"]

@@ -1,0 +1,30 @@
+[exercise]
+name = "struct_tags"
+category = "08_structs"
+difficulty = 3
+estimated_time = "18m"
+go_version = "1.16+"
+
+[description]
+title = "Struct Tags and Metadata"
+summary = "Learn how to use struct tags for JSON serialization and metadata"
+learning_objectives = [
+  "Add JSON struct tags",
+  "Use omitempty and exclusion tags",
+  "Create custom struct tags",
+  "Use reflection to read struct tags",
+  "Handle JSON marshaling and unmarshaling"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Struct tags: Field Type `tag:\"value\"`"
+level_2 = "JSON tags: `json:\"field_name,omitempty\"`"
+level_3 = "Reflection: field.Tag.Lookup(\"tagname\")"
+
+[metadata]
+tags = ["structs", "tags", "json", "reflection", "serialization"]
+related_exercises = ["08_structs/struct_basics.go", "13_stdlib/json_basics.go"]

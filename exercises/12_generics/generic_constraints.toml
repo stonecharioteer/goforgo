@@ -1,0 +1,30 @@
+[exercise]
+name = "generic_constraints"
+category = "12_generics"
+difficulty = 4
+estimated_time = "25m"
+go_version = "1.18+"
+
+[description]
+title = "Advanced Generic Constraints"
+summary = "Master custom type constraints and advanced generic patterns"
+learning_objectives = [
+  "Define custom type constraints with unions",
+  "Use ~ operator for underlying types",
+  "Create constraints with methods",
+  "Combine multiple constraints",
+  "Build generic data structures with constraints"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Custom constraint: type Numeric interface { ~int | ~float64 }"
+level_2 = "Method constraint: type Stringer interface { String() string }"
+level_3 = "Combined: type constraint can embed multiple interfaces"
+
+[metadata]
+tags = ["generics", "constraints", "type-unions", "advanced"]
+related_exercises = ["12_generics/generic_basics.go", "09_interfaces/interface_basics.go"]

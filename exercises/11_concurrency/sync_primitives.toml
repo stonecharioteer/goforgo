@@ -1,0 +1,30 @@
+[exercise]
+name = "sync_primitives"
+category = "11_concurrency"
+difficulty = 3
+estimated_time = "18m"
+go_version = "1.16+"
+
+[description]
+title = "Synchronization Primitives"
+summary = "Learn Go's synchronization primitives for safe concurrent programming"
+learning_objectives = [
+  "Use sync.Mutex for mutual exclusion",
+  "Use sync.RWMutex for reader-writer scenarios",
+  "Use sync.Once for one-time initialization",
+  "Understand race conditions and data races",
+  "Implement thread-safe data structures"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Mutex: mu.Lock(), defer mu.Unlock()"
+level_2 = "RWMutex: mu.RLock() for reads, mu.Lock() for writes"
+level_3 = "Once: once.Do(func() { initialize() })"
+
+[metadata]
+tags = ["concurrency", "synchronization", "mutex", "race-conditions"]
+related_exercises = ["11_concurrency/goroutines_basics.go"]

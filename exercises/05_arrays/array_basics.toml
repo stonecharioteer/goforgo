@@ -1,0 +1,30 @@
+[exercise]
+name = "array_basics"
+category = "05_arrays"
+difficulty = 1
+estimated_time = "5m"
+go_version = "1.16+"
+
+[description]
+title = "Array Basics"
+summary = "Learn how to declare, initialize, and use arrays in Go"
+learning_objectives = [
+  "Declare arrays with fixed size",
+  "Initialize arrays with values",
+  "Use array literal syntax",
+  "Access array elements by index",
+  "Get array length with len()"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Arrays in Go have a fixed size: var name [size]type"
+level_2 = "Array literals: [3]string{\"red\", \"green\", \"blue\"}"
+level_3 = "Use [...] to let Go count the elements automatically"
+
+[metadata]
+tags = ["arrays", "basics", "initialization"]
+related_exercises = ["02_variables/var_declaration.go"]

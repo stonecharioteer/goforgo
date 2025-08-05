@@ -1,0 +1,30 @@
+[exercise]
+name = "struct_embedding"
+category = "08_structs"
+difficulty = 3
+estimated_time = "15m"
+go_version = "1.16+"
+
+[description]
+title = "Struct Embedding and Composition"
+summary = "Master advanced struct embedding patterns and method promotion"
+learning_objectives = [
+  "Use struct embedding for composition",
+  "Understand method promotion",
+  "Override embedded methods",
+  "Handle multiple embeddings",
+  "Resolve field name conflicts"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Embedding: include struct type without field name"
+level_2 = "Method promotion: embedded methods become available on outer struct"
+level_3 = "Name conflicts: use explicit field access (struct.EmbeddedType.Field)"
+
+[metadata]
+tags = ["structs", "embedding", "composition", "method-promotion"]
+related_exercises = ["08_structs/struct_methods.go", "09_interfaces/interface_basics.go"]

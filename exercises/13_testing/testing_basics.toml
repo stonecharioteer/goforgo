@@ -1,0 +1,30 @@
+[exercise]
+name = "testing_basics"
+category = "13_testing"
+difficulty = 2
+estimated_time = "20m"
+go_version = "1.16+"
+
+[description]
+title = "Testing Basics"
+summary = "Learn how to write unit tests and benchmarks in Go"
+learning_objectives = [
+  "Write basic test functions",
+  "Use table-driven tests",
+  "Test error conditions",
+  "Write benchmarks",
+  "Use testing.T methods for reporting failures"
+]
+
+[validation]
+mode = "test"
+timeout = "30s"
+
+[hints]
+level_1 = "Test function: func TestName(t *testing.T) { ... }"
+level_2 = "Report failure: t.Errorf(\"got %v, want %v\", got, want)"
+level_3 = "Benchmark: func BenchmarkName(b *testing.B) { ... }"
+
+[metadata]
+tags = ["testing", "unit-tests", "benchmarks", "table-driven"]
+related_exercises = ["10_errors/error_basics.go"]

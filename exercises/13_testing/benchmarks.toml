@@ -1,0 +1,30 @@
+[exercise]
+name = "benchmarks"
+category = "13_testing"
+difficulty = 3
+estimated_time = "20m"
+go_version = "1.16+"
+
+[description]
+title = "Benchmarking and Performance Testing"
+summary = "Learn how to write benchmarks and measure performance in Go"
+learning_objectives = [
+  "Write benchmark functions with testing.B",
+  "Use b.ResetTimer() and b.StopTimer()",
+  "Create sub-benchmarks for different scenarios",
+  "Report memory allocations with b.ReportAllocs()",
+  "Run parallel benchmarks with b.RunParallel()"
+]
+
+[validation]
+mode = "test"
+timeout = "60s"
+
+[hints]
+level_1 = "Benchmark function: func BenchmarkName(b *testing.B) { for i := 0; i < b.N; i++ { ... } }"
+level_2 = "Sub-benchmarks: b.Run(name, func(b *testing.B) { ... })"
+level_3 = "Memory benchmarks: b.ReportAllocs()"
+
+[metadata]
+tags = ["testing", "benchmarks", "performance", "optimization"]
+related_exercises = ["13_testing/testing_basics.go"]

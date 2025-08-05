@@ -1,0 +1,30 @@
+[exercise]
+name = "slice_basics"
+category = "06_slices"
+difficulty = 1
+estimated_time = "7m"
+go_version = "1.16+"
+
+[description]
+title = "Slice Basics"
+summary = "Learn how to create and use slices in Go"
+learning_objectives = [
+  "Create slices from arrays",
+  "Use make() to create slices",
+  "Use slice literals",
+  "Understand nil slices",
+  "Get length and capacity"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Slice from array: arr[start:end] (end is exclusive)"
+level_2 = "Make slice: make([]int, length, capacity)"
+level_3 = "Slice literal: []int{1, 2, 3}"
+
+[metadata]
+tags = ["slices", "basics", "make", "nil"]
+related_exercises = ["05_arrays/array_basics.go"]

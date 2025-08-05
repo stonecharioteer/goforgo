@@ -1,0 +1,30 @@
+[exercise]
+name = "struct_methods"
+category = "08_structs"
+difficulty = 2
+estimated_time = "12m"
+go_version = "1.16+"
+
+[description]
+title = "Struct Methods"
+summary = "Learn how to define and use methods on structs"
+learning_objectives = [
+  "Define methods with value receivers",
+  "Define methods with pointer receivers",
+  "Understand when to use pointer vs value receivers",
+  "Implement the fmt.Stringer interface",
+  "Call methods on struct instances"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Method definition: func (receiver Type) MethodName() ReturnType"
+level_2 = "Pointer receiver: func (receiver *Type) MethodName()"
+level_3 = "String method: func (receiver Type) String() string"
+
+[metadata]
+tags = ["structs", "methods", "receivers", "interfaces"]
+related_exercises = ["08_structs/struct_basics.go", "03_functions/methods_basics.go"]

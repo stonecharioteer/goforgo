@@ -1,0 +1,31 @@
+[exercise]
+name = "slice_tricks" 
+category = "06_slices"
+difficulty = 3
+estimated_time = "15m"
+go_version = "1.16+"
+
+[description]
+title = "Advanced Slice Operations"
+summary = "Master common slice manipulation patterns and algorithms"
+learning_objectives = [
+  "Remove elements from slices",
+  "Insert elements into slices",
+  "Reverse slices in place",
+  "Filter slice elements",
+  "Search for elements in slices",
+  "Remove duplicates from slices"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Remove: append(slice[:i], slice[i+1:]...)"
+level_2 = "Insert: append(append(slice[:i], value), slice[i:]...)"
+level_3 = "Reverse: swap elements from both ends moving inward"
+
+[metadata]
+tags = ["slices", "algorithms", "manipulation", "patterns"]
+related_exercises = ["06_slices/slice_append.go", "07_maps/map_basics.go"]

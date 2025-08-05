@@ -1,0 +1,30 @@
+[exercise]
+name = "regex_basics"
+category = "18_regex"
+difficulty = 3
+estimated_time = "22m"
+go_version = "1.16+"
+
+[description]
+title = "Regular Expressions"
+summary = "Learn pattern matching and text processing with regex"
+learning_objectives = [
+  "Compile and use regex patterns",
+  "Find and extract matches",
+  "Use capture groups and submatches",
+  "Replace text with patterns",
+  "Validate input with regex"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Compile: regexp.Compile(pattern), Match: regex.MatchString()"
+level_2 = "Find: regex.FindAllString(), Groups: regex.FindAllStringSubmatch()"
+level_3 = "Replace: regex.ReplaceAllString(), Split: regex.Split()"
+
+[metadata]
+tags = ["regex", "pattern-matching", "text-processing", "validation"]
+related_exercises = ["14_stdlib/strings_manipulation.go"]

@@ -1,0 +1,30 @@
+[exercise]
+name = "context_usage"
+category = "11_concurrency"
+difficulty = 3
+estimated_time = "22m"
+go_version = "1.7+"
+
+[description]
+title = "Context Usage Patterns"
+summary = "Learn context for cancellation, timeouts, and value passing"
+learning_objectives = [
+  "Use context.WithTimeout for operation timeouts",
+  "Use context.WithCancel for graceful cancellation",
+  "Pass values through context",
+  "Handle context cancellation in goroutines",
+  "Create context hierarchies"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Context timeout: ctx, cancel := context.WithTimeout(parent, duration)"
+level_2 = "Check cancellation: select { case <-ctx.Done(): ... }"
+level_3 = "Context values: ctx = context.WithValue(ctx, key, value)"
+
+[metadata]
+tags = ["concurrency", "context", "cancellation", "timeouts"]
+related_exercises = ["11_concurrency/goroutines_basics.go"]

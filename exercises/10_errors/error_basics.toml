@@ -1,0 +1,30 @@
+[exercise]
+name = "error_basics"
+category = "10_errors"
+difficulty = 2
+estimated_time = "10m"
+go_version = "1.16+"
+
+[description]
+title = "Error Handling Basics"
+summary = "Learn fundamental error handling patterns in Go"
+learning_objectives = [
+  "Return and handle errors from functions",
+  "Use errors.New() to create error values",
+  "Handle error propagation",
+  "Use named return values for cleaner error handling",
+  "Check for specific error types"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Return error: return value, errors.New(\"message\")"
+level_2 = "Check error: if err != nil { handle error }"
+level_3 = "Named returns: func name() (result Type, err error)"
+
+[metadata]
+tags = ["errors", "basics", "error-handling", "validation"]
+related_exercises = ["09_interfaces/interface_basics.go"]

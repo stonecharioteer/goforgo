@@ -1,0 +1,30 @@
+[exercise]
+name = "interface_empty"
+category = "09_interfaces"
+difficulty = 2
+estimated_time = "15m"
+go_version = "1.16+"
+
+[description]
+title = "Empty Interface and Type Assertions"
+summary = "Master the empty interface and type assertion techniques"
+learning_objectives = [
+  "Use the empty interface (interface{}) to accept any type",
+  "Perform safe type assertions with comma ok idiom",
+  "Use type switches for multiple type handling",
+  "Store mixed types in slices and maps",
+  "Understand the risks of unsafe type assertions"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Empty interface: interface{} accepts any type"
+level_2 = "Safe assertion: value, ok := interface{}.(Type)"
+level_3 = "Type switch: switch v := value.(type) { case Type: ... }"
+
+[metadata]
+tags = ["interfaces", "empty-interface", "type-assertion", "type-switch"]
+related_exercises = ["09_interfaces/interface_basics.go"]
