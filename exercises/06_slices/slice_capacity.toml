@@ -1,0 +1,31 @@
+[exercise]
+name = "slice_capacity"
+category = "06_slices"
+difficulty = 3
+estimated_time = "15m"
+go_version = "1.16+"
+
+[description]
+title = "Understanding Slice Capacity and Memory"
+summary = "Deep dive into slice capacity, memory allocation, and growth behavior"
+learning_objectives = [
+  "Understand the difference between slice length and capacity",
+  "Learn how slices share underlying arrays",
+  "Observe slice growth and memory reallocation",
+  "Use make() with length and capacity parameters",
+  "Master the full slice expression [low:high:max]"
+]
+
+[validation]
+mode = "run"
+timeout = "30s"
+required_files = ["slice_capacity.go"]
+
+[hints]
+level_1 = "Use make([]int, length, capacity) to create slices with specific capacity"
+level_2 = "Slices created from the same array share memory - changes affect both"
+level_3 = "The full slice expression [low:high:max] lets you limit the capacity"
+
+[metadata]
+tags = ["slices", "capacity", "memory", "performance", "advanced"]
+related_exercises = ["06_slices/slice_basics.go", "06_slices/slice_append.go"]

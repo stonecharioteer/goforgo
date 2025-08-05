@@ -1,0 +1,31 @@
+[exercise]
+name = "array_searching"
+category = "05_arrays"
+difficulty = 3
+estimated_time = "12m"
+go_version = "1.16+"
+
+[description]
+title = "Array Searching Algorithms"
+summary = "Learn linear search, binary search, and array analysis techniques"
+learning_objectives = [
+  "Implement linear search algorithm",
+  "Use binary search with sort.SearchInts()",
+  "Find minimum and maximum values in arrays",
+  "Count occurrences of values",
+  "Collect indices of matching values"
+]
+
+[validation]
+mode = "run"
+timeout = "30s"
+required_files = ["array_searching.go"]
+
+[hints]
+level_1 = "Linear search checks each element one by one using a loop"
+level_2 = "Binary search works on sorted arrays - use sort.SearchInts()"
+level_3 = "Track indices and values separately when finding min/max positions"
+
+[metadata]
+tags = ["arrays", "searching", "algorithms", "linear-search", "binary-search"]
+related_exercises = ["05_arrays/array_sorting.go", "05_arrays/array_basics.go"]

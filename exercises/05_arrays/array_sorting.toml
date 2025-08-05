@@ -1,0 +1,31 @@
+[exercise]
+name = "array_sorting"
+category = "05_arrays"
+difficulty = 2
+estimated_time = "8m"
+go_version = "1.16+"
+
+[description]
+title = "Array Sorting with sort Package"
+summary = "Learn how to sort arrays of different types using Go's sort package"
+learning_objectives = [
+  "Use the sort package to sort arrays",
+  "Convert arrays to slices for sorting operations",
+  "Sort integers, strings, and floating point numbers",
+  "Check if arrays are sorted",
+  "Implement custom sorting (reverse order)"
+]
+
+[validation]
+mode = "run"
+timeout = "30s"
+required_files = ["array_sorting.go"]
+
+[hints]
+level_1 = "Import the 'sort' package to access sorting functions"
+level_2 = "Convert arrays to slices using the [:] syntax before sorting"
+level_3 = "Use sort.Ints(), sort.Strings(), and sort.Float64s() for basic sorting"
+
+[metadata]
+tags = ["arrays", "sorting", "sort-package"]
+related_exercises = ["05_arrays/array_basics.go", "06_slices/slice_basics.go"]

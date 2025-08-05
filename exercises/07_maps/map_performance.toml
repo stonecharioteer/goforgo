@@ -1,0 +1,31 @@
+[exercise]
+name = "map_performance"
+category = "07_maps"
+difficulty = 4
+estimated_time = "20m"
+go_version = "1.16+"
+
+[description]
+title = "Map Performance and Optimization"
+summary = "Learn about map performance characteristics, memory usage, and optimization techniques"
+learning_objectives = [
+  "Understand map performance characteristics",
+  "Compare maps vs slices for different use cases",
+  "Learn about map memory management",
+  "Practice benchmarking map operations",
+  "Apply map optimization best practices"
+]
+
+[validation]
+mode = "run"
+timeout = "45s"
+required_files = ["map_performance.go"]
+
+[hints]
+level_1 = "Use make(map[string]int, 1000) to create a map with initial capacity"
+level_2 = "Maps provide O(1) lookup time vs O(n) for slice linear search"
+level_3 = "Use time.Now() and time.Since() to measure operation performance"
+
+[metadata]
+tags = ["maps", "performance", "benchmarking", "optimization", "advanced"]
+related_exercises = ["07_maps/map_basics.go", "06_slices/slice_basics.go"]
