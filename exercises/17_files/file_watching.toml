@@ -1,0 +1,30 @@
+[exercise]
+name = "file_watching"
+category = "17_files"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "File System Monitoring"
+summary = "Learn file system monitoring, watching for changes, and handling file events"
+learning_objectives = [
+  "Implement file system monitoring patterns",
+  "Handle file change events and notifications",
+  "Use polling vs event-based watching strategies",
+  "Clean up resources and handle errors properly",
+  "Build responsive file monitoring applications"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use filepath.Walk() for directory monitoring and time.Sleep() for polling intervals"
+level_2 = "Implement simple polling by checking file modification times with os.Stat()"
+level_3 = "Consider using a channel-based approach for file change notifications"
+
+[metadata]
+tags = ["files", "monitoring", "polling", "events", "filesystem"]
+related_exercises = ["17_files/file_operations.go", "11_concurrency/channels_basics.go"]

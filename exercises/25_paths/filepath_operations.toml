@@ -1,0 +1,30 @@
+[exercise]
+name = "filepath_operations"
+category = "25_paths"
+difficulty = 2
+estimated_time = "20m"
+go_version = "1.16+"
+
+[description]
+title = "Filepath Operations"
+summary = "Master filesystem path manipulation and operations"
+learning_objectives = [
+  "Use filepath package for cross-platform paths",
+  "Join, split, and clean file paths properly",
+  "Extract directory, base name, and extensions",
+  "Handle relative and absolute paths",
+  "Walk directory trees safely"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use filepath.Join() for cross-platform path construction"
+level_2 = "filepath.Dir(), filepath.Base(), and filepath.Ext() extract path components"
+level_3 = "filepath.Walk() traverses directory trees; handle errors properly"
+
+[metadata]
+tags = ["filepath", "paths", "filesystem", "cross-platform", "directories"]
+related_exercises = ["25_paths/path_manipulation.go", "17_files/file_operations.go"]

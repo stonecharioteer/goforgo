@@ -318,3 +318,54 @@ func (em *ExerciseManager) UpdateExerciseProgress() {
 		}
 	}
 }
+
+// GetTotalExerciseCount returns the total number of loaded exercises
+func (em *ExerciseManager) GetTotalExerciseCount() int {
+	return len(em.exercises)
+}
+
+// GetCompletedExerciseCount returns the number of completed exercises
+func (em *ExerciseManager) GetCompletedExerciseCount() int {
+	count := 0
+	for _, exercise := range em.exercises {
+		if exercise.Completed {
+			count++
+		}
+	}
+	return count
+}
+
+// GetProgressStats returns completed count, total count, and percentage
+func (em *ExerciseManager) GetProgressStats() (completed int, total int, percentage float64) {
+	completed = em.GetCompletedExerciseCount()
+	total = em.GetTotalExerciseCount()
+	if total > 0 {
+		percentage = float64(completed) / float64(total) * 100
+	}
+	return completed, total, percentage
+}
+
+// CountExercisesInDirectory counts exercises in a directory using the same logic as ExerciseManager
+// This counts .toml metadata files to ensure consistency with how exercises are actually loaded
+func CountExercisesInDirectory(exercisesPath string) (int, error) {
+	count := 0
+	
+	if _, err := os.Stat(exercisesPath); os.IsNotExist(err) {
+		return 0, fmt.Errorf("exercises directory not found at %s", exercisesPath)
+	}
+	
+	err := filepath.Walk(exercisesPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		
+		// Count .toml metadata files (same logic as LoadExercises)
+		if !info.IsDir() && strings.HasSuffix(path, ".toml") {
+			count++
+		}
+		
+		return nil
+	})
+	
+	return count, err
+}

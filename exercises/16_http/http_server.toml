@@ -1,0 +1,30 @@
+[exercise]
+name = "http_server"
+category = "16_http"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "HTTP Server"
+summary = "Build HTTP servers with routing, middleware, and request handling"
+learning_objectives = [
+  "Create HTTP servers with custom multiplexers",
+  "Handle different HTTP methods and routes",
+  "Implement middleware for logging and authentication",
+  "Process HTTP requests and send appropriate responses",
+  "Configure server timeouts and graceful shutdown"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use http.NewServeMux() for routing and http.ListenAndServe() to start server"
+level_2 = "Middleware wraps handlers: func middleware(next http.Handler) http.Handler"
+level_3 = "Set timeouts in http.Server struct for production readiness"
+
+[metadata]
+tags = ["http", "server", "routing", "middleware", "web"]
+related_exercises = ["16_http/http_client.go", "22_net/http_client_advanced.go"]

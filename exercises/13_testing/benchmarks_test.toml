@@ -1,0 +1,30 @@
+[exercise]
+name = "benchmarks_test"
+category = "13_testing"
+difficulty = 3
+estimated_time = "20m"
+go_version = "1.16+"
+
+[description]
+title = "Benchmark Testing"
+summary = "Write performance benchmarks to measure and optimize code"
+learning_objectives = [
+  "Write benchmark functions with testing.B",
+  "Measure performance and memory allocations",
+  "Use b.ResetTimer() and b.StopTimer() effectively",
+  "Compare different algorithm implementations",
+  "Profile and optimize based on benchmark results"
+]
+
+[validation]
+mode = "test"
+timeout = "30s"
+
+[hints]
+level_1 = "Benchmark functions start with Benchmark and take *testing.B parameter"
+level_2 = "Run code b.N times in a loop; use b.ResetTimer() after setup"
+level_3 = "Use go test -bench=. -benchmem to run benchmarks with memory stats"
+
+[metadata]
+tags = ["testing", "benchmarks", "performance", "optimization", "profiling"]
+related_exercises = ["13_testing/testing_basics.go", "13_testing/test_doubles.go"]

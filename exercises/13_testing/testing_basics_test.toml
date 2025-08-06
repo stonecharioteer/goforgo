@@ -1,0 +1,30 @@
+[exercise]
+name = "testing_basics_test"
+category = "13_testing"
+difficulty = 2
+estimated_time = "15m"
+go_version = "1.16+"
+
+[description]
+title = "Testing Basics"
+summary = "Learn fundamental testing concepts and write effective unit tests"
+learning_objectives = [
+  "Write unit tests with testing.T",
+  "Use table-driven tests for multiple cases",
+  "Handle test setup and teardown",
+  "Test error conditions and edge cases",
+  "Organize tests for maintainability"
+]
+
+[validation]
+mode = "test"
+timeout = "30s"
+
+[hints]
+level_1 = "Test functions start with Test and take *testing.T parameter"
+level_2 = "Use t.Errorf() for failures; table-driven tests use struct slices"
+level_3 = "Test both happy path and error conditions; use subtests with t.Run()"
+
+[metadata]
+tags = ["testing", "unit-tests", "table-driven", "tdd", "quality"]
+related_exercises = ["13_testing/benchmarks.go", "13_testing/test_doubles.go"]

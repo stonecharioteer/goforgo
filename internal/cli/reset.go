@@ -36,7 +36,8 @@ var resetCmd = &cobra.Command{
 		}
 
 		// Re-initialize exercises
-		if err := InitializeExercises(cwd); err != nil {
+		_, err = InitializeExercises(cwd)
+		if err != nil {
 			return err
 		}
 

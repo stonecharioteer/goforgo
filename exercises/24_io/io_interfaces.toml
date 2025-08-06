@@ -1,0 +1,30 @@
+[exercise]
+name = "io_interfaces"
+category = "24_io"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "IO Interfaces and Patterns"
+summary = "Master Go's io package interfaces and implement custom readers/writers"
+learning_objectives = [
+  "Implement io.Reader, io.Writer, and io.Closer interfaces",
+  "Create custom IO adapters and transformers",
+  "Use io.Pipe for connecting readers and writers",
+  "Handle streaming data and buffer management",
+  "Build composable IO processing pipelines"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "io.Reader needs Read([]byte) (int, error); return io.EOF when done"
+level_2 = "Use io.Copy() to efficiently transfer data between readers and writers"
+level_3 = "io.Pipe() creates connected reader/writer pair for streaming data"
+
+[metadata]
+tags = ["io", "interfaces", "streaming", "readers", "writers"]
+related_exercises = ["24_io/buffered_io.go", "17_files/file_operations.go"]

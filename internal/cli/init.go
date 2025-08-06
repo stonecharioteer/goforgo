@@ -39,14 +39,15 @@ func runInit(cmd *cobra.Command, args []string) error {
 
 	fmt.Printf("🚀 Initializing GoForGo exercises in %s\n", currentDir)
 
-	if err := InitializeExercises(currentDir); err != nil {
+	exerciseCount, err := InitializeExercises(currentDir)
+	if err != nil {
 		return err
 	}
 
 	fmt.Printf(`✅ GoForGo initialized successfully!
 
 📂 Created directories:
-  - exercises/     (250+ Go exercises organized by topic)
+  - exercises/     (%d Go exercises organized by topic)
   - solutions/     (complete solutions for reference)
 
 🎯 Next steps:
@@ -57,7 +58,7 @@ func runInit(cmd *cobra.Command, args []string) error {
 📖 Need help? Run 'goforgo --help' or visit the documentation.
 
 Happy learning! 🎉
-`)
+`, exerciseCount)
 
 	return nil
 }

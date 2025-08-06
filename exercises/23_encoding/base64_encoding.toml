@@ -1,0 +1,30 @@
+[exercise]
+name = "base64_encoding"
+category = "23_encoding"
+difficulty = 2
+estimated_time = "15m"
+go_version = "1.16+"
+
+[description]
+title = "Base64 Encoding"
+summary = "Learn Base64 encoding and decoding for binary data handling"
+learning_objectives = [
+  "Encode and decode data using Base64",
+  "Handle different Base64 variants (standard, URL-safe)",
+  "Work with binary data and text conversion",
+  "Process files and streams with Base64",
+  "Understand encoding overhead and use cases"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use base64.StdEncoding.EncodeToString() and DecodeString() for basic operations"
+level_2 = "base64.URLEncoding is URL-safe; RawStdEncoding omits padding"
+level_3 = "Use NewEncoder() and NewDecoder() for streaming operations"
+
+[metadata]
+tags = ["encoding", "base64", "binary", "text", "conversion"]
+related_exercises = ["23_encoding/json_advanced.go", "17_files/file_operations.go"]

@@ -1,0 +1,30 @@
+[exercise]
+name = "digital_signatures"
+category = "21_crypto"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Digital Signatures"
+summary = "Learn RSA and ECDSA digital signatures for authentication and non-repudiation"
+learning_objectives = [
+  "Generate RSA key pairs for digital signing",
+  "Implement RSA-PSS signature creation and verification",
+  "Work with ECDSA signatures using elliptic curves",
+  "Compare RSA vs ECDSA performance and security",
+  "Sign and verify documents with metadata"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use rsa.GenerateKey() and ecdsa.GenerateKey() for key generation"
+level_2 = "Always hash messages before signing: sha256.Sum256(message)"
+level_3 = "RSA: rsa.SignPSS() and rsa.VerifyPSS(), ECDSA: ecdsa.Sign() and ecdsa.Verify()"
+
+[metadata]
+tags = ["cryptography", "digital-signatures", "rsa", "ecdsa", "security"]
+related_exercises = ["21_crypto/hashing_basics.go", "21_crypto/encryption_aes.go"]

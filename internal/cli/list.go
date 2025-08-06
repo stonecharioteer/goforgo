@@ -11,6 +11,7 @@ import (
 var (
 	listAll      bool
 	listCategory string
+	listOneLine  bool
 )
 
 // listCmd represents the list command
@@ -24,7 +25,8 @@ By default, shows only incomplete exercises. Use flags to customize the view.
 Examples:
   goforgo list                    # Show incomplete exercises
   goforgo list --all              # Show all exercises
-  goforgo list --category basics  # Show exercises in 'basics' category`,
+  goforgo list --category basics  # Show exercises in 'basics' category
+  goforgo list --oneline          # One exercise per line for shell processing`,
 	RunE: listExercises,
 }
 
@@ -49,14 +51,8 @@ func listExercises(cmd *cobra.Command, args []string) error {
 
 	// Filter exercises based on flags
 	var filteredExercises []*exercise.Exercise
-	var completedCount, totalCount int
 
 	for _, ex := range exercises {
-		totalCount++
-		if ex.Completed {
-			completedCount++
-		}
-
 		// Apply filters
 		if !listAll && ex.Completed {
 			continue // Skip completed exercises unless --all is specified
@@ -69,9 +65,54 @@ func listExercises(cmd *cobra.Command, args []string) error {
 		filteredExercises = append(filteredExercises, ex)
 	}
 
-	// Display header with progress
+	// Handle one-line output for shell processing
+	if listOneLine {
+		for _, ex := range filteredExercises {
+			status := "incomplete"
+			if ex.Completed {
+				status = "complete"
+			}
+			
+			// Simple difficulty without stars
+			difficulty := "unknown"
+			switch ex.Info.Difficulty {
+			case 1:
+				difficulty = "beginner"
+			case 2:
+				difficulty = "easy"
+			case 3:
+				difficulty = "medium"
+			case 4:
+				difficulty = "hard"
+			case 5:
+				difficulty = "expert"
+			}
+			
+			// Extract simple category name
+			category := ex.Info.Category
+			if strings.Contains(category, "_") {
+				parts := strings.Split(category, "_")
+				if len(parts) > 1 {
+					category = parts[1]
+				}
+			}
+			
+			// Output: name|category|difficulty|status|title|time
+			fmt.Printf("%s|%s|%s|%s|%s|%s\n", 
+				ex.Info.Name, 
+				category,
+				difficulty, 
+				status, 
+				ex.Description.Title,
+				ex.Info.EstimatedTime)
+		}
+		return nil
+	}
+
+	// Display header with progress using centralized counting
+	completedCount, totalCount, percentage := em.GetProgressStats()
 	fmt.Printf("GoForGo Exercises - Progress: %d/%d (%.1f%% complete)\n", 
-		completedCount, totalCount, float64(completedCount)/float64(totalCount)*100)
+		completedCount, totalCount, percentage)
 	fmt.Println(strings.Repeat("═", 60))
 
 	if len(filteredExercises) == 0 {
@@ -131,4 +172,5 @@ func init() {
 	// Add flags
 	listCmd.Flags().BoolVar(&listAll, "all", false, "Show all exercises including completed ones")
 	listCmd.Flags().StringVar(&listCategory, "category", "", "Filter exercises by category")
+	listCmd.Flags().BoolVar(&listOneLine, "oneline", false, "Output one exercise per line for shell processing (format: name|category|difficulty|status|title|time)")
 }

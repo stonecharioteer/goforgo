@@ -1,0 +1,30 @@
+[exercise]
+name = "regex_parsing"
+category = "18_regex"
+difficulty = 4
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Advanced Regex Parsing"
+summary = "Learn advanced regex patterns for parsing structured text and extracting data"
+learning_objectives = [
+  "Create complex regex patterns for log parsing",
+  "Use named capture groups for structured extraction",
+  "Parse email addresses, URLs, and structured data",
+  "Handle regex compilation and performance",
+  "Build robust text processing pipelines"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use regexp.MustCompile() for pattern compilation and named groups with (?P<name>pattern)"
+level_2 = "FindAllStringSubmatch() captures all groups; use SubexpNames() to get group names"
+level_3 = "Build patterns incrementally and test each component separately"
+
+[metadata]
+tags = ["regex", "parsing", "text-processing", "patterns", "extraction"]
+related_exercises = ["18_regex/regex_basics.go", "14_stdlib/strings_manipulation.go"]

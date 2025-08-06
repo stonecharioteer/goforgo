@@ -1,0 +1,30 @@
+[exercise]
+name = "path_manipulation"
+category = "25_paths"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Path Manipulation"
+summary = "Master advanced path operations: cleaning, joining, URL paths, and validation"
+learning_objectives = [
+  "Use filepath package for cross-platform path operations",
+  "Clean and normalize file system paths",
+  "Work with URL paths using path package",
+  "Implement path pattern matching",
+  "Validate paths for security (prevent directory traversal)"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use filepath.Join() for file paths, path.Join() for URL paths"
+level_2 = "filepath.Clean() removes redundant elements like . and .."
+level_3 = "Check for .. in relative paths to prevent directory traversal"
+
+[metadata]
+tags = ["paths", "filesystem", "urls", "security", "validation"]
+related_exercises = ["25_paths/filepath_operations.go", "17_files/file_operations.go"]

@@ -1,0 +1,30 @@
+[exercise]
+name = "directory_operations"
+category = "25_paths"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Directory Operations"
+summary = "Master directory operations: walking, globbing, management, and utilities"
+learning_objectives = [
+  "Create and manage directory structures programmatically",
+  "Walk directory trees with filepath.Walk()",
+  "Use glob patterns for file matching",
+  "Implement directory utilities and comparisons",
+  "Handle file and directory permissions properly"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use os.MkdirAll() to create directories with parents"
+level_2 = "filepath.Walk() provides recursive directory traversal"
+level_3 = "Always handle errors and clean up temporary directories"
+
+[metadata]
+tags = ["directories", "filesystem", "glob", "file-operations"]
+related_exercises = ["25_paths/path_manipulation.go", "17_files/file_operations.go"]

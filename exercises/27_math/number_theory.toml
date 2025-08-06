@@ -1,0 +1,30 @@
+[exercise]
+name = "number_theory"
+category = "27_math"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Number Theory Algorithms"
+summary = "Implement mathematical algorithms and number theory concepts"
+learning_objectives = [
+  "Implement prime number algorithms and factorization",
+  "Calculate GCD, LCM, and modular arithmetic",
+  "Work with large numbers and overflow handling",
+  "Build efficient mathematical computations",
+  "Apply number theory in cryptographic contexts"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use the Sieve of Eratosthenes for efficient prime generation"
+level_2 = "Euclidean algorithm provides efficient GCD computation"
+level_3 = "Consider big.Int for large number calculations to avoid overflow"
+
+[metadata]
+tags = ["math", "algorithms", "primes", "number-theory", "cryptography"]
+related_exercises = ["21_crypto/hashing_basics.go", "30_algorithms/dynamic_programming.go"]

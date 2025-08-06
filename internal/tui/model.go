@@ -42,8 +42,7 @@ type Model struct {
 	listViewHeight    int // Available height for list items
 	
 	// Progress and statistics
-	completedCount int
-	// totalCount removed - now calculated dynamically as len(m.exercises)
+	// Counts are now calculated dynamically via exerciseManager methods
 	
 	// Messages and status
 	statusMessage string
@@ -66,13 +65,7 @@ func NewModel(exerciseManager *exercise.ExerciseManager, runner *runner.Runner) 
 		}
 	}
 
-	// Count completed exercises
-	completedCount := 0
-	for _, ex := range exercises {
-		if ex.Completed {
-			completedCount++
-		}
-	}
+	// Exercise counts are now handled dynamically by ExerciseManager
 
 	return &Model{
 		exerciseManager: exerciseManager,
@@ -80,7 +73,6 @@ func NewModel(exerciseManager *exercise.ExerciseManager, runner *runner.Runner) 
 		currentIndex:    currentIndex,
 		exercises:       exercises,
 		runner:          runner,
-		completedCount:  completedCount,
 		showSplash:      true,  // Show splash animation first
 		showWelcome:     false, // Then show welcome
 		splashFrame:     0,
@@ -118,7 +110,6 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if err := m.exerciseManager.MarkExerciseCompleted(m.currentExercise.Info.Name); err == nil {
 				// Update local completion tracking
 				m.currentExercise.Completed = true
-				m.completedCount++
 				
 				// Update exercises list with fresh completion status
 				m.exercises = m.exerciseManager.GetExercises()
@@ -490,7 +481,12 @@ var (
 
 // getTotalCount returns the total number of exercises (dynamic)
 func (m *Model) getTotalCount() int {
-	return len(m.exercises)
+	return m.exerciseManager.GetTotalExerciseCount()
+}
+
+// getCompletedCount returns the number of completed exercises (dynamic)
+func (m *Model) getCompletedCount() int {
+	return m.exerciseManager.GetCompletedExerciseCount()
 }
 
 // getMaxHintLevel returns the maximum hint level available for the current exercise

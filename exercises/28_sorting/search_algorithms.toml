@@ -1,0 +1,30 @@
+[exercise]
+name = "search_algorithms"
+category = "28_sorting"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Search Algorithms"
+summary = "Implement efficient search algorithms for different data structures"
+learning_objectives = [
+  "Implement linear and binary search algorithms",
+  "Search in sorted and unsorted arrays",
+  "Use hash-based searching techniques",
+  "Handle search variations (first, last, range)",
+  "Analyze and compare search complexities"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Binary search requires sorted data; compare with middle element each iteration"
+level_2 = "Linear search works on any data; binary search is O(log n) vs O(n)"
+level_3 = "Use sort.Search() from standard library for production binary searches"
+
+[metadata]
+tags = ["search", "algorithms", "binary-search", "complexity", "optimization"]
+related_exercises = ["28_sorting/sorting_algorithms.go", "05_arrays/array_searching.go"]

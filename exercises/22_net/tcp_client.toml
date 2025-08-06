@@ -1,0 +1,30 @@
+[exercise]
+name = "tcp_client"
+category = "22_net"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "TCP Client Implementation"
+summary = "Build TCP clients with connection management and communication protocols"
+learning_objectives = [
+  "Connect to TCP servers using net.Dial()",
+  "Handle connection timeouts and deadlines",
+  "Send and receive data over TCP connections",
+  "Implement interactive client communication",
+  "Handle connection errors and reconnection"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use net.Dial('tcp', 'host:port') to connect to TCP servers"
+level_2 = "Set deadlines with conn.SetDeadline() and handle timeouts gracefully"
+level_3 = "Use bufio.Reader for line-based input and conn.Write() for sending data"
+
+[metadata]
+tags = ["networking", "tcp", "client", "connections", "communication"]
+related_exercises = ["22_net/tcp_server.go", "22_net/tcp_client_server.go"]

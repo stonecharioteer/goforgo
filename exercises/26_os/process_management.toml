@@ -1,0 +1,30 @@
+[exercise]
+name = "process_management"
+category = "26_os"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Process Management"
+summary = "Learn process creation, management, and inter-process communication"
+learning_objectives = [
+  "Execute external commands and processes",
+  "Handle process input, output, and error streams",
+  "Implement process timeouts and cancellation",
+  "Use process groups and signal handling",
+  "Build process pipelines and command chaining"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use exec.Command() to create processes and Run() or Start() to execute them"
+level_2 = "Set Stdin, Stdout, and Stderr to control process streams"
+level_3 = "Use context.WithTimeout() for process timeouts and Kill() for termination"
+
+[metadata]
+tags = ["os", "processes", "exec", "commands", "system"]
+related_exercises = ["26_os/signal_handling.go", "11_concurrency/context_usage.go"]

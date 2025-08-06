@@ -1,0 +1,30 @@
+[exercise]
+name = "sorting_algorithms"
+category = "28_sorting"
+difficulty = 4
+estimated_time = "35m"
+go_version = "1.16+"
+
+[description]
+title = "Sorting Algorithms"
+summary = "Implement classic sorting algorithms and understand their complexity"
+learning_objectives = [
+  "Implement quicksort, mergesort, and heapsort",
+  "Understand time and space complexity trade-offs",
+  "Compare recursive vs iterative approaches",
+  "Handle edge cases and optimization techniques",
+  "Benchmark and profile sorting performance"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Start with simple algorithms like bubble sort before moving to quicksort"
+level_2 = "Mergesort uses divide-and-conquer; split arrays and merge sorted halves"
+level_3 = "Use benchmarking to compare algorithm performance on different data sizes"
+
+[metadata]
+tags = ["sorting", "algorithms", "complexity", "performance", "recursion"]
+related_exercises = ["28_sorting/search_algorithms.go", "30_algorithms/dynamic_programming.go"]

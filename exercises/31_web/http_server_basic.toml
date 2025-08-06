@@ -1,0 +1,30 @@
+[exercise]
+name = "http_server_basic"
+category = "31_web"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Basic HTTP Server"
+summary = "Build HTTP servers with routing and request handling"
+learning_objectives = [
+  "Create HTTP servers with custom handlers",
+  "Handle different HTTP methods and routes",
+  "Process form data and query parameters",
+  "Implement basic middleware patterns",
+  "Serve static files and JSON responses"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use http.HandleFunc() to register routes and http.ListenAndServe() to start server"
+level_2 = "Access request data with r.Method, r.URL.Query(), and r.FormValue()"
+level_3 = "Middleware wraps handlers: func middleware(next http.Handler) http.Handler"
+
+[metadata]
+tags = ["http", "server", "web", "routing", "handlers"]
+related_exercises = ["16_http/http_server.go", "16_http/http_client.go"]

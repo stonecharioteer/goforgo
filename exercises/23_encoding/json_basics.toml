@@ -1,0 +1,30 @@
+[exercise]
+name = "json_basics"
+category = "23_encoding"
+difficulty = 2
+estimated_time = "20m"
+go_version = "1.16+"
+
+[description]
+title = "JSON Basics"
+summary = "Learn fundamental JSON encoding and decoding with Go structs and maps"
+learning_objectives = [
+  "Marshal Go structs to JSON using json.Marshal()",
+  "Unmarshal JSON to Go structs using json.Unmarshal()",
+  "Use struct tags to control JSON field names",
+  "Work with JSON and maps for dynamic data",
+  "Handle JSON arrays and nested structures"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use json.Marshal() to convert Go values to JSON, json.Unmarshal() for the reverse"
+level_2 = "Struct tags like `json:\"field_name\"` control JSON field names"
+level_3 = "Use map[string]interface{} for dynamic JSON data and type assertions to access values"
+
+[metadata]
+tags = ["json", "encoding", "structs", "marshaling", "serialization"]
+related_exercises = ["15_json/json_basics.go", "23_encoding/json_advanced.go"]

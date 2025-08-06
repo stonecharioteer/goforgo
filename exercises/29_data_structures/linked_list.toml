@@ -1,0 +1,30 @@
+[exercise]
+name = "linked_list"
+category = "29_data_structures"
+difficulty = 4
+estimated_time = "35m"
+go_version = "1.16+"
+
+[description]
+title = "Linked List Implementation"
+summary = "Implement singly and doubly linked lists with essential operations"
+learning_objectives = [
+  "Implement singly linked list with insert, delete, search",
+  "Build doubly linked list with bidirectional traversal",
+  "Handle edge cases (empty list, single node)",
+  "Implement list reversal and cycle detection",
+  "Compare linked lists vs slices performance"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Start with Node struct containing Value and Next pointer"
+level_2 = "Keep head pointer; handle special cases for first and last nodes"
+level_3 = "Floyd's cycle detection uses two pointers moving at different speeds"
+
+[metadata]
+tags = ["data-structures", "linked-list", "pointers", "algorithms", "nodes"]
+related_exercises = ["29_data_structures/stack_queue.go", "08_structs/struct_basics.go"]

@@ -1,0 +1,172 @@
+#!/bin/bash
+
+# GoForGo Exercise Completeness Checker
+# This script verifies that all exercises have complete triplets (exercise + solution + TOML)
+
+set -e
+
+echo "🔍 GoForGo Exercise Completeness Check"
+echo "======================================"
+echo
+
+# Initialize counters
+total_exercises=0
+complete_sets=0
+missing_solutions=0
+missing_tomls=0
+missing_exercises=0
+
+# Arrays to track missing components
+declare -a missing_solution_files
+declare -a missing_toml_files
+declare -a orphaned_solutions
+
+# Check each .go file in exercises/
+echo "📊 Analyzing exercise files..."
+while IFS= read -r -d '' exercise_file; do
+    # Extract relative path from exercises/
+    rel_path="${exercise_file#./exercises/}"
+    category=$(dirname "$rel_path")
+    name=$(basename "$rel_path" .go)
+    
+    # Skip test files
+    if [[ "$name" == *"_test" ]]; then
+        continue
+    fi
+    
+    total_exercises=$((total_exercises + 1))
+    
+    # Check for corresponding solution
+    solution_file="./solutions/$category/$name.go"
+    toml_file="./exercises/$category/$name.toml"
+    
+    has_solution=false
+    has_toml=false
+    
+    if [[ -f "$solution_file" ]]; then
+        has_solution=true
+    else
+        missing_solutions=$((missing_solutions + 1))
+        missing_solution_files+=("$rel_path")
+    fi
+    
+    if [[ -f "$toml_file" ]]; then
+        has_toml=true
+    else
+        missing_tomls=$((missing_tomls + 1))
+        missing_toml_files+=("$rel_path")
+    fi
+    
+    # Count complete sets
+    if [[ "$has_solution" == true && "$has_toml" == true ]]; then
+        complete_sets=$((complete_sets + 1))
+    fi
+    
+done < <(find ./exercises -name "*.go" -type f -print0 | sort -z)
+
+# Check for orphaned solutions (solutions without exercises)
+echo "🔍 Checking for orphaned solutions..."
+while IFS= read -r -d '' solution_file; do
+    # Extract relative path from solutions/
+    rel_path="${solution_file#./solutions/}"
+    category=$(dirname "$rel_path")
+    name=$(basename "$rel_path" .go)
+    
+    # Skip test files
+    if [[ "$name" == *"_test" ]]; then
+        continue
+    fi
+    
+    # Check for corresponding exercise
+    exercise_file="./exercises/$category/$name.go"
+    
+    if [[ ! -f "$exercise_file" ]]; then
+        orphaned_solutions+=("$rel_path")
+    fi
+    
+done < <(find ./solutions -name "*.go" -type f -print0 | sort -z)
+
+# Count exercises by category
+echo "📋 Exercise count by category:"
+echo "------------------------------"
+declare -A category_counts
+while IFS= read -r -d '' exercise_file; do
+    rel_path="${exercise_file#./exercises/}"
+    category=$(dirname "$rel_path")
+    name=$(basename "$rel_path" .go)
+    
+    # Skip test files
+    if [[ "$name" == *"_test" ]]; then
+        continue
+    fi
+    
+    # Check if it's a complete set
+    solution_file="./solutions/$category/$name.go"
+    toml_file="./exercises/$category/$name.toml"
+    
+    if [[ -f "$solution_file" && -f "$toml_file" ]]; then
+        category_counts["$category"]=$((${category_counts["$category"]} + 1))
+    fi
+    
+done < <(find ./exercises -name "*.go" -type f -print0 | sort -z)
+
+# Display category counts
+for category in $(printf '%s\n' "${!category_counts[@]}" | sort); do
+    count=${category_counts[$category]}
+    # Convert category name to readable format
+    readable_category=$(echo "$category" | sed 's/_/ /g' | sed 's/\b\w/\U&/g')
+    printf "  %-25s: %d complete sets\n" "$readable_category" "$count"
+done
+
+echo
+echo "📈 Summary Statistics"
+echo "===================="
+echo "Total exercise files: $total_exercises"
+echo "Complete exercise sets: $complete_sets"
+echo "Missing solutions: $missing_solutions"
+echo "Missing TOML files: $missing_tomls"
+echo "Orphaned solutions: ${#orphaned_solutions[@]}"
+
+# Calculate completion percentage
+if [[ $total_exercises -gt 0 ]]; then
+    completion_percentage=$(echo "scale=1; $complete_sets * 100 / $total_exercises" | bc -l)
+    echo "Completion rate: $completion_percentage%"
+fi
+
+echo
+
+# Report missing components
+if [[ ${#missing_solution_files[@]} -gt 0 ]]; then
+    echo "❌ Missing solution files:"
+    for file in "${missing_solution_files[@]}"; do
+        echo "  - $file"
+    done
+    echo
+fi
+
+if [[ ${#missing_toml_files[@]} -gt 0 ]]; then
+    echo "❌ Missing TOML files:"
+    for file in "${missing_toml_files[@]}"; do
+        echo "  - $file"
+    done
+    echo
+fi
+
+if [[ ${#orphaned_solutions[@]} -gt 0 ]]; then
+    echo "⚠️  Orphaned solution files (no corresponding exercise):"
+    for file in "${orphaned_solutions[@]}"; do
+        echo "  - $file"
+    done
+    echo
+fi
+
+# Status message
+if [[ $complete_sets -eq $total_exercises && ${#orphaned_solutions[@]} -eq 0 ]]; then
+    echo "✅ All exercises are complete! GoForGo is ready for production."
+else
+    echo "⚠️  Some exercises need attention. See details above."
+fi
+
+echo
+echo "Last updated: $(date)"
+echo "🤖 Generated by GoForGo exercise checker"
