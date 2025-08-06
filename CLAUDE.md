@@ -18,8 +18,6 @@ _Notes and insights from building GoForGo - an interactive Go tutorial CLI inspi
 - ✅ **Real-World Coverage**: Added comprehensive microservices, databases, and gRPC categories
 - ✅ **Production-Ready Content**: All 34 categories with minimum 3 exercise sets each
 
-[... rest of the existing content remains unchanged ...]
-
 ### Implementation Memories
 
 #### Development Environment & Workflow
@@ -35,6 +33,9 @@ _Notes and insights from building GoForGo - an interactive Go tutorial CLI inspi
 - **Changelog Management**: You must maintain a changelog file that you update before committing every time. Use full timestamps.
 - **Real-World Focus**: Categories now emphasize practical Go usage with microservices, databases, and gRPC patterns
 - **Production Patterns**: Exercises include circuit breakers, distributed tracing, connection pooling, and streaming protocols
+- **Commit Message Guidelines**: 
+  * Do not add 🤖 Generated with [Claude Code](https://claude.ai/code)
+  * Do not add Co-Authored-By: Claude <noreply@anthropic.com> to commits or PRs
 
 #### Universal Validation System (Phase 4) ✅ COMPLETED
 
@@ -106,8 +107,6 @@ _Notes and insights from building GoForGo - an interactive Go tutorial CLI inspi
 - **grpc_basics**: Service implementation, client communication, and protocol buffers
 - **grpc_streaming**: Server, client, and bidirectional streaming patterns
 - **grpc_interceptors**: Middleware for authentication, logging, metrics, and cross-cutting concerns
-
-[... rest of the existing content remains unchanged ...]
 
 ---
 
