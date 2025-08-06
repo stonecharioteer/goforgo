@@ -36,6 +36,17 @@ _Notes and insights from building GoForGo - an interactive Go tutorial CLI inspi
 - **Real-World Focus**: Categories now emphasize practical Go usage with microservices, databases, and gRPC patterns
 - **Production Patterns**: Exercises include circuit breakers, distributed tracing, connection pooling, and streaming protocols
 
+#### Universal Validation System (Phase 4)
+
+- **Testcontainers Integration**: Use testcontainers-go for spinning up real services (PostgreSQL, Redis, MongoDB, etc.)
+- **Exercise-Agnostic Validation**: Design validation rules that can be composed for any exercise type
+- **Service Lifecycle Management**: Automatic service startup, health checking, fixture loading, and cleanup
+- **Enhanced TOML Configuration**: Support service dependencies and composite validation rules in exercise metadata
+- **Validation Rules System**: Pluggable validators for HTTP routes, databases, processes, networks, concurrency
+- **Resource Management**: Comprehensive cleanup and resource monitoring across all test scenarios
+- **Environment Injection**: Automatically provide service endpoints and configuration to exercises
+- **Realistic Testing**: Move beyond simple build/run checks to production-like validation scenarios
+
 ### Latest Exercise Categories (August 2025)
 
 #### **32_microservices** (3 complete sets)
