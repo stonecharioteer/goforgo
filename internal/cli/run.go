@@ -1,11 +1,13 @@
 package cli
 
 import (
+	"context"
 	"fmt"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/stonecharioteer/goforgo/internal/exercise"
-	"github.com/stonecharioteer/goforgo/internal/runner"
+	"github.com/stonecharioteer/goforgo/internal/validation"
 )
 
 // runCmd represents the run command
@@ -59,15 +61,42 @@ func runExercise(cmd *cobra.Command, args []string) error {
 	fmt.Printf("⭐ Difficulty: %s\n", ex.GetDifficultyString())
 	fmt.Printf("📖 Description: %s\n\n", ex.Description.Summary)
 
-	// Create runner and execute
-	r := runner.NewRunner(cwd)
-	success, feedback, err := r.ValidateExercise(ex)
+	// Create universal runner and execute
+	r := validation.NewUniversalRunner(cwd)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+	defer cancel()
+	
+	result, err := r.ValidateExercise(ctx, ex)
 	if err != nil {
 		return fmt.Errorf("failed to run exercise: %w", err)
 	}
 
 	// Display results
+	feedback := r.FormatValidationResult(result)
 	fmt.Println(feedback)
+	
+	// Show summary for universal validation
+	if len(result.ServiceResults) > 0 || len(result.ValidationResults) > 0 {
+		summary := r.GetValidationSummary(result)
+		fmt.Printf("\n📊 Validation Summary:\n")
+		fmt.Printf("   Duration: %v\n", summary["duration"])
+		fmt.Printf("   Services: %d/%d successful\n", summary["successful_services"], summary["services_count"])
+		fmt.Printf("   Rules: %d/%d successful\n", summary["successful_rules"], summary["rules_count"])
+		if envVars, ok := summary["environment_vars"].(int); ok && envVars > 0 {
+			fmt.Printf("   Environment Variables: %d injected\n", envVars)
+		}
+	}
+	
+	// Always cleanup resources when done
+	defer func() {
+		cleanupCtx, cleanupCancel := context.WithTimeout(context.Background(), 30*time.Second)
+		defer cleanupCancel()
+		if err := r.Cleanup(cleanupCtx); err != nil {
+			fmt.Printf("⚠️  Warning: Failed to cleanup resources: %v\n", err)
+		}
+	}()
+	
+	success := result.Success
 
 	if success {
 		// Mark the exercise as completed
