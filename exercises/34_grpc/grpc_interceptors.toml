@@ -1,0 +1,26 @@
+[exercise]
+name = "grpc_interceptors"
+category = "34_grpc"
+difficulty = 4
+estimated_time = "35m"
+
+[description]
+title = "gRPC Interceptors & Middleware"
+summary = "Learn gRPC interceptors for cross-cutting concerns: logging, authentication, metrics, and middleware patterns"
+learning_objectives = [
+  "Implement gRPC unary and stream interceptors",
+  "Create authentication middleware with metadata validation",
+  "Build logging interceptors for request/response monitoring",
+  "Implement metrics collection with interceptors",
+  "Chain multiple interceptors for layered functionality",
+  "Handle both server-side and client-side interceptors"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use grpc.ChainUnaryInterceptor() to combine multiple interceptors. Access metadata with metadata.FromIncomingContext()"
+level_2 = "Pass data between interceptors using context.WithValue(). Call handler(ctx, req) to continue the chain"
+level_3 = "For authentication, check method name to skip auth for public endpoints. Use defer for cleanup and metrics"

@@ -1,0 +1,30 @@
+[exercise]
+name = "reflection_practical"
+category = "19_reflection"
+difficulty = 4
+estimated_time = "35m"
+go_version = "1.16+"
+
+[description]
+title = "Practical Reflection Applications"
+summary = "Learn practical uses of reflection for validation, serialization, and dynamic programming in Go"
+learning_objectives = [
+  "Convert structs to maps using reflection",
+  "Process struct tags for validation and serialization",
+  "Create and manipulate types dynamically",
+  "Invoke methods using reflection",
+  "Understand reflection performance implications"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Struct fields: reflect.ValueOf(obj), val.NumField(), val.Field(i)"
+level_2 = "Tags: field.Tag.Get(\"tagname\"), dynamic types: reflect.StructOf()"
+level_3 = "Method calls: val.MethodByName(\"name\").Call(args)"
+
+[metadata]
+tags = ["reflection", "validation", "serialization", "dynamic-types", "performance"]
+related_exercises = ["19_reflection/reflection_basics.go", "15_json/json_basics.go"]

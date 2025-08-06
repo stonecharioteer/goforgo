@@ -1,0 +1,30 @@
+[exercise]
+name = "tree_traversal"
+category = "29_data_structures"
+difficulty = 4
+estimated_time = "40m"
+go_version = "1.16+"
+
+[description]
+title = "Binary Tree Traversal and Operations"
+summary = "Implement binary tree data structure with traversal algorithms and tree operations"
+learning_objectives = [
+  "Implement binary tree and binary search tree",
+  "Master different traversal algorithms (in-order, pre-order, post-order, level-order)",
+  "Implement tree operations (insert, delete, search)",
+  "Understand tree properties (height, balance, validity)",
+  "Learn tree rotations for balancing"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Start with TreeNode struct containing Value, Left, and Right fields"
+level_2 = "Use recursion for traversal algorithms; level-order uses a queue"
+level_3 = "Tree rotations help balance trees; right rotation moves left child up"
+
+[metadata]
+tags = ["data-structures", "trees", "traversal", "recursion", "BST", "algorithms"]
+related_exercises = ["29_data_structures/linked_list.go", "29_data_structures/stack_queue.go", "30_algorithms/graph_algorithms.go"]

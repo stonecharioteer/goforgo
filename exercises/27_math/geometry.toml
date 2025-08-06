@@ -1,0 +1,30 @@
+[exercise]
+name = "geometry"
+category = "27_math"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Geometric Calculations"
+summary = "Learn geometric calculations and spatial mathematics in Go"
+learning_objectives = [
+  "Calculate distances and angles in 2D and 3D space",
+  "Compute areas and perimeters of geometric shapes",
+  "Work with circles, triangles, and spheres",
+  "Perform coordinate transformations",
+  "Classify geometric shapes"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "2D distance: sqrt((x2-x1)² + (y2-y1)²), circle area: π*r²"
+level_2 = "Triangle area: shoelace formula, angle: dot product / (mag1*mag2)"
+level_3 = "3D distance: include z component, rotation: cos/sin transformation matrix"
+
+[metadata]
+tags = ["math", "geometry", "2d", "3d", "coordinates", "shapes"]
+related_exercises = ["27_math/statistics.go", "27_math/number_theory.go"]

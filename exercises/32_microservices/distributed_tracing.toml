@@ -1,0 +1,26 @@
+[exercise]
+name = "distributed_tracing"
+category = "32_microservices"
+difficulty = 4
+estimated_time = "35m"
+
+[description]
+title = "Distributed Tracing System"
+summary = "Build distributed tracing for microservice observability with spans, trace collection, and request correlation"
+learning_objectives = [
+  "Understand distributed tracing concepts and benefits",
+  "Implement trace context propagation across services",
+  "Create span hierarchy for nested operations",
+  "Build trace collection and storage system",
+  "Add timing and metadata to traces and spans",
+  "Design APIs for trace visualization and analysis"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Trace contains multiple spans. Each span represents an operation with start/end times and metadata"
+level_2 = "Use unique IDs for traces and spans. Parent-child relationships link spans together"
+level_3 = "Store traces in memory with maps, use mutex for thread safety in concurrent access"

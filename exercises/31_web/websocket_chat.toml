@@ -1,0 +1,26 @@
+[exercise]
+name = "websocket_chat"
+category = "31_web"
+difficulty = 5
+estimated_time = "35m"
+
+[description]
+title = "WebSocket Chat Server"
+summary = "Build a real-time chat server using WebSockets with client management and message broadcasting"
+learning_objectives = [
+  "Understand WebSocket protocol for real-time communication",
+  "Implement WebSocket upgrader and connection handling",
+  "Create client connection management system",
+  "Build message broadcasting to multiple clients",
+  "Handle concurrent client connections with goroutines",
+  "Implement proper connection cleanup and error handling"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use gorilla/websocket package for WebSocket support. The upgrader converts HTTP connections to WebSocket connections"
+level_2 = "Create separate goroutines for reading and writing to each WebSocket connection to handle concurrent communication"
+level_3 = "Use channels to communicate between goroutines: register/unregister for client management, broadcast for message distribution"
