@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/lipgloss/table"
 )
 
 // renderWelcome shows the welcome screen (like Rustlings)
@@ -540,76 +541,227 @@ func (m *Model) renderExerciseList() string {
 	content.WriteString(statusStyle.Render(progressText))
 	content.WriteString("\n\n")
 
-	// Render visible exercises
+	// Calculate max widths for dynamic sizing based on ALL exercises, not just visible ones
+	maxWidths := []int{1, 1, 12, 8, 9, 6} // Min widths: selector, #, EXERCISE NAME, CATEGORY, DIFFICULTY, STATUS
+	headers := []string{" ", "#", "EXERCISE NAME", "CATEGORY", "DIFFICULTY", "STATUS"}
+	
+	// Update max widths based on headers
+	for i, header := range headers {
+		if len(header) > maxWidths[i] {
+			maxWidths[i] = len(header)
+		}
+	}
+	
+	// Calculate column widths based on ALL exercises for consistent sizing
+	for _, ex := range m.exercises {
+		// Exercise number (use total count for max width)
+		exerciseNum := fmt.Sprintf("%d", len(m.exercises))
+		if len(exerciseNum) > maxWidths[1] {
+			maxWidths[1] = len(exerciseNum)
+		}
+		
+		// Exercise name with potential current marker
+		exerciseName := ex.Info.Name
+		if ex == m.currentExercise {
+			exerciseName += " (current)"
+		}
+		if len(exerciseName) > maxWidths[2] {
+			maxWidths[2] = len(exerciseName)
+		}
+		
+		// Category
+		topic := m.getExerciseTopic(ex)
+		if len(topic) > maxWidths[3] {
+			maxWidths[3] = len(topic)
+		}
+		
+		// Difficulty (check all possible difficulty strings)
+		var difficulty string
+		switch ex.Info.Difficulty {
+		case 1:
+			difficulty = "⭐ Beginner"
+		case 2:
+			difficulty = "⭐⭐ Easy"
+		case 3:
+			difficulty = "⭐⭐⭐ Medium"
+		case 4:
+			difficulty = "⭐⭐⭐⭐ Hard"
+		case 5:
+			difficulty = "⭐⭐⭐⭐⭐ Expert"
+		default:
+			difficulty = "Unknown"
+		}
+		if len(difficulty) > maxWidths[4] {
+			maxWidths[4] = len(difficulty)
+		}
+		
+		// Status - "Incomplete" is longer than "Complete"
+		if len("Incomplete") > maxWidths[5] {
+			maxWidths[5] = len("Incomplete")
+		}
+	}
+	
+	// Selection indicator width (1 for arrow)
+	if maxWidths[0] < 1 {
+		maxWidths[0] = 1
+	}
+	
+	// Prepare visible row data for rendering
+	type rowData struct {
+		selection string
+		number string
+		name string
+		category string
+		difficulty string
+		status string
+	}
+	
+	var rows []rowData
 	for i := startIndex; i < endIndex; i++ {
 		ex := m.exercises[i]
 		
-		// Status icon
-		status := "❌"
-		statusColor := "#EF4444" // Red for incomplete
-		if ex.Completed {
-			status = "✅"
-			statusColor = "#10B981" // Green for complete
-		}
-		
-		// Selection indicator and styling
-		var prefix string
-		var lineStyle lipgloss.Style
-		
+		// Selection indicator
+		selectionIndicator := " "
 		if i == m.listSelectedIndex {
-			prefix = " ► "
-			// Selected item - bold and italicized with highlight color
-			lineStyle = lipgloss.NewStyle().
-				Foreground(lipgloss.Color("#7C3AED")).
-				Bold(true).
-				Italic(true).
-				Padding(0, 1)
-		} else {
-			prefix = "   "
-			// Normal item - regular styling
-			lineStyle = lipgloss.NewStyle().
-				Foreground(lipgloss.Color("#1F2937")).
-				Padding(0, 1)
+			selectionIndicator = "►"
 		}
 		
-		// Current exercise indicator
-		currentMarker := ""
+		// Exercise number
+		exerciseNum := fmt.Sprintf("%d", i+1)
+		
+		// Exercise name with current marker
+		exerciseName := ex.Info.Name
 		if ex == m.currentExercise {
-			currentMarker = " ← current"
+			exerciseName += " (current)"
 		}
 		
-		// Extract topic from exercise name or category
+		// Category
 		topic := m.getExerciseTopic(ex)
 		
-		// Simplified difficulty (no stars)
-		difficulty := m.getSimpleDifficulty(ex.GetDifficultyString())
-		difficultyStyle := m.getDifficultyStyle(ex.GetDifficultyString())
+		// Difficulty
+		var difficulty string
+		switch ex.Info.Difficulty {
+		case 1:
+			difficulty = "⭐ Beginner"
+		case 2:
+			difficulty = "⭐⭐ Easy"
+		case 3:
+			difficulty = "⭐⭐⭐ Medium"
+		case 4:
+			difficulty = "⭐⭐⭐⭐ Hard"
+		case 5:
+			difficulty = "⭐⭐⭐⭐⭐ Expert"
+		default:
+			difficulty = "Unknown"
+		}
 		
-		// Exercise number (1-based)
-		exerciseNum := fmt.Sprintf("%3d.", i+1)
-		exerciseNumStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#6B7280"))
+		// Status
+		status := "Incomplete"
+		if ex.Completed {
+			status = "Complete"
+		}
 		
-		// Topic with simple styling
-		topicStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#6B7280"))
-		
-		// Compact format to fit on one line - adjust spacing
-		exerciseLine := fmt.Sprintf("%s %s %s %-30s %-12s %s%s", 
-			prefix,
-			exerciseNumStyle.Render(exerciseNum),
-			lipgloss.NewStyle().Foreground(lipgloss.Color(statusColor)).Render(status),
-			ex.Info.Name, // Exercise name with padding
-			topicStyle.Render(topic), // Topic with padding
-			difficultyStyle.Render(difficulty),
-			lipgloss.NewStyle().Foreground(lipgloss.Color("#6B7280")).Render(currentMarker))
-		
-		content.WriteString(lineStyle.Render(exerciseLine))
-		content.WriteString("\n")
+		row := rowData{
+			selection: selectionIndicator,
+			number: exerciseNum,
+			name: exerciseName,
+			category: topic,
+			difficulty: difficulty,
+			status: status,
+		}
+		rows = append(rows, row)
 	}
+	
+	// Add 10% padding to each column width
+	for i := range maxWidths {
+		maxWidths[i] = int(float64(maxWidths[i]) * 1.1)
+		if maxWidths[i] < 3 { // Minimum width
+			maxWidths[i] = 3
+		}
+	}
+	
+	// Create table with dynamic column widths
+	t := table.New().
+		Border(lipgloss.NormalBorder()).
+		BorderStyle(lipgloss.NewStyle().Foreground(lipgloss.Color("#6B7280"))).
+		Width(maxWidths[0] + maxWidths[1] + maxWidths[2] + maxWidths[3] + maxWidths[4] + maxWidths[5] + 12). // Account for borders and padding
+		StyleFunc(func(row, col int) lipgloss.Style {
+			// Header row styling
+			if row == 0 {
+				return lipgloss.NewStyle().
+					Foreground(lipgloss.Color("#D1D5DB")).
+					Bold(true).
+					Align(lipgloss.Center).
+					Width(maxWidths[col])
+			}
+			
+			// Check if this row is selected
+			actualIndex := startIndex + row - 1
+			if actualIndex == m.listSelectedIndex {
+				return lipgloss.NewStyle().
+					Foreground(lipgloss.Color("#A855F7")).
+					Bold(true).
+					Width(maxWidths[col])
+			}
+			
+			// Column-specific colors for regular rows
+			baseStyle := lipgloss.NewStyle().Width(maxWidths[col])
+			switch col {
+			case 0: // Selection indicator
+				return baseStyle.Foreground(lipgloss.Color("#A855F7")) // Purple
+			case 1: // Exercise number
+				return baseStyle.Foreground(lipgloss.Color("#6B7280")) // Gray
+			case 2: // Exercise name
+				return baseStyle.Foreground(lipgloss.Color("#E5E7EB")) // Light gray
+			case 3: // Category
+				return baseStyle.Foreground(lipgloss.Color("#60A5FA")) // Blue
+			case 4: // Difficulty
+				// Color based on difficulty level
+				if row > 0 && row-1 < len(rows) {
+					rowData := rows[row-1]
+					if strings.Contains(rowData.difficulty, "Beginner") {
+						return baseStyle.Foreground(lipgloss.Color("#10B981")) // Green
+					} else if strings.Contains(rowData.difficulty, "Easy") {
+						return baseStyle.Foreground(lipgloss.Color("#3B82F6")) // Blue
+					} else if strings.Contains(rowData.difficulty, "Medium") {
+						return baseStyle.Foreground(lipgloss.Color("#F59E0B")) // Orange
+					} else if strings.Contains(rowData.difficulty, "Hard") {
+						return baseStyle.Foreground(lipgloss.Color("#EF4444")) // Red
+					} else {
+						return baseStyle.Foreground(lipgloss.Color("#8B5CF6")) // Purple
+					}
+				}
+				return baseStyle.Foreground(lipgloss.Color("#F59E0B")) // Default orange
+			case 5: // Status
+				// Color based on completion status
+				if row > 0 && row-1 < len(rows) {
+					rowData := rows[row-1]
+					if rowData.status == "Complete" {
+						return baseStyle.Foreground(lipgloss.Color("#10B981")) // Green
+					} else {
+						return baseStyle.Foreground(lipgloss.Color("#EF4444")) // Red
+					}
+				}
+				return baseStyle.Foreground(lipgloss.Color("#EF4444")) // Default red
+			default:
+				return baseStyle.Foreground(lipgloss.Color("#E5E7EB")) // Light gray
+			}
+		})
+	
+	// Add headers
+	t.Row(headers...)
+	
+	// Add exercise rows
+	for _, row := range rows {
+		t.Row(row.selection, row.number, row.name, row.category, row.difficulty, row.status)
+	}
+	
+	// Render the table
+	content.WriteString(t.Render())
+	content.WriteString("\n")
 
-	// Add spacing if list is shorter than available height
-	for i := endIndex - startIndex; i < listHeight; i++ {
-		content.WriteString("\n")
-	}
+	// Add minimal spacing
+	content.WriteString("\n")
 
 	// End-of-list indicator when at bottom
 	if endIndex >= totalExercises {
