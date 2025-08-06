@@ -1,21 +1,42 @@
 # GoForGo TODO
 
-## 📊 Current Status (Updated: 2025-08-05)
+## 📊 Current Status (Updated: 2025-08-06)
 - **Phase 1 (Foundation)**: ✅ COMPLETED 
 - **Phase 1.5 (UI/UX Polish)**: ✅ COMPLETED - Professional interface with animations
-- **Phase 2 (Core Exercises)**: ✅ COMPLETED - 121+ validated exercise sets with complete architecture
+- **Phase 2 (Core Exercises)**: ✅ COMPLETED - 122+ validated exercise sets with complete architecture
 - **Phase 3 (Exercise Validation)**: ✅ COMPLETED - All exercises have complete triplets (exercise, solution, TOML)
-- **Overall Progress**: ~60% - Production-ready platform with comprehensive content and validation
+- **Phase 3.5 (TUI Enhancements)**: ✅ COMPLETED - Professional table widget with rich colors and shell integration
+- **Overall Progress**: ~65% - Production-ready platform with comprehensive content, professional UI, and shell automation
 
 ## 🚀 High Priority (Recently Completed)
 
+### Phase 3.5: TUI & CLI Enhancements ✅ COMPLETED
+- [x] **Professional Table Interface** (Complexity: 4) ✅
+  - Replaced manual table formatting with lipgloss table widget
+  - Implemented automatic column alignment and consistent spacing
+  - Added rich column-specific colors (difficulty by level, status by completion)
+  - Dynamic column sizing based on all exercises with 10% padding
+  - Fixed column width consistency during scrolling
+
+- [x] **Shell Integration & Automation** (Complexity: 3) ✅
+  - Added CLI `--oneline` flag for pipe-friendly output
+  - Machine-readable format: `name|category|difficulty|status|title|time`
+  - Backward compatible with existing CLI formatting
+  - Perfect for shell scripts and automation tools
+
+- [x] **Difficulty Display Fixes** (Complexity: 2) ✅
+  - Fixed "unknown" difficulty display issues
+  - Direct TOML mapping for reliable difficulty values
+  - Color-coded difficulty levels in TUI (green/blue/orange/red/purple)
+
 ### Phase 2: Exercise Validation & Consistency ✅ COMPLETED
 - [x] **Exercise Validation System** (Complexity: 4) ✅
-  - Validated all 121+ exercises have complete triplets (exercise, solution, TOML)
+  - Validated all 122+ exercises have complete triplets (exercise, solution, TOML)
   - Created 20 missing TOML metadata files  
   - Created 2 missing solution files
   - Created 3 missing exercise files for existing solutions
   - Established three-component rule: every exercise needs .go + .toml + solution
+  - **VERIFIED**: 100% completion rate with zero missing components
 
 - [x] **Centralized Counting Architecture** (Complexity: 3) ✅
   - Implemented single source of truth in ExerciseManager
@@ -83,47 +104,58 @@
 
 ## 🎯 Current Complete Exercise Inventory
 
-### ✅ **VALIDATION STATUS: 121+ COMPLETE EXERCISE SETS**
+### ✅ **VALIDATION STATUS: 122 COMPLETE EXERCISE SETS** (Updated: 2025-08-06)
+
+**🔍 Latest Validation Results:**
+- **Total Exercises**: 122 (.go files)
+- **Complete Sets**: 122 (100% completion rate)
+- **Missing Solutions**: 0 
+- **Missing TOML Files**: 0
+- **Orphaned Solutions**: 0
+
+**✅ Production Ready**: All exercises have complete triplets verified by automated checker
 
 All exercises now have the required triplet:
 1. **Exercise file** (.go) - Incomplete code with TODO comments
 2. **Solution file** (.go) - Complete working implementation  
 3. **TOML metadata** (.toml) - Exercise configuration and hints
 
-#### **Core Go Fundamentals (77 exercises)**
-- 01_basics: 10 exercises ✅ (comments, formatting, hello, imports, main_function, multiple_imports, package, print_functions, program_structure, semicolons)
-- 02_variables: 9 exercises ✅ (constants, go_types, multiple_declaration, short_declaration, type_conversion, type_inference, var_declaration, variable_scope, zero_values)
-- 03_functions: 12 exercises ✅ (closures, embedded_methods, function_definition, function_types, method_sets, methods_basics, named_returns, parameters, pointer_receivers, recursive_functions, return_values, variadic_functions)  
-- 04_control_flow: 10 exercises ✅ (break_continue, defer_statements, for_loops, goto_labels, if_statements, panic_recover, range_loops, select_statements, switch_statements, type_switches)
-- 05_arrays: 5 exercises ✅ (array_basics, array_iteration, array_searching, array_sorting, multidimensional_arrays)
-- 06_slices: 6 exercises ✅ (slice_append, slice_basics, slice_capacity, slice_copy, slice_sorting_custom, slice_tricks)
-- 07_maps: 5 exercises ✅ (map_advanced, map_basics, map_iteration, map_patterns, map_performance)
-- 08_structs: 4 exercises ✅ (struct_basics, struct_embedding, struct_methods, struct_tags)
-- 09_interfaces: 4 exercises ✅ (interface_assertion, interface_basics, interface_composition, interface_empty)
-- 10_errors: 3 exercises ✅ (error_basics, error_custom, error_wrapping)
-- 11_concurrency: 5 exercises ✅ (channels_basics, context_usage, goroutines_basics, sync_primitives, worker_pools)
-- 12_generics: 4 exercises ✅ (generic_basics, generic_constraints, generic_data_structures)
+#### **Core Go Fundamentals (76 exercises)**
+- **01_basics**: 10 complete sets ✅
+- **02_variables**: 9 complete sets ✅ 
+- **03_functions**: 12 complete sets ✅
+- **04_control_flow**: 10 complete sets ✅
+- **05_arrays**: 5 complete sets ✅
+- **06_slices**: 6 complete sets ✅
+- **07_maps**: 5 complete sets ✅
+- **08_structs**: 4 complete sets ✅
+- **09_interfaces**: 4 complete sets ✅
+- **10_errors**: 3 complete sets ✅
+- **11_concurrency**: 5 complete sets ✅
+- **12_generics**: 3 complete sets ✅
 
-#### **Advanced Go Features (44+ exercises)**
-- 13_testing: 4 exercises ✅ (benchmarks, benchmarks_test, test_doubles, testing_basics, testing_basics_test)
-- 14_stdlib: 3 exercises ✅ (regexp_advanced, strings_manipulation, time_operations)  
-- 15_json: 3 exercises ✅ (json_basics, json_streaming, json_validation)
-- 16_http: 2 exercises ✅ (http_client, http_server)
-- 17_files: 2 exercises ✅ (file_operations, file_watching)
-- 18_regex: 2 exercises ✅ (regex_basics, regex_parsing)
-- 19_reflection: 2 exercises ✅ (reflection_basics, reflection_advanced)
-- 20_advanced: 2 exercises ✅ (design_patterns, pipeline_patterns)
-- 21_crypto: 3 exercises ✅ (digital_signatures, encryption_aes, hashing_basics)
-- 22_net: 5 exercises ✅ (http_client_advanced, tcp_client, tcp_client_server, tcp_server, udp_communication)
-- 23_encoding: 3 exercises ✅ (base64_encoding, json_advanced, json_basics)
-- 24_io: 2 exercises ✅ (buffered_io, io_interfaces)
-- 25_paths: 3 exercises ✅ (directory_operations, filepath_operations, path_manipulation)
-- 26_os: 3 exercises ✅ (environment_variables, process_management, signal_handling)
-- 27_math: 1 exercise ✅ (number_theory)
-- 28_sorting: 2 exercises ✅ (search_algorithms, sorting_algorithms)
-- 29_data_structures: 2 exercises ✅ (linked_list, stack_queue)
-- 30_algorithms: 2 exercises ✅ (dynamic_programming, graph_algorithms)
-- 31_web: 1 exercise ✅ (http_server_basic)
+#### **Advanced Go Features (46 exercises)**
+- **13_testing**: 3 complete sets ✅
+- **14_stdlib**: 3 complete sets ✅  
+- **15_json**: 3 complete sets ✅
+- **16_http**: 2 complete sets ✅
+- **17_files**: 2 complete sets ✅
+- **18_regex**: 2 complete sets ✅
+- **19_reflection**: 2 complete sets ✅
+- **20_advanced**: 2 complete sets ✅
+- **21_crypto**: 3 complete sets ✅
+- **22_net**: 5 complete sets ✅
+- **23_encoding**: 3 complete sets ✅
+- **24_io**: 2 complete sets ✅
+- **25_paths**: 3 complete sets ✅
+- **26_os**: 3 complete sets ✅
+- **27_math**: 1 complete set ✅
+- **28_sorting**: 2 complete sets ✅
+- **29_data_structures**: 2 complete sets ✅
+- **30_algorithms**: 2 complete sets ✅
+- **31_web**: 1 complete set ✅
+
+**🔧 Exercise Checker Script**: `./scripts/check_exercises.sh` - Run anytime to verify exercise completeness
 
 ## 🎯 Medium Priority (Next Phase)
 
@@ -184,14 +216,15 @@ All exercises now have the required triplet:
 ## 🎯 Success Metrics
 
 ### Achieved Metrics ✅
-- **Exercise Count**: 121+ complete exercise sets (exceeded initial 100 goal)
-- **Component Integrity**: 100% exercises have all required components
+- **Exercise Count**: 122 complete exercise sets (exceeded initial 100 goal)
+- **Component Integrity**: 100% exercises have all required components (verified 2025-08-06)
 - **Counting Consistency**: All commands show identical exercise counts
-- **User Experience**: Professional TUI with real-time feedback
+- **User Experience**: Professional TUI with lipgloss table widget and rich colors
 - **Architecture Quality**: Centralized, maintainable counting system
+- **Shell Integration**: CLI automation support with `--oneline` flag
 
 ### Target Metrics
-- **250+ exercises** across all categories (currently 48% complete)
+- **250+ exercises** across all categories (currently 49% complete)
 - **Go 1.24+ features** fully covered (significantly advanced)
 - **Community adoption** (GitHub stars, contributions)
 - **Zero bugs** in core functionality
@@ -215,10 +248,11 @@ All exercises now have the required triplet:
 - **Phase 1.5**: ✅ COMPLETED (UI/UX Polish + Professional Interface)
 - **Phase 2**: ✅ COMPLETED (Core exercises with comprehensive validation)
 - **Phase 3**: ✅ COMPLETED (Exercise validation and counting consistency)  
+- **Phase 3.5**: ✅ COMPLETED (TUI enhancements and shell integration)
 - **Phase 4**: ⏳ NEXT (Content expansion to 150+ exercises)
 - **Phase 5-7**: ⏳ PLANNED (Community features and distribution)
 
-**🎉 MAJOR MILESTONE**: GoForGo has achieved production-ready status with **121+ validated exercise sets**, professional UI, and bulletproof architecture!
+**🎉 MAJOR MILESTONE**: GoForGo has achieved production-ready status with **122 validated exercise sets**, professional table UI with rich colors, shell automation support, and bulletproof architecture!
 
 ---
-*Last updated: 2025-08-05 via /document command*
+*Last updated: 2025-08-06 via automated exercise checker*
