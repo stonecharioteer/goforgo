@@ -1,0 +1,95 @@
+[exercise]
+name = "advanced_sync"
+category = "38_advanced_concurrency"
+difficulty = 5
+estimated_time = "45m"
+
+[description]
+title = "Advanced Synchronization Primitives"
+summary = "Master advanced Go synchronization primitives including sync.Cond, sync.Pool, sync.Map, and golang.org/x/sync packages"
+learning_objectives = [
+  "Use sync.Cond for complex conditional synchronization patterns",
+  "Implement object pooling with sync.Pool to reduce GC pressure",
+  "Apply sync.Map for high-performance concurrent map operations",
+  "Coordinate goroutines with error handling using errgroup",
+  "Limit resource usage with weighted semaphores",
+  "Deduplicate expensive operations with singleflight",
+  "Handle timeouts in condition variable scenarios"
+]
+
+[validation]
+mode = "universal"
+timeout = "120s"
+
+[[validation.rules]]
+type = "process"
+name = "program_compilation"
+[validation.rules.config]
+check_build = true
+expect_no_build_errors = true
+
+[[validation.rules]]
+type = "process"
+name = "sync_cond_demo"
+[validation.rules.config]
+command = ["./advanced_sync"]
+expect_output_contains = ["sync.Cond Producer-Consumer", "Produced:", "Consumed:", "Consumer", "got:"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "sync_pool_demo"
+[validation.rules.config]
+command = ["./advanced_sync"]
+expect_output_contains = ["sync.Pool Object Pooling", "Creating new expensive object", "Using object", "After GC"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "sync_map_demo"
+[validation.rules.config]
+command = ["./advanced_sync"]
+expect_output_contains = ["sync.Map Example", "Writer", "stored", "Reader", "found"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "errgroup_demo"
+[validation.rules.config]
+command = ["./advanced_sync"]
+expect_output_contains = ["errgroup Example", "Successfully fetched", "requests completed"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "semaphore_demo"
+[validation.rules.config]
+command = ["./advanced_sync"]
+expect_output_contains = ["Semaphore Example", "Worker", "acquired semaphore", "finished work", "All workers completed"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "singleflight_demo"
+[validation.rules.config]
+command = ["./advanced_sync"]
+expect_output_contains = ["SingleFlight Example", "Performing expensive operation", "got result", "shared:"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "concurrency"
+name = "goroutine_safety"
+[validation.rules.config]
+check_race_conditions = true
+expect_no_race_conditions = true
+
+[hints]
+level_1 = "sync.Cond requires a Locker (usually *sync.Mutex). Create with sync.NewCond(&sync.Mutex{})"
+level_2 = "sync.Pool's New function is called when the pool is empty. Always type-assert when getting from pool"
+level_3 = "errgroup.WithContext() provides automatic cancellation when any goroutine returns an error"

@@ -1,0 +1,63 @@
+[exercise]
+name = "form_handling"
+category = "37_bubbletea_tui"
+difficulty = 4
+estimated_time = "30m"
+
+[description]
+title = "Form Handling with Bubble Tea"
+summary = "Build interactive forms with text input, field navigation, validation, and submission using Bubble Tea"
+learning_objectives = [
+  "Create multi-field forms with text input",
+  "Implement field-to-field navigation with Tab keys",
+  "Handle character input and backspace for text editing",
+  "Validate form data before submission",
+  "Display dynamic form states and validation messages",
+  "Manage complex UI state transitions"
+]
+
+[validation]
+mode = "universal"
+timeout = "60s"
+
+[[validation.rules]]
+type = "process"
+name = "program_structure"
+[validation.rules.config]
+check_build = true
+expect_no_build_errors = true
+
+[[validation.rules]]
+type = "process"
+name = "form_navigation"
+[validation.rules.config]
+command = ["./form_handling"]
+interactive = true
+inputs = ["tab", "tab", "shift+tab", "ctrl+c"]
+expect_output_contains = ["User Registration Form", "Name *:", "Email *:", "Age:", "City:"]
+timeout = "10s"
+
+[[validation.rules]]
+type = "process"
+name = "form_input_and_validation"
+[validation.rules.config]
+command = ["./form_handling"]
+interactive = true
+inputs = ["J", "o", "h", "n", "tab", "j", "o", "h", "n", "@", "e", "x", "a", "m", "p", "l", "e", ".", "c", "o", "m", "enter"]
+expect_output_contains = ["Form submitted successfully!", "Name: John", "Email: john@example.com", "Goodbye!"]
+timeout = "15s"
+
+[[validation.rules]]
+type = "process"
+name = "form_validation_failure"
+[validation.rules.config]
+command = ["timeout", "3s", "./form_handling"]
+interactive = true
+inputs = ["enter"]
+expect_output_contains = ["❌ Please fill all required fields"]
+timeout = "10s"
+
+[hints]
+level_1 = "Create a field struct with label, value, active, and required fields. Track currentField index"
+level_2 = "Handle \"tab\" to move forward, \"shift+tab\" to move backward. Update active states when changing fields"
+level_3 = "For text input, append single characters to the current field's value. Handle backspace to remove last character"
