@@ -1,0 +1,40 @@
+[exercise]
+name = "middleware_chain"
+category = "40_gin_web"
+difficulty = 3
+title = "Gin Middleware Chain"
+time_estimate = "25m"
+learning_objectives = [
+  "Create custom middleware for logging, authentication, and rate limiting",
+  "Master middleware chaining with c.Next() and c.Abort() control flow",
+  "Implement route groups with middleware scoping",
+  "Build production-ready middleware patterns for web applications"
+]
+
+[description]
+content = "Master Gin middleware: create custom logging, authentication, rate limiting, and CORS middleware"
+
+[hints]
+level_1 = "Middleware functions return gin.HandlerFunc and use c.Next() to call the next handler in the chain"
+level_2 = "Use c.Abort() to stop processing and prevent subsequent handlers from executing"
+level_3 = "Route groups with router.Group() allow applying middleware to specific sets of routes"
+
+[validation]
+type = "universal"
+
+[validation.rules.http_route]
+base_url = "http://localhost:8080"
+routes = [
+  {method = "GET", path = "/public", expected_status = 200, expected_body_contains = "Public endpoint"},
+  {method = "GET", path = "/api/profile", expected_status = 401, expected_body_contains = "Unauthorized"},
+  {method = "GET", path = "/api/profile", headers = {"Authorization" = "Bearer valid-token"}, expected_status = 200, expected_body_contains = "authenticated_user"},
+  {method = "GET", path = "/api/data", headers = {"Authorization" = "Bearer valid-token"}, expected_status = 200, expected_body_contains = "item1"},
+  {method = "GET", path = "/nonexistent", expected_status = 404, expected_body_contains = "not found"}
+]
+
+[validation.rules.process]
+expected_processes = ["middleware_chain"]
+max_runtime_seconds = 30
+
+[validation.rules.build]
+enabled = true

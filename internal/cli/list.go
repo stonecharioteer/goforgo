@@ -67,6 +67,26 @@ func listExercises(cmd *cobra.Command, args []string) error {
 
 	// Handle one-line output for shell processing
 	if listOneLine {
+		// Group exercises by category to properly number them
+		categoryExercises := make(map[string][]*exercise.Exercise)
+		for _, ex := range filteredExercises {
+			categoryExercises[ex.Info.Category] = append(categoryExercises[ex.Info.Category], ex)
+		}
+		
+		// Sort exercises within each category by name for consistent ordering
+		for category, exercises := range categoryExercises {
+			// Simple sort by exercise name
+			for i := 0; i < len(exercises); i++ {
+				for j := i + 1; j < len(exercises); j++ {
+					if exercises[i].Info.Name > exercises[j].Info.Name {
+						exercises[i], exercises[j] = exercises[j], exercises[i]
+					}
+				}
+			}
+			categoryExercises[category] = exercises
+		}
+		
+		// Output exercises with proper numbering
 		for _, ex := range filteredExercises {
 			status := "incomplete"
 			if ex.Completed {
@@ -88,19 +108,33 @@ func listExercises(cmd *cobra.Command, args []string) error {
 				difficulty = "expert"
 			}
 			
-			// Extract simple category name
-			category := ex.Info.Category
-			if strings.Contains(category, "_") {
-				parts := strings.Split(category, "_")
+			// Extract category number and name
+			categoryNumber := ""
+			categoryName := ex.Info.Category
+			if strings.Contains(ex.Info.Category, "_") {
+				parts := strings.Split(ex.Info.Category, "_")
 				if len(parts) > 1 {
-					category = parts[1]
+					categoryNumber = parts[0]
+					categoryName = parts[1]
 				}
 			}
 			
-			// Output: name|category|difficulty|status|title|time
-			fmt.Printf("%s|%s|%s|%s|%s|%s\n", 
-				ex.Info.Name, 
-				category,
+			// Find the exercise number within its category
+			exerciseNumber := "1"
+			categoryExerciseList := categoryExercises[ex.Info.Category]
+			for i, categoryEx := range categoryExerciseList {
+				if categoryEx.Info.Name == ex.Info.Name {
+					exerciseNumber = fmt.Sprintf("%d", i+1)
+					break
+				}
+			}
+			
+			// Output: category_number|category_name|exercise_number|exercise_name|difficulty|status|title|time
+			fmt.Printf("%s|%s|%s|%s|%s|%s|%s|%s\n", 
+				categoryNumber,
+				categoryName,
+				exerciseNumber,
+				ex.Info.Name,
 				difficulty, 
 				status, 
 				ex.Description.Title,
@@ -172,5 +206,5 @@ func init() {
 	// Add flags
 	listCmd.Flags().BoolVar(&listAll, "all", false, "Show all exercises including completed ones")
 	listCmd.Flags().StringVar(&listCategory, "category", "", "Filter exercises by category")
-	listCmd.Flags().BoolVar(&listOneLine, "oneline", false, "Output one exercise per line for shell processing (format: name|category|difficulty|status|title|time)")
+	listCmd.Flags().BoolVar(&listOneLine, "oneline", false, "Output one exercise per line for shell processing (format: category_number|category_name|exercise_number|exercise_name|difficulty|status|title|time)")
 }

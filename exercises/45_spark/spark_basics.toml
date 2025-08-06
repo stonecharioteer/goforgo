@@ -1,0 +1,36 @@
+[exercise]
+name = "spark_basics"
+category = "45_spark"
+difficulty = 2
+title = "Apache Spark Basics"
+time_estimate = "25m"
+learning_objectives = [
+  "Create SparkSession and DataFrame structures in Go",
+  "Implement basic DataFrame operations like filtering and display",
+  "Handle heterogeneous data with proper type management",
+  "Build foundational Spark-like data processing patterns"
+]
+
+[description]
+content = "Learn Apache Spark fundamentals: session creation, DataFrame operations, and basic data processing"
+
+[hints]
+level_1 = "Create SparkSession and DataFrame structs to represent Spark concepts in Go"
+level_2 = "Use [][]interface{} to store heterogeneous data and implement Show() with formatted table output"
+level_3 = "For filtering, find column index first, then iterate through rows applying the comparison operator"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Spark basics operations completed!"
+
+[validation.rules.log]
+expected_patterns = [
+  "Created Spark session.*GoSpark-BasicExample",
+  "Successfully loaded DataFrame",
+  "Total rows.*3",
+  "Filtered DataFrame.*age.*25",
+  "Filtered rows.*2"
+]

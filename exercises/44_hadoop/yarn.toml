@@ -1,0 +1,21 @@
+[exercise]
+name = "yarn"
+category = "44_hadoop"
+difficulty = 2
+estimated_time = "20m"
+
+[description]
+title = "Hadoop YARN"
+summary = "Learn YARN resource management: list applications, monitor cluster resources, and job submission"
+learning_objectives = [
+  "Interact with YARN ResourceManager API for application management",
+  "Monitor cluster resources and node status using YARN APIs",
+  "Submit and track job applications through YARN interface",
+  "Parse and process YARN cluster information in Go applications"
+]
+
+[validation]
+type = "universal"
+[validation.rules.build]
+enabled = true
+expected_output = "Hadoop YARN operations completed!"

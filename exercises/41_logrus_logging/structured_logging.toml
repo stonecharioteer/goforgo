@@ -1,0 +1,36 @@
+[exercise]
+name = "structured_logging"
+category = "41_logrus_logging"
+difficulty = 2
+title = "Logrus Structured Logging"
+time_estimate = "20m"
+learning_objectives = [
+  "Implement structured logging with fields and contexts",
+  "Configure JSON formatting for machine-readable logs",
+  "Master field chaining and structured data organization",
+  "Build production-ready logging practices"
+]
+
+[description]
+content = "Master Logrus structured logging: fields, contexts, JSON formatting, and different log levels"
+
+[hints]
+level_1 = "Use logrus.WithFields() to add structured data to log entries and logrus.Fields{} for field maps"
+level_2 = "Set JSON formatter with logger.SetFormatter(&logrus.JSONFormatter{}) for structured output"
+level_3 = "Chain WithField() calls or use WithFields() with logrus.Fields map for multiple fields"
+
+[validation]
+type = "universal"
+
+[validation.rules.log]
+expected_patterns = [
+  "Application started",
+  "User logged in.*userID.*12345",
+  "Rate limit approached.*endpoint.*api/users",
+  "Database connection failed.*database.*users_db",
+  "Payment processed.*amount.*99.99",
+  "service.*user-service"
+]
+
+[validation.rules.build]
+enabled = true

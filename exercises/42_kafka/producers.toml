@@ -1,0 +1,39 @@
+[exercise]
+name = "producers"
+category = "42_kafka"
+difficulty = 2
+estimated_time = "25m"
+
+[description]
+title = "Kafka Producers"
+summary = "Master Kafka message production: single messages, batches, headers, partitioning, and error handling"
+learning_objectives = [
+  "Implement single message and batch publishing to Kafka topics",
+  "Use message headers for metadata and routing information",
+  "Configure partitioning strategies for message distribution",
+  "Handle producer errors and implement reliable message publishing"
+]
+
+[hints]
+level_1 = "Use kafka.Writer with proper Balancer (LeastBytes) and batch settings for efficient publishing"
+level_2 = "Create kafka.Message structs with Key, Value, Headers, and Partition fields as needed"
+level_3 = "Use WriteMessages() method which can handle both single messages and batches efficiently"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Kafka producer operations completed!"
+
+[validation.rules.log]
+expected_patterns = [
+  "Created Kafka producer for topic.*user-events",
+  "Sent message.*Key.*user123",
+  "Sent message with headers.*event-type",
+  "Generated.*sample messages",
+  "Sent batch of.*messages",
+  "Sent message to partition.*admin-action",
+  "Sent message with timestamp.*historical-event",
+  "Kafka producer closed successfully"
+]

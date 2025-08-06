@@ -1,0 +1,21 @@
+[exercise]
+name = "mapreduce"
+category = "44_hadoop"
+difficulty = 2
+estimated_time = "25m"
+
+[description]
+title = "Hadoop MapReduce"
+summary = "Understand MapReduce pattern: implement distributed word counting with map and reduce phases"
+learning_objectives = [
+  "Implement the Map phase for distributed data processing",
+  "Create the Reduce phase for aggregating mapped results",
+  "Understand the MapReduce paradigm for distributed computing",
+  "Process large datasets using MapReduce pattern in Go"
+]
+
+[validation]
+type = "universal"
+[validation.rules.build]
+enabled = true
+expected_output = "Hadoop MapReduce operations completed!"

@@ -1,0 +1,41 @@
+[exercise]
+name = "crds"
+category = "43_kubernetes"
+difficulty = 3
+title = "Kubernetes Custom Resource Definitions"
+time_estimate = "35m"
+learning_objectives = [
+  "Create and install Custom Resource Definitions with validation schemas",
+  "Operate on custom resources using dynamic clients and unstructured types",
+  "Implement proper CRD lifecycle management and cleanup",
+  "Master schema-based validation and resource management patterns"
+]
+
+[description]
+content = "Create and manage Custom Resource Definitions: define schemas, install CRDs, and operate custom resources"
+
+[hints]
+level_1 = "Use apiextensionsv1.CustomResourceDefinition with OpenAPIV3Schema for validation"
+level_2 = "Use dynamic.Interface with schema.GroupVersionResource to operate on custom resources"
+level_3 = "Use unstructured.Unstructured for dynamic resource creation without predefined types"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Kubernetes CRD operations completed!"
+
+[validation.rules.log]
+expected_patterns = [
+  "Successfully initialized all Kubernetes clients",
+  "Installing CRD.*webapps",
+  "CRD installed successfully",
+  "CRD is now established",
+  "Creating WebApp instance.*frontend-app",
+  "Creating WebApp instance.*backend-app",
+  "Found.*WebApp instances",
+  "Updating WebApp.*replicas",
+  "Deleting WebApp instance.*backend-app",
+  "Cleaning up CRD"
+]

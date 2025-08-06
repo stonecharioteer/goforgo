@@ -1,0 +1,21 @@
+[exercise]
+name = "searching"
+category = "46_elasticsearch"
+difficulty = 2
+estimated_time = "25m"
+
+[description]
+title = "Elasticsearch Searching"
+summary = "Master Elasticsearch search operations: queries, filters, sorting, and result processing"
+learning_objectives = [
+  "Implement various Elasticsearch query types for document retrieval",
+  "Apply filters to refine search results effectively",
+  "Use sorting mechanisms to order search results",
+  "Process and handle search results in Go applications"
+]
+
+[validation]
+type = "universal"
+[validation.rules.build]
+enabled = true
+expected_output = "Elasticsearch searching operations completed!"

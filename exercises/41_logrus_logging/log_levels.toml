@@ -1,0 +1,36 @@
+[exercise]
+name = "log_levels"
+category = "41_logrus_logging"
+difficulty = 2
+title = "Logrus Log Levels"
+time_estimate = "20m"
+learning_objectives = [
+  "Configure and manage different log levels in Logrus",
+  "Implement environment-based log level configuration",
+  "Use conditional logging to optimize performance",
+  "Create multiple loggers with different level settings"
+]
+
+[description]
+content = "Master Logrus log levels: configuration, filtering, environment-based settings, and conditional logging"
+
+[hints]
+level_1 = "Use logrus.ParseLevel() to convert string levels to logrus.Level and os.Getenv() for environment variables"
+level_2 = "Use logger.IsLevelEnabled() to check if a log level is active before expensive logging operations"
+level_3 = "Different loggers can have different levels - create separate instances with logger.SetLevel()"
+
+[validation]
+type = "universal"
+
+[validation.rules.log]
+expected_patterns = [
+  "Log level set to",
+  "Payment processing started",
+  "Payment gateway returned error",
+  "Component operation completed",
+  "Current log level",
+  "Log levels demonstration completed"
+]
+
+[validation.rules.build]
+enabled = true

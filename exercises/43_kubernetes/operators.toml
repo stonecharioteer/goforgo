@@ -1,0 +1,38 @@
+[exercise]
+name = "operators"
+category = "43_kubernetes"
+difficulty = 3
+title = "Kubernetes Operators"
+time_estimate = "40m"
+learning_objectives = [
+  "Build a Kubernetes operator with reconciliation logic",
+  "Manage custom resources dynamically with Unstructured types",
+  "Create and manage Deployments and Services programmatically",
+  "Implement proper resource existence checking and error handling"
+]
+
+[description]
+content = "Build a Kubernetes operator: manage custom resources, create Deployments/Services, and implement reconciliation logic"
+
+[hints]
+level_1 = "Use unstructured.Unstructured for custom resources and unstructured.NestedString/NestedInt64 for field extraction"
+level_2 = "Implement reconciliation by checking if resources exist, creating if missing, updating if different"
+level_3 = "Use errors.IsNotFound() to handle missing resources and errors.IsAlreadyExists() for creation conflicts"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Kubernetes operator operations completed!"
+
+[validation.rules.log]
+expected_patterns = [
+  "Created sample WebApp.*demo-webapp",
+  "Reconciling WebApp.*demo-webapp", 
+  "Created Deployment.*demo-webapp",
+  "Created Service.*demo-webapp",
+  "Successfully reconciled WebApp",
+  "Updated WebApp to 3 replicas",
+  "Final deployment state.*has.*replicas"
+]

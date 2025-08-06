@@ -1,0 +1,21 @@
+[exercise]
+name = "indexing"
+category = "46_elasticsearch"
+difficulty = 2
+estimated_time = "20m"
+
+[description]
+title = "Elasticsearch Indexing"
+summary = "Master Elasticsearch document indexing: single documents, bulk operations, and index management"
+learning_objectives = [
+  "Index single documents in Elasticsearch using Go client",
+  "Implement bulk indexing operations for improved performance",
+  "Manage Elasticsearch indices including creation and deletion",
+  "Handle document indexing errors and response processing"
+]
+
+[validation]
+type = "universal"
+[validation.rules.build]
+enabled = true
+expected_output = "Elasticsearch indexing operations completed!"
