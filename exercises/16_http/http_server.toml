@@ -17,8 +17,47 @@ learning_objectives = [
 ]
 
 [validation]
-mode = "build"
-timeout = "30s"
+mode = "universal"
+timeout = "60s"
+
+[[validation.rules]]
+type = "http_routes"
+name = "api_endpoints"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+[[validation.rules.config.routes]]
+method = "GET"
+path = "/api/users"
+expect_status = 200
+expect_json = true
+[[validation.rules.config.routes]]
+method = "POST"
+path = "/api/users"
+body = "test_user.json"
+expect_status = 201
+[[validation.rules.config.routes]]
+method = "GET"
+path = "/api/users/1"
+expect_status = 200
+expect_json = true
+[[validation.rules.config.routes]]
+method = "GET"
+path = "/api/health"
+expect_status = 200
+expect_body = "healthy"
+[[validation.rules.config.routes]]
+method = "GET"
+path = "/static/test.txt"
+expect_status = 200
+
+[[validation.rules]]
+type = "process"
+name = "server_startup"
+[validation.rules.config]
+monitor_duration = "10s"
+expected_processes = ["http_server"]
+check_port = 8080
+graceful_shutdown = true
 
 [hints]
 level_1 = "Use http.NewServeMux() for routing and http.ListenAndServe() to start server"

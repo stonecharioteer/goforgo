@@ -17,8 +17,53 @@ learning_objectives = [
 ]
 
 [validation]
-mode = "build"
-timeout = "30s"
+mode = "universal"
+timeout = "120s"
+
+[[validation.services]]
+type = "http_mock"
+name = "upstream_service"
+version = "latest"
+[validation.services.config]
+port = 9090
+failure_rate = 0.5
+failure_after = "15s"
+
+[[validation.rules]]
+type = "process"
+name = "circuit_breaker_states"
+[validation.rules.config]
+monitor_duration = "60s"
+expected_states = ["CLOSED", "OPEN", "HALF_OPEN"]
+state_transitions = true
+concurrent_requests = 50
+
+[[validation.rules]]
+type = "concurrency"
+name = "thread_safety"
+[validation.rules.config]
+concurrent_requests = 100
+duration = "30s"
+race_detection = true
+expect_no_races = true
+
+[[validation.rules]]
+type = "metrics"
+name = "circuit_breaker_metrics"
+[validation.rules.config]
+endpoint = "http://localhost:8080/metrics"
+[[validation.rules.config.metrics]]
+name = "circuit_breaker_requests_total"
+type = "counter"
+min_value = 50
+[[validation.rules.config.metrics]]
+name = "circuit_breaker_failures_total"
+type = "counter"
+min_value = 10
+[[validation.rules.config.metrics]]
+name = "circuit_breaker_state"
+type = "gauge"
+possible_values = [0, 1, 2]
 
 [hints]
 level_1 = "Circuit breaker has 3 states: CLOSED (normal), OPEN (failing), HALF-OPEN (testing recovery)"

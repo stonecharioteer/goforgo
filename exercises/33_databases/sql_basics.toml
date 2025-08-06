@@ -17,8 +17,44 @@ learning_objectives = [
 ]
 
 [validation]
-mode = "build"
-timeout = "30s"
+mode = "universal"
+timeout = "90s"
+
+[[validation.services]]
+type = "postgresql"
+name = "main_db"
+version = "15"
+fixtures = ["schema.sql", "seed_data.sql"]
+[validation.services.config]
+POSTGRES_DB = "testdb"
+POSTGRES_USER = "testuser"
+POSTGRES_PASSWORD = "testpass"
+
+[[validation.rules]]
+type = "database"
+name = "schema_creation"
+[validation.rules.config]
+service = "main_db"
+check_tables = ["users", "products"]
+check_row_counts = true
+
+[[validation.rules]]
+type = "database"
+name = "crud_operations"
+[validation.rules.config]
+service = "main_db"
+test_insert = true
+test_select = true
+test_update = true
+test_delete = true
+
+[[validation.rules]]
+type = "database"
+name = "transaction_handling"
+[validation.rules.config]
+service = "main_db"
+test_rollback = true
+test_commit = true
 
 [hints]
 level_1 = "Import database/sql and SQLite driver (_ \"github.com/mattn/go-sqlite3\"). Use sql.Open() to connect"

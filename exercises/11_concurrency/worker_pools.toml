@@ -17,8 +17,42 @@ learning_objectives = [
 ]
 
 [validation]
-mode = "build"
-timeout = "30s"
+mode = "universal"
+timeout = "45s"
+
+[[validation.rules]]
+type = "concurrency"
+name = "worker_pool_behavior"
+[validation.rules.config]
+test_duration = "15s"
+race_detection = true
+[validation.rules.config.expected_goroutines]
+min = 5
+max = 20
+[validation.rules.config.job_throughput]
+min_jobs_per_second = 100
+[validation.rules.config.memory_growth]
+max_mb_increase = 10
+
+[[validation.rules]]
+type = "process"
+name = "graceful_shutdown"
+[validation.rules.config]
+shutdown_timeout = "5s"
+expect_clean_exit = true
+check_resource_cleanup = true
+
+[[validation.rules]]
+type = "logs"
+name = "worker_activity"
+[validation.rules.config]
+expected_patterns = [
+    "Worker \\d+ started",
+    "Worker \\d+ processing job", 
+    "Worker pool shutdown",
+    "All workers completed"
+]
+log_level = "info"
 
 [hints]
 level_1 = "Worker pool: job channel + result channel + worker goroutines"
