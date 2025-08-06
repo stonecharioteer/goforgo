@@ -1,0 +1,40 @@
+[exercise]
+name = "json_binding"
+category = "40_gin_web"
+difficulty = 3
+title = "Gin JSON Binding"
+time_estimate = "25m"
+learning_objectives = [
+  "Master JSON request binding with struct validation in Gin",
+  "Implement partial updates using pointer fields and nil checking",
+  "Handle validation errors gracefully with proper error responses",
+  "Build robust API endpoints with comprehensive data validation"
+]
+
+[description]
+content = "Master JSON binding in Gin: struct validation, partial updates, batch operations, and error handling"
+
+[hints]
+level_1 = "Use binding tags like `binding:\"required,min=2,max=50\"` for validation and `json:\"name\"` for field names"
+level_2 = "Use ShouldBindJSON() for validation - it returns error details without aborting the request"
+level_3 = "For partial updates, use pointer fields (*string, *int) and check for nil before updating"
+
+[validation]
+type = "universal"
+
+[validation.rules.http_route]
+base_url = "http://localhost:8080"
+routes = [
+  {method = "POST", path = "/users", body = "{\"name\":\"John Doe\",\"email\":\"john@test.com\",\"age\":25,\"password\":\"password123\"}", expected_status = 201, expected_body_contains = "created successfully"},
+  {method = "POST", path = "/users", body = "{\"name\":\"A\",\"email\":\"invalid\",\"age\":15}", expected_status = 400, expected_body_contains = "Invalid request"},
+  {method = "GET", path = "/users", expected_status = 200, expected_body_contains = "John Doe"},
+  {method = "PUT", path = "/users/1", body = "{\"name\":\"John Updated\"}", expected_status = 200, expected_body_contains = "updated successfully"},
+  {method = "POST", path = "/login", body = "{\"username\":\"testuser\",\"password\":\"testpass\"}", expected_status = 200, expected_body_contains = "Login successful"}
+]
+
+[validation.rules.process]
+expected_processes = ["json_binding"]
+max_runtime_seconds = 30
+
+[validation.rules.build]
+enabled = true

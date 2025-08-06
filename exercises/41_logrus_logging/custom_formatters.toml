@@ -1,0 +1,37 @@
+[exercise]
+name = "custom_formatters"
+category = "41_logrus_logging"
+difficulty = 3
+title = "Logrus Custom Formatters"
+time_estimate = "30m"
+learning_objectives = [
+  "Implement the logrus.Formatter interface for custom log formatting",
+  "Create ANSI color-coded output for different log levels",
+  "Build compact and readable log formats with proper field handling",
+  "Master advanced logging customization techniques"
+]
+
+[description]
+content = "Create custom Logrus formatters: implement logrus.Formatter interface, ANSI colors, and compact formats"
+
+[hints]
+level_1 = "Implement logrus.Formatter interface with Format(entry *logrus.Entry) ([]byte, error) method"
+level_2 = "Use bytes.Buffer to build formatted output and sort fields with sort.Strings() for consistency"
+level_3 = "ANSI color format: \\033[<color>m<text>\\033[0m where color codes are 31=red, 33=yellow, 32=green, 34=blue"
+
+[validation]
+type = "universal"
+
+[validation.rules.log]
+expected_patterns = [
+  "Custom Formatter Test",
+  "Colored Formatter Test", 
+  "Compact Formatter Test",
+  "User authentication successful",
+  "Rate limit warning",
+  "Database connection error",
+  "Custom formatters demonstration completed"
+]
+
+[validation.rules.build]
+enabled = true

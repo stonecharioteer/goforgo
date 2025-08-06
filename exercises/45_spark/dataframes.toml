@@ -1,0 +1,37 @@
+[exercise]
+name = "dataframes"
+category = "45_spark"
+difficulty = 3
+title = "Spark DataFrames"
+time_estimate = "30m"
+learning_objectives = [
+  "Implement advanced DataFrame operations in Go",
+  "Master select, join, groupby, and aggregation functions",
+  "Build efficient data processing with index maps and lookups",
+  "Create comprehensive data transformation pipelines"
+]
+
+[description]
+content = "Master advanced DataFrame operations: select, join, groupby, aggregations, and sorting"
+
+[hints]
+level_1 = "For Select, find column indices first, then create new rows with only selected columns"
+level_2 = "For GroupBy, create a map from column values to row indices, then implement aggregation functions"
+level_3 = "For Join, build index maps for efficient lookup and combine rows excluding duplicate join columns"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Spark DataFrame operations completed!"
+
+[validation.rules.log]
+expected_patterns = [
+  "Created Spark session.*GoSpark-DataFrames",
+  "Select name and salary",
+  "salary_category",
+  "Group by department",
+  "Join employees with departments",
+  "Sort employees by salary"
+]

@@ -1,0 +1,27 @@
+[exercise]
+name = "consumers"
+category = "42_kafka"
+difficulty = 2
+estimated_time = "25m"
+
+[description]
+title = "Kafka Consumers"
+summary = "Master Kafka message consumption: consumer groups, message handling, and offset management"
+learning_objectives = [
+  "Implement Kafka consumer groups for distributed message processing",
+  "Handle message consumption with proper error handling and recovery",
+  "Manage consumer offsets for reliable message processing",
+  "Implement graceful shutdown mechanisms for consumer applications"
+]
+
+[hints]
+level_1 = "Use kafka.NewReader with ReaderConfig including Brokers, Topic, and GroupID for consumer groups"
+level_2 = "Use ReadMessage() in a loop with context cancellation for graceful shutdown"
+level_3 = "Implement proper error handling in message handler functions"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Kafka consumer operations completed!"

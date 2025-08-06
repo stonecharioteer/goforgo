@@ -1,0 +1,27 @@
+[exercise]
+name = "hdfs_operations"
+category = "44_hadoop"
+difficulty = 2
+estimated_time = "25m"
+
+[description]
+title = "Hadoop HDFS Operations"
+summary = "Master HDFS file operations using WebHDFS REST API: create, read, list, and delete files"
+learning_objectives = [
+  "Implement HDFS file operations using WebHDFS REST API",
+  "Create, read, list, and delete files in HDFS programmatically",
+  "Handle HTTP responses and parse JSON for HDFS operations",
+  "Build HDFS URLs with proper operations and parameters"
+]
+
+[hints]
+level_1 = "Use WebHDFS REST API with HTTP client for HDFS operations"
+level_2 = "Build URLs with proper operations (CREATE, OPEN, LISTSTATUS, DELETE) and user.name parameter"
+level_3 = "Handle HTTP responses and parse JSON for directory listings and file metadata"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Hadoop HDFS operations completed!"

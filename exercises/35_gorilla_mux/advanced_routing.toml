@@ -1,0 +1,92 @@
+[exercise]
+name = "advanced_routing"
+category = "35_gorilla_mux"
+difficulty = 4
+estimated_time = "30m"
+
+[description]
+title = "Advanced Gorilla Mux Routing"
+summary = "Master advanced routing features including regex constraints, query parameters, host matching, and method handling"
+learning_objectives = [
+  "Use regex patterns to constrain URL variables",
+  "Handle multiple URL variables with different constraints",
+  "Require specific query parameters in routes",
+  "Implement host-based routing for subdomains",
+  "Handle multiple HTTP methods in a single handler",
+  "Convert and validate extracted URL parameters"
+]
+
+[validation]
+mode = "universal"
+timeout = "60s"
+
+[[validation.rules]]
+type = "http_route"
+name = "basic_routes"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+routes = [
+  { path = "/", method = "GET", expect_status = 200, expect_contains = "Advanced Gorilla Mux Routing Examples" }
+]
+
+[[validation.rules]]
+type = "http_route"
+name = "regex_constraints"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+routes = [
+  { path = "/users/123", method = "GET", expect_status = 200, expect_contains = "User ID: 123" },
+  { path = "/users/456", method = "GET", expect_status = 200, expect_contains = "User ID: 456" }
+]
+
+[[validation.rules]]
+type = "http_route"
+name = "multiple_variables"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+routes = [
+  { path = "/posts/2024/03/go-tutorial", method = "GET", expect_status = 200, expect_contains = "Post: go-tutorial (Published: 2024-03)" },
+  { path = "/posts/2023/12/year-end", method = "GET", expect_status = 200, expect_contains = "Post: year-end (Published: 2023-12)" }
+]
+
+[[validation.rules]]
+type = "http_route"
+name = "query_parameters"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+routes = [
+  { path = "/search?q=golang", method = "GET", expect_status = 200, expect_contains = "Searching for: golang" },
+  { path = "/search?q=mux", method = "GET", expect_status = 200, expect_contains = "Searching for: mux" }
+]
+
+[[validation.rules]]
+type = "http_route"
+name = "host_matching"
+[validation.rules.config]
+base_url = "http://api.example.com:8080"
+routes = [
+  { path = "/health", method = "GET", expect_status = 200, expect_contains = "healthy" }
+]
+
+[[validation.rules]]
+type = "http_route"
+name = "multiple_methods"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+routes = [
+  { path = "/data", method = "GET", expect_status = 200, expect_contains = "Getting data" },
+  { path = "/data", method = "POST", expect_status = 200, expect_contains = "Posting data" }
+]
+
+[[validation.rules]]
+type = "process"
+name = "server_startup"
+[validation.rules.config]
+check_port = 8080
+wait_for_port = true
+startup_timeout = "10s"
+
+[hints]
+level_1 = "Use {variable:[0-9]+} for regex constraints, .Queries(\"param\", \"\") for required query params"
+level_2 = "Extract multiple variables with vars := mux.Vars(r), then access vars[\"varname\"]"
+level_3 = "Use .Host(\"domain.com\") for host constraints, and handle multiple methods by checking r.Method in the handler"

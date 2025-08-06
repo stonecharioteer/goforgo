@@ -1,0 +1,40 @@
+[exercise]
+name = "migrations"
+category = "39_gorm_database"
+difficulty = 3
+title = "GORM Migrations"
+time_estimate = "25m"
+learning_objectives = [
+  "Implement database schema migrations with GORM AutoMigrate",
+  "Perform data transformations during migration processes",
+  "Use advanced Migrator methods for schema operations",
+  "Build production-ready database evolution strategies"
+]
+
+[description]
+content = "Master database schema migrations, column modifications, and data transformations with GORM"
+
+[hints]
+level_1 = "Use db.AutoMigrate() to add new columns and tables automatically based on struct changes"
+level_2 = "Use db.Model().Where().Updates() to perform batch updates during data migration"
+level_3 = "Use db.Migrator() methods like GetTables(), HasIndex(), CreateIndex() for advanced schema operations"
+
+[validation]
+type = "universal"
+
+[validation.services.postgres]
+image = "postgres:15"
+environment = ["POSTGRES_PASSWORD=testpass", "POSTGRES_DB=testdb"]
+ports = ["5432:5432"]
+
+[validation.rules.database]
+queries = [
+  "SELECT COUNT(*) FROM user_v2s WHERE age = 30 AND name LIKE 'J%'",
+  "SELECT COUNT(*) FROM products WHERE category = 'Electronics'",
+  "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('user_v2s', 'products')"
+]
+expected_results = ["2", "1", "user_v2s\nproducts"]
+
+[validation.rules.build]
+enabled = true
+expected_output = "GORM migrations operations completed successfully!"

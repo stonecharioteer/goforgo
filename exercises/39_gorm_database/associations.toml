@@ -1,0 +1,40 @@
+[exercise]
+name = "associations"
+category = "39_gorm_database"
+difficulty = 3
+estimated_time = "25m"
+
+[description]
+title = "GORM Associations"
+summary = "Master GORM associations: has one, has many, belongs to, and many-to-many relationships with preloading"
+learning_objectives = [
+  "Implement one-to-one, one-to-many, and many-to-many relationships",
+  "Use foreign keys and GORM tags for associations",
+  "Master preloading for efficient data retrieval"
+]
+
+[hints]
+level_1 = "Use struct embedding and foreign keys to define relationships: Profile belongs to User via UserID"
+level_2 = "For many-to-many relationships, use `gorm:\"many2many:table_name;\"` tag and join table"
+level_3 = "Use nested preloading with dots: db.Preload(\"Posts.Comments\").Preload(\"Posts.Tags\")"
+
+[validation]
+type = "universal"
+
+[validation.services.postgres]
+image = "postgres:15"
+environment = ["POSTGRES_PASSWORD=testpass", "POSTGRES_DB=testdb"]
+ports = ["5432:5432"]
+
+[validation.rules.database]
+queries = [
+  "SELECT COUNT(*) FROM users WHERE email = 'alice@example.com'",
+  "SELECT COUNT(*) FROM posts WHERE user_id = (SELECT id FROM users WHERE email = 'alice@example.com')",
+  "SELECT COUNT(*) FROM post_tags",
+  "SELECT COUNT(*) FROM comments"
+]
+expected_results = ["1", "2", "4", "3"]
+
+[validation.rules.build]
+enabled = true
+expected_output = "GORM associations operations completed successfully!"

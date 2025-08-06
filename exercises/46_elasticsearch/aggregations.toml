@@ -1,0 +1,21 @@
+[exercise]
+name = "aggregations"
+category = "46_elasticsearch"
+difficulty = 3
+estimated_time = "25m"
+
+[description]
+title = "Elasticsearch Aggregations"
+summary = "Master Elasticsearch aggregations: terms, metrics, bucket aggregations, and analytics"
+learning_objectives = [
+  "Implement terms aggregations for data grouping and analysis",
+  "Apply metrics aggregations for statistical calculations",
+  "Create bucket aggregations for data distribution analysis",
+  "Combine multiple aggregation types for complex analytics"
+]
+
+[validation]
+type = "universal"
+[validation.rules.build]
+enabled = true
+expected_output = "Elasticsearch aggregations operations completed!"

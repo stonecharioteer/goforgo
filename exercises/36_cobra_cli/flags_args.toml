@@ -1,0 +1,82 @@
+[exercise]
+name = "flags_args"
+category = "36_cobra_cli"
+difficulty = 3
+estimated_time = "25m"
+
+[description]
+title = "Cobra Flags and Arguments"
+summary = "Master Cobra's flag handling including persistent flags, required flags, and various argument validation patterns"
+learning_objectives = [
+  "Define persistent flags available to all subcommands",
+  "Create command-specific local flags",
+  "Use different flag types: bool, string, int, string slice",
+  "Implement argument validation with cobra.Args",
+  "Mark flags as required",
+  "Access flag values within command handlers"
+]
+
+[validation]
+mode = "universal"
+timeout = "60s"
+
+[[validation.rules]]
+type = "process"
+name = "help_command"
+[validation.rules.config]
+command = ["./flags_args", "--help"]
+expect_output_contains = ["Demonstrate Cobra flags", "Available Commands", "process", "search"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "process_basic"
+[validation.rules.config]
+command = ["./flags_args", "process", "file1.txt", "file2.txt"]
+expect_output_contains = ["Processing 2 files", "File 1: file1.txt", "File 2: file2.txt"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "process_with_flags"
+[validation.rules.config]
+command = ["./flags_args", "process", "--format", "json", "--count", "5", "data.txt"]
+expect_output_contains = ["Processing 1 files in json format", "Max items to process: 5", "File 1: data.txt"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "process_verbose"
+[validation.rules.config]
+command = ["./flags_args", "-v", "-o", "xml", "process", "test.txt"]
+expect_output_contains = ["Verbose mode enabled", "Output format: xml", "Processing 1 files"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "search_basic"
+[validation.rules.config]
+command = ["./flags_args", "search", "golang", "--case-sensitive"]
+expect_output_contains = ["Searching for: golang", "Case sensitive: true", "Result limit: 100"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "search_with_exclude"
+[validation.rules.config]
+command = ["./flags_args", "search", "golang", "--case-sensitive", "--exclude", "test,debug", "--limit", "50"]
+expect_output_contains = ["Searching for: golang", "Case sensitive: true", "Result limit: 50", "Excluding: test, debug"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "search_missing_required_flag"
+[validation.rules.config]
+command = ["./flags_args", "search", "golang"]
+expect_exit_code = 1
+expect_error_contains = ["required flag(s)", "case-sensitive"]
+
+[hints]
+level_1 = "Use rootCmd.PersistentFlags() for global flags, cmd.Flags() for command-specific flags"
+level_2 = "Access flag values with cmd.Flags().GetString(), GetInt(), GetBool(), etc. Use cobra.MinimumNArgs(1) for argument validation"
+level_3 = "Mark flags as required with cmd.MarkFlagRequired(\"flagname\"). Use StringSlice for multiple values"

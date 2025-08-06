@@ -1,0 +1,61 @@
+[exercise]
+name = "interactive_lists"
+category = "37_bubbletea_tui"
+difficulty = 3
+estimated_time = "25m"
+
+[description]
+title = "Interactive Lists with Bubble Tea"
+summary = "Build navigable lists with cursor movement, selection, and keyboard navigation using Bubble Tea"
+learning_objectives = [
+  "Implement cursor-based navigation in lists",
+  "Handle arrow key events for movement",
+  "Create visual cursor indicators in the interface",
+  "Implement list wraparound navigation",
+  "Handle item selection with Enter key",
+  "Manage multiple UI states (browsing vs selected)"
+]
+
+[validation]
+mode = "universal"
+timeout = "45s"
+
+[[validation.rules]]
+type = "process"
+name = "program_structure"
+[validation.rules.config]
+check_build = true
+expect_no_build_errors = true
+
+[[validation.rules]]
+type = "process"
+name = "list_navigation"
+[validation.rules.config]
+command = ["./interactive_lists"]
+interactive = true
+inputs = ["down", "down", "up", "q"]
+expect_output_contains = ["Select a fruit:", "🍎 Apple", "🍌 Banana", "Use ↑/↓ to navigate", "Goodbye!"]
+timeout = "10s"
+
+[[validation.rules]]
+type = "process"
+name = "item_selection"
+[validation.rules.config]
+command = ["./interactive_lists"]
+interactive = true
+inputs = ["down", "enter"]
+expect_output_contains = ["You selected:", "🍌 Banana", "Goodbye!"]
+timeout = "10s"
+
+[[validation.rules]]
+type = "process"
+name = "cursor_display"
+[validation.rules.config]
+command = ["timeout", "1s", "./interactive_lists"]
+expect_output_contains = ["> 🍎 Apple", "🍌 Banana"]
+timeout = "5s"
+
+[hints]
+level_1 = "Track cursor position with an int field. Use \"up\"/\"down\" in the key switch to move cursor"
+level_2 = "Implement wraparound: cursor goes to len(items)-1 when moving up from 0, and to 0 when moving down from last item"
+level_3 = "Show cursor with \">\" prefix for current item, space for others. Handle selection with \"enter\" key"

@@ -1,0 +1,43 @@
+[exercise]
+name = "controllers"
+category = "43_kubernetes"
+difficulty = 3
+title = "Kubernetes Controllers"
+time_estimate = "35m"
+learning_objectives = [
+  "Build a complete Kubernetes controller with event handling",
+  "Implement resource watching with informers and event handlers",
+  "Process work queues asynchronously with rate limiting",
+  "Master controller patterns for production Kubernetes applications"
+]
+
+[description]
+content = "Build a Kubernetes controller: watch resource changes, implement event handlers, and process work queues"
+
+[hints]
+level_1 = "Use cache.NewIndexerInformer with ResourceEventHandlerFuncs for Add/Update/Delete events"
+level_2 = "Use workqueue.RateLimitingInterface to handle events asynchronously with rate limiting"
+level_3 = "Implement processItem() loop that gets items from queue, processes them, and marks as done"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Kubernetes controller operations completed!"
+
+[validation.rules.log]
+expected_patterns = [
+  "Successfully initialized Kubernetes client for controller",
+  "Created Pod controller with informer",
+  "Starting Pod controller",
+  "Waiting for cache to sync",
+  "Cache synced successfully",
+  "Starting worker",
+  "Controller running.*watching for pod changes",
+  "Stopping controller"
+]
+
+[validation.rules.process]
+expected_processes = ["controllers"]
+max_runtime_seconds = 130

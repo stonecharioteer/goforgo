@@ -1,0 +1,95 @@
+[exercise]
+name = "goroutine_patterns"
+category = "38_advanced_concurrency"
+difficulty = 4
+estimated_time = "35m"
+
+[description]
+title = "Advanced Goroutine Communication Patterns"
+summary = "Master advanced concurrency patterns including fan-in/fan-out, pipelines, or-channels, graceful shutdown, rate limiting, and circuit breakers"
+learning_objectives = [
+  "Implement fan-out pattern to distribute work across multiple workers",
+  "Apply fan-in pattern to merge results from multiple goroutines",
+  "Build cancellable pipeline stages with context",
+  "Use or-channel pattern for racing multiple operations",
+  "Design graceful shutdown patterns for services",
+  "Implement rate limiting with channels",
+  "Build circuit breaker pattern for fault tolerance"
+]
+
+[validation]
+mode = "universal"
+timeout = "90s"
+
+[[validation.rules]]
+type = "process"
+name = "program_compilation"
+[validation.rules.config]
+check_build = true
+expect_no_build_errors = true
+
+[[validation.rules]]
+type = "process"
+name = "fan_out_fan_in"
+[validation.rules.config]
+command = ["./goroutine_patterns"]
+expect_output_contains = ["Fan-Out/Fan-In Pattern", "Worker processing", "Final result:"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "pipeline_pattern"
+[validation.rules.config]
+command = ["./goroutine_patterns"]
+expect_output_contains = ["Pipeline Pattern", "Generated:", "Squared:", "Filtered (even):", "Pipeline output:"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "or_channel_pattern"
+[validation.rules.config]
+command = ["./goroutine_patterns"]
+expect_output_contains = ["Or-Channel Pattern", "First result:"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "graceful_shutdown"
+[validation.rules.config]
+command = ["./goroutine_patterns"]
+expect_output_contains = ["Graceful Shutdown Pattern", "Starting all services", "Service", "starting", "Stopping all services", "stopped"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "rate_limiter"
+[validation.rules.config]
+command = ["./goroutine_patterns"]
+expect_output_contains = ["Rate Limiter Pattern", "Processing request:", "Processed:"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "circuit_breaker"
+[validation.rules.config]
+command = ["./goroutine_patterns"]
+expect_output_contains = ["Circuit Breaker Pattern", "Service call"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "concurrency"
+name = "goroutine_safety"
+[validation.rules.config]
+check_race_conditions = true
+expect_no_race_conditions = true
+
+[hints]
+level_1 = "Fan-out creates multiple workers reading from one channel. Fan-in merges multiple channels using sync.WaitGroup"
+level_2 = "Pipeline stages use <-chan interface{} input and chan<- interface{} output. Use range to process input"
+level_3 = "Or-channel pattern uses recursive select statements. Graceful shutdown uses context cancellation"

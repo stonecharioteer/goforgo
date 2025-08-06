@@ -1,0 +1,73 @@
+[exercise]
+name = "basic_commands"
+category = "36_cobra_cli"
+difficulty = 2
+estimated_time = "20m"
+
+[description]
+title = "Basic Cobra CLI Commands"
+summary = "Learn to create basic CLI commands using the Cobra library for building command-line applications"
+learning_objectives = [
+  "Create a root command with Cobra",
+  "Define subcommands with proper structure",
+  "Handle command arguments and validation",
+  "Add commands to the root command hierarchy",
+  "Execute commands with proper error handling"
+]
+
+[validation]
+mode = "universal"
+timeout = "45s"
+
+[[validation.rules]]
+type = "process"
+name = "help_command"
+[validation.rules.config]
+command = ["./basic_commands", "--help"]
+expect_output_contains = ["A simple CLI application", "Available Commands", "version", "greet"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "version_command"
+[validation.rules.config]
+command = ["./basic_commands", "version"]
+expect_output_contains = ["MyApp v1.0.0"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "greet_command"
+[validation.rules.config]
+command = ["./basic_commands", "greet", "Alice"]
+expect_output_contains = ["Hello, Alice!"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "greet_command_different_name"
+[validation.rules.config]
+command = ["./basic_commands", "greet", "Bob"]
+expect_output_contains = ["Hello, Bob!"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "root_command"
+[validation.rules.config]
+command = ["./basic_commands"]
+expect_output_contains = ["Welcome to MyApp!"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "greet_no_args_error"
+[validation.rules.config]
+command = ["./basic_commands", "greet"]
+expect_exit_code = 1
+expect_error_contains = ["requires exactly 1 arg"]
+
+[hints]
+level_1 = "Create cobra.Command structs with Use, Short, and Run fields. Use cobra.ExactArgs(1) for argument validation"
+level_2 = "Add commands with rootCmd.AddCommand(subcommand), and execute with rootCmd.Execute()"
+level_3 = "Access command arguments through the args slice passed to the Run function"

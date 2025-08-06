@@ -1,0 +1,53 @@
+[exercise]
+name = "basic_model"
+category = "37_bubbletea_tui"
+difficulty = 2
+estimated_time = "20m"
+
+[description]
+title = "Bubble Tea Basic Model"
+summary = "Learn the fundamentals of Bubble Tea's Model-View-Update architecture by building a simple counter application"
+learning_objectives = [
+  "Understand the Model-View-Update (MVU) pattern",
+  "Create a model struct to hold application state",
+  "Implement the Update function to handle user input",
+  "Build the View function to render the interface",
+  "Handle keyboard events with tea.KeyMsg",
+  "Start a Bubble Tea program with tea.NewProgram"
+]
+
+[validation]
+mode = "universal"
+timeout = "45s"
+
+[[validation.rules]]
+type = "process"
+name = "program_structure"
+[validation.rules.config]
+check_build = true
+expect_no_build_errors = true
+
+[[validation.rules]]
+type = "process"
+name = "interactive_test"
+[validation.rules.config]
+command = ["./basic_model"]
+interactive = true
+inputs = ["+", "+", "+", "-", "q"]
+expect_output_contains = ["Counter:", "Press + to increment", "Press q to quit", "Goodbye!"]
+timeout = "10s"
+
+[[validation.rules]]
+type = "process"
+name = "counter_functionality"
+[validation.rules.config]
+command = ["timeout", "2s", "./basic_model"]
+interactive = true
+inputs = ["+", "+", "+"]
+expect_output_contains = ["Counter: 3"]
+timeout = "5s"
+
+[hints]
+level_1 = "Create a model struct with counter and quitting fields. Implement Update() to handle tea.KeyMsg events"
+level_2 = "In Update(), use a switch statement on msg.String() to handle \"+\", \"-\", and \"q\" keys"
+level_3 = "View() should return different strings based on the quitting state. Use tea.NewProgram() and Run() to start the application"

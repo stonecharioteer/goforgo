@@ -1,0 +1,43 @@
+[exercise]
+name = "streaming"
+category = "45_spark"
+difficulty = 3
+title = "Spark Streaming"
+time_estimate = "35m"
+learning_objectives = [
+  "Implement real-time data streaming with Go channels and goroutines",
+  "Chain stream transformations with map, filter, and window operations",
+  "Build windowing mechanisms with time-based data accumulation",
+  "Create production-like streaming data processing pipelines"
+]
+
+[description]
+content = "Master Spark streaming: real-time data processing, transformations, windowing, and stream output"
+
+[hints]
+level_1 = "Use channels to simulate streaming data and goroutines for concurrent processing"
+level_2 = "Chain transformations by creating new DStreams that read from previous stream channels"
+level_3 = "For windowing, accumulate data over time and emit results at slide intervals"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Spark streaming operations completed!"
+
+[validation.rules.log]
+expected_patterns = [
+  "Created StreamingContext with batch duration",
+  "Creating socket text stream",
+  "Generated batch.*with.*log entries",
+  "Adding Map transformation",
+  "Adding Filter transformation", 
+  "Adding Window operation",
+  "Emitted window with.*elements",
+  "Starting StreamingContext"
+]
+
+[validation.rules.process]
+expected_processes = ["streaming"]
+max_runtime_seconds = 35

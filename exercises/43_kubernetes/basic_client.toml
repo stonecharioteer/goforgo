@@ -1,0 +1,36 @@
+[exercise]
+name = "basic_client"
+category = "43_kubernetes"
+difficulty = 2
+title = "Kubernetes Basic Client"
+time_estimate = "25m"
+learning_objectives = [
+  "Connect to Kubernetes API using Go client-go library",
+  "List and inspect cluster resources like Pods and Namespaces",
+  "Handle kubeconfig configuration and authentication",
+  "Build foundational skills for Kubernetes automation"
+]
+
+[description]
+content = "Learn Kubernetes Go client basics: connecting to API, listing resources, and inspecting cluster objects"
+
+[hints]
+level_1 = "Use clientcmd.BuildConfigFromFlags() with kubeconfig path from homedir.HomeDir()/.kube/config"
+level_2 = "Use clientset.CoreV1() for core resources like Pods, Services, Namespaces"
+level_3 = "Use context.Background() and metav1.ListOptions{} for basic API calls"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Kubernetes basic client operations completed!"
+
+[validation.rules.log]
+expected_patterns = [
+  "Successfully initialized Kubernetes client",
+  "Cluster Information",
+  "Kubernetes Version",
+  "Namespaces",
+  "Found.*namespaces"
+]

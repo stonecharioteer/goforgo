@@ -1,0 +1,44 @@
+[exercise]
+name = "model_basics"
+category = "39_gorm_database"
+difficulty = 2
+title = "GORM Model Basics"
+time_estimate = "20m"
+learning_objectives = [
+  "Define GORM models with proper struct tags and field properties",
+  "Implement relationships between models using foreign keys",
+  "Use AutoMigrate to create database schemas from Go structs",
+  "Build foundational database modeling skills with GORM"
+]
+
+[description]
+content = "Learn how to define GORM models with proper field tags, relationships, and basic database operations"
+
+[hints]
+level_1 = "Use GORM struct tags like `gorm:\"primaryKey\"`, `gorm:\"not null\"`, and `gorm:\"uniqueIndex\"` to define field properties"
+level_2 = "Embed foreign key relationships using UserID field and User struct reference in Profile"
+level_3 = "Use db.AutoMigrate() to create database tables from your struct definitions"
+
+[validation]
+type = "universal"
+
+[validation.services.postgres]
+image = "postgres:15"
+environment = ["POSTGRES_PASSWORD=testpass", "POSTGRES_DB=testdb"]
+ports = ["5432:5432"]
+
+[validation.rules.database]
+queries = [
+  "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('users', 'profiles')",
+  "SELECT COUNT(*) FROM users WHERE email = 'john@example.com'",
+  "SELECT COUNT(*) FROM profiles WHERE bio = 'Software Developer'"
+]
+expected_results = [
+  "users\nprofiles",
+  "1",
+  "0"
+]
+
+[validation.rules.build]
+enabled = true
+expected_output = "GORM model operations completed successfully!"

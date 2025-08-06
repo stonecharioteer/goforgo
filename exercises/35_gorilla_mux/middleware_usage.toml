@@ -1,0 +1,74 @@
+[exercise]
+name = "middleware_usage"
+category = "35_gorilla_mux"
+difficulty = 3
+estimated_time = "25m"
+
+[description]
+title = "HTTP Middleware with Gorilla Mux"
+summary = "Learn to implement and chain HTTP middleware for logging, authentication, and request processing"
+learning_objectives = [
+  "Implement logging middleware for request tracking",
+  "Create authentication middleware for protected routes",
+  "Apply middleware globally using router.Use()",
+  "Create subrouters with specific middleware",
+  "Chain multiple middleware functions together",
+  "Handle middleware short-circuiting and error responses"
+]
+
+[validation]
+mode = "universal"
+timeout = "60s"
+
+[[validation.rules]]
+type = "http_route"
+name = "public_routes"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+routes = [
+  { path = "/", method = "GET", expect_status = 200, expect_contains = "Welcome! This request was logged" },
+  { path = "/protected", method = "GET", expect_status = 200, expect_contains = "This is a protected endpoint" }
+]
+
+[[validation.rules]]
+type = "http_route"
+name = "protected_api_routes_unauthorized"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+routes = [
+  { path = "/api/users", method = "GET", expect_status = 401, expect_contains = "Unauthorized" },
+  { path = "/api/orders", method = "GET", expect_status = 401, expect_contains = "Unauthorized" }
+]
+
+[[validation.rules]]
+type = "http_route"
+name = "protected_api_routes_authorized"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+routes = [
+  { path = "/api/users", method = "GET", headers = { "Authorization" = "Bearer secret-token" }, expect_status = 200, expect_contains = "API Users" },
+  { path = "/api/orders", method = "GET", headers = { "Authorization" = "Bearer secret-token" }, expect_status = 200, expect_contains = "API Orders" }
+]
+
+[[validation.rules]]
+type = "log"
+name = "logging_middleware"
+[validation.rules.config]
+expect_patterns = [
+  "\\[\\d{2}:\\d{2}:\\d{2}\\] GET /",
+  "Request completed in"
+]
+log_level = "info"
+
+[[validation.rules]]
+type = "process"
+name = "server_startup"
+[validation.rules.config]
+check_port = 8080
+wait_for_port = true
+startup_timeout = "10s"
+
+[hints]
+level_1 = "Use router.Use(middleware) to apply middleware globally. Middleware functions wrap http.Handler and return http.Handler"
+level_2 = "Create subrouters with router.PathPrefix(\"/api\").Subrouter() and apply specific middleware with apiRouter.Use()"
+level_3 = "In auth middleware, check r.Header.Get(\"Authorization\") and use http.Error() to return 401 status for unauthorized requests"

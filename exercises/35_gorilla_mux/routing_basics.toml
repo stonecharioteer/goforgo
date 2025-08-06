@@ -1,0 +1,62 @@
+[exercise]
+name = "routing_basics"
+category = "35_gorilla_mux"
+difficulty = 2
+estimated_time = "20m"
+
+[description]
+title = "HTTP Routing with Gorilla Mux"
+summary = "Learn to create HTTP routes with gorilla/mux including URL variables and method-specific routing"
+learning_objectives = [
+  "Create a new gorilla/mux router",
+  "Define basic HTTP routes with handlers",
+  "Set up method-specific routes (GET, POST)",
+  "Extract URL variables from requests",
+  "Start an HTTP server with custom routing"
+]
+
+[validation]
+mode = "universal"
+timeout = "60s"
+
+[[validation.rules]]
+type = "http_route"
+name = "basic_routes"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+routes = [
+  { path = "/", method = "GET", expect_status = 200, expect_contains = "Welcome to the Home Page" },
+  { path = "/about", method = "GET", expect_status = 200, expect_contains = "About Us Page" }
+]
+
+[[validation.rules]]
+type = "http_route"
+name = "method_specific_routes"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+routes = [
+  { path = "/users", method = "POST", expect_status = 200, expect_contains = "User created successfully" }
+]
+
+[[validation.rules]]
+type = "http_route"
+name = "url_variables"
+[validation.rules.config]
+base_url = "http://localhost:8080"
+routes = [
+  { path = "/users/123", method = "GET", expect_status = 200, expect_contains = "Getting user with ID: 123" },
+  { path = "/users/alice", method = "GET", expect_status = 200, expect_contains = "Getting user with ID: alice" }
+]
+
+[[validation.rules]]
+type = "process"
+name = "server_startup"
+[validation.rules.config]
+check_port = 8080
+wait_for_port = true
+startup_timeout = "10s"
+
+[hints]
+level_1 = "Create a router with mux.NewRouter(), then use router.HandleFunc() to define routes"
+level_2 = "Use .Methods(\"GET\", \"POST\") to restrict routes to specific HTTP methods"
+level_3 = "Extract URL variables with mux.Vars(r) which returns a map[string]string of all variables"

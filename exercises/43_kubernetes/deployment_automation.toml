@@ -1,0 +1,39 @@
+[exercise]
+name = "deployment_automation"
+category = "43_kubernetes"
+difficulty = 3
+estimated_time = "45m"
+
+[description]
+title = "Kubernetes Deployment Automation"
+summary = "Master deployment automation: rolling updates, scaling, resource management, and application lifecycle"
+learning_objectives = [
+  "Implement automated deployment workflows with rolling updates",
+  "Configure scaling mechanisms for application replicas",
+  "Manage Kubernetes resources and application lifecycle programmatically",
+  "Monitor deployment status and handle rollback scenarios"
+]
+
+[hints]
+level_1 = "Use appsv1.RollingUpdateDeployment with MaxUnavailable and MaxSurge for controlled updates"
+level_2 = "Use wait.PollImmediate() to wait for deployment conditions and check Status.ReadyReplicas"
+level_3 = "Create ConfigMaps and Services alongside Deployments for complete application stacks"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Kubernetes deployment automation completed!"
+
+[validation.rules.log]
+expected_patterns = [
+  "Deploying application.*web-app",
+  "Successfully deployed application.*web-app",
+  "Deployment.*web-app.*is ready",
+  "Starting rolling update.*nginx:1.22",
+  "Successfully scaled deployment.*to.*replicas",
+  "Final Deployment Status",
+  "Demonstrating rollback",
+  "Successfully cleaned up application"
+]

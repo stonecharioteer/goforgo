@@ -1,0 +1,114 @@
+[exercise]
+name = "subcommands"
+category = "36_cobra_cli"
+difficulty = 3
+estimated_time = "25m"
+
+[description]
+title = "Nested Cobra Subcommands"
+summary = "Build complex command hierarchies with nested subcommands for organized CLI tool functionality"
+learning_objectives = [
+  "Create parent commands that group related functionality",
+  "Build nested command hierarchies with multiple levels",
+  "Add subcommands to parent commands properly",
+  "Handle optional arguments in subcommands",
+  "Organize complex CLI functionality into logical groups",
+  "Provide helpful command group descriptions"
+]
+
+[validation]
+mode = "universal"
+timeout = "60s"
+
+[[validation.rules]]
+type = "process"
+name = "root_help"
+[validation.rules.config]
+command = ["./subcommands", "--help"]
+expect_output_contains = ["A CLI tool with nested subcommands", "Available Commands", "user", "db"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "user_help"
+[validation.rules.config]
+command = ["./subcommands", "user", "--help"]
+expect_output_contains = ["User management commands", "Available Commands", "list", "create"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "user_list_basic"
+[validation.rules.config]
+command = ["./subcommands", "user", "list"]
+expect_output_contains = ["Listing users in table format", "alice@example.com", "bob@example.com"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "user_list_json"
+[validation.rules.config]
+command = ["./subcommands", "user", "list", "--format", "json"]
+expect_output_contains = ["Listing users in json format", "alice@example.com", "bob@example.com"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "user_create_basic"
+[validation.rules.config]
+command = ["./subcommands", "user", "create", "charlie@example.com"]
+expect_output_contains = ["Creating user: charlie@example.com"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "user_create_admin"
+[validation.rules.config]
+command = ["./subcommands", "user", "create", "admin@example.com", "--admin"]
+expect_output_contains = ["Creating user: admin@example.com", "User will have admin privileges"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "db_help"
+[validation.rules.config]
+command = ["./subcommands", "db", "--help"]
+expect_output_contains = ["Database management commands", "Available Commands", "migrate", "backup"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "db_migrate_basic"
+[validation.rules.config]
+command = ["./subcommands", "db", "migrate"]
+expect_output_contains = ["Running database migrations"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "db_migrate_dry_run"
+[validation.rules.config]
+command = ["./subcommands", "db", "migrate", "--dry-run"]
+expect_output_contains = ["Dry run: Would run database migrations"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "db_backup_default"
+[validation.rules.config]
+command = ["./subcommands", "db", "backup"]
+expect_output_contains = ["Creating database backup: backup.sql"]
+expect_exit_code = 0
+
+[[validation.rules]]
+type = "process"
+name = "db_backup_custom"
+[validation.rules.config]
+command = ["./subcommands", "db", "backup", "mydata.sql"]
+expect_output_contains = ["Creating database backup: mydata.sql"]
+expect_exit_code = 0
+
+[hints]
+level_1 = "Create parent commands first, then add child commands with parentCmd.AddCommand(childCmd)"
+level_2 = "Each command group should have a helpful Run function that guides users to subcommands"
+level_3 = "Use len(args) to check if optional arguments are provided, and provide sensible defaults"

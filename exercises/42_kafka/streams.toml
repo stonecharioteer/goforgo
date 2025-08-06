@@ -1,0 +1,27 @@
+[exercise]
+name = "streams"
+category = "42_kafka"
+difficulty = 3
+estimated_time = "30m"
+
+[description]
+title = "Kafka Streams"
+summary = "Master stream processing: filtering, transforming, and aggregating Kafka message streams"
+learning_objectives = [
+  "Implement stream processing pipelines for real-time data transformation",
+  "Apply filtering logic to process relevant messages from streams",
+  "Transform message data between different formats and structures",
+  "Aggregate streaming data for analytics and reporting purposes"
+]
+
+[hints]
+level_1 = "Use separate Reader and Writer for input and output topics in stream processing pipeline"
+level_2 = "Unmarshal JSON messages, apply transformations, and marshal results back to JSON"
+level_3 = "Implement filtering logic before processing and writing to output topics"
+
+[validation]
+type = "universal"
+
+[validation.rules.build]
+enabled = true
+expected_output = "Kafka streams operations completed!"

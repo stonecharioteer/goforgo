@@ -1,0 +1,40 @@
+[exercise]
+name = "basic_routing"
+category = "40_gin_web"
+difficulty = 2
+title = "Gin Basic Routing"
+time_estimate = "20m"
+learning_objectives = [
+  "Create HTTP routes and handlers using Gin web framework",
+  "Handle path parameters and query strings in requests",
+  "Return JSON responses with proper status codes",
+  "Build foundational REST API endpoints"
+]
+
+[description]
+content = "Learn Gin web framework basics: creating routes, handling path parameters, and processing query strings"
+
+[hints]
+level_1 = "Use gin.Default() to create a router with logging and recovery middleware"
+level_2 = "Extract path parameters with c.Param(\"name\") and query parameters with c.Query(\"name\")"
+level_3 = "Return JSON responses using c.JSON(statusCode, data) and handle errors appropriately"
+
+[validation]
+type = "universal"
+
+[validation.rules.http_route]
+base_url = "http://localhost:8080"
+routes = [
+  {method = "GET", path = "/", expected_status = 200, expected_body_contains = "Welcome to Gin API!"},
+  {method = "GET", path = "/users", expected_status = 200, expected_body_contains = "Alice Johnson"},
+  {method = "GET", path = "/users/1", expected_status = 200, expected_body_contains = "alice@example.com"},
+  {method = "GET", path = "/users/999", expected_status = 404, expected_body_contains = "not found"},
+  {method = "GET", path = "/search?name=alice", expected_status = 200, expected_body_contains = "Alice Johnson"}
+]
+
+[validation.rules.process]
+expected_processes = ["basic_routing"]
+max_runtime_seconds = 30
+
+[validation.rules.build]
+enabled = true

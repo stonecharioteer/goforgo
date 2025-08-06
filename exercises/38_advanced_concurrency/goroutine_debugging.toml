@@ -1,0 +1,97 @@
+[exercise]
+name = "goroutine_debugging"
+category = "38_advanced_concurrency"
+difficulty = 5
+estimated_time = "40m"
+
+[description]
+title = "Goroutine Debugging and Performance Analysis"
+summary = "Master advanced debugging techniques including race detection, leak prevention, performance profiling, and concurrency optimization"
+learning_objectives = [
+  "Identify and fix race conditions using atomic operations",
+  "Prevent goroutine leaks with proper context handling",
+  "Analyze performance differences between sequential and concurrent code",
+  "Use goroutine pools to manage resource usage",
+  "Understand false sharing and cache line effects",
+  "Implement panic recovery in concurrent programs",
+  "Benchmark different synchronization primitives",
+  "Monitor goroutine count and memory usage"
+]
+
+[validation]
+mode = "universal"
+timeout = "120s"
+
+[[validation.rules]]
+type = "process"
+name = "program_compilation"
+[validation.rules.config]
+check_build = true
+expect_no_build_errors = true
+
+[[validation.rules]]
+type = "concurrency"
+name = "race_detection"
+[validation.rules.config]
+check_race_conditions = true
+expect_race_conditions = true  # This exercise intentionally shows race conditions
+race_detection_flags = ["-race"]
+
+[[validation.rules]]
+type = "process"
+name = "unsafe_counter_demo"
+[validation.rules.config]
+command = ["./goroutine_debugging"]
+expect_output_contains = ["Race Condition Demonstration", "Unsafe counter result:", "Safe counter result: 100000"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "performance_comparison"
+[validation.rules.config]
+command = ["./goroutine_debugging"]
+expect_output_contains = ["Performance Comparison", "Sequential:", "Concurrent:"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "false_sharing_demo"
+[validation.rules.config]
+command = ["./goroutine_debugging"]
+expect_output_contains = ["False Sharing Demonstration", "False sharing time:", "No false sharing time:", "Performance improvement:"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "sync_benchmarks"
+[validation.rules.config]
+command = ["./goroutine_debugging"]
+expect_output_contains = ["Synchronization Benchmarks", "Mutex time:", "Atomic time:", "faster"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "runtime_info"
+[validation.rules.config]
+command = ["./goroutine_debugging"]
+expect_output_contains = ["Runtime info:", "goroutines", "Goroutine debugging completed"]
+expect_exit_code = 0
+timeout = "30s"
+
+[[validation.rules]]
+type = "process"
+name = "goroutine_monitoring"
+[validation.rules.config]
+monitor_goroutines = true
+expect_goroutine_cleanup = true
+max_goroutines = 200
+baseline_goroutines = 10
+
+[hints]
+level_1 = "Use atomic.AddInt64() and atomic.LoadInt64() to fix race conditions. The -race flag detects data races"
+level_2 = "Prevent goroutine leaks by using context.WithTimeout() and selecting on ctx.Done() in goroutine loops"
+level_3 = "False sharing occurs when different goroutines modify variables on the same cache line. Use padding to separate them"
