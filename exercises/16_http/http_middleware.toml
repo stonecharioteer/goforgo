@@ -1,0 +1,30 @@
+[exercise]
+name = "http_middleware"
+category = "16_http"
+difficulty = 4
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "HTTP Middleware and Routing"
+summary = "Learn HTTP middleware patterns and advanced routing in Go"
+learning_objectives = [
+  "Create and chain HTTP middleware functions",
+  "Implement authentication and CORS middleware",
+  "Build custom routing logic",
+  "Configure HTTP server timeouts",
+  "Handle request/response flow through middleware stack"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Middleware: func(http.Handler) http.Handler, chain by wrapping handlers"
+level_2 = "Chain middleware: apply in reverse order for correct execution flow"
+level_3 = "Server config: &http.Server{Addr, Handler, ReadTimeout, WriteTimeout}"
+
+[metadata]
+tags = ["http", "middleware", "routing", "authentication", "cors", "server"]
+related_exercises = ["16_http/http_server.go", "16_http/http_client.go"]

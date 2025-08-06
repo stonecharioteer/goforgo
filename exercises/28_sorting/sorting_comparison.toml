@@ -1,0 +1,30 @@
+[exercise]
+name = "sorting_comparison"
+category = "28_sorting"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Sorting Algorithm Performance Comparison"
+summary = "Compare performance characteristics and trade-offs of different sorting algorithms"
+learning_objectives = [
+  "Compare time complexity of different sorting algorithms",
+  "Understand best/worst case scenarios for each algorithm",
+  "Analyze memory usage (in-place vs out-of-place)",
+  "Learn about algorithm stability",
+  "Benchmark sorting performance on different data patterns"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use time.Now() and time.Since() to measure algorithm performance"
+level_2 = "Test algorithms on different data patterns: sorted, reverse, random, duplicates"
+level_3 = "Stable algorithms preserve relative order of equal elements"
+
+[metadata]
+tags = ["sorting", "performance", "benchmarking", "complexity", "stability"]
+related_exercises = ["28_sorting/sorting_algorithms.go", "28_sorting/search_algorithms.go"]

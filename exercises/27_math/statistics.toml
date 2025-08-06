@@ -1,0 +1,30 @@
+[exercise]
+name = "statistics"
+category = "27_math"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Statistical Calculations"
+summary = "Learn statistical analysis and data calculations in Go"
+learning_objectives = [
+  "Calculate measures of central tendency (mean, median, mode)",
+  "Compute measures of spread (variance, standard deviation, range)",
+  "Calculate percentiles and quartiles",
+  "Understand correlation and covariance",
+  "Analyze frequency distributions"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Central tendency: sum/count for mean, sort data for median"
+level_2 = "Spread: sum of squared differences for variance"
+level_3 = "Correlation: normalized covariance, percentiles via interpolation"
+
+[metadata]
+tags = ["math", "statistics", "data-analysis", "algorithms"]
+related_exercises = ["27_math/number_theory.go", "30_algorithms/algorithms_advanced.go"]

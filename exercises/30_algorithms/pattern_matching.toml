@@ -1,0 +1,30 @@
+[exercise]
+name = "pattern_matching"
+category = "30_algorithms"
+difficulty = 4
+estimated_time = "45m"
+go_version = "1.16+"
+
+[description]
+title = "String Pattern Matching Algorithms"
+summary = "Implement and compare various string pattern matching and text processing algorithms"
+learning_objectives = [
+  "Implement naive, KMP, Boyer-Moore, and Rabin-Karp pattern matching",
+  "Understand time/space complexity trade-offs in string algorithms",
+  "Learn wildcard and regex-style pattern matching",
+  "Calculate string similarity metrics (Jaccard, Cosine, Hamming, Edit Distance)",
+  "Implement longest common subsequence algorithm"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Start with naive algorithm - check every position in the text"
+level_2 = "KMP uses failure function to skip characters; Boyer-Moore skips from right to left"
+level_3 = "Rolling hash in Rabin-Karp allows O(1) hash updates for sliding windows"
+
+[metadata]
+tags = ["algorithms", "strings", "pattern-matching", "dynamic-programming", "hashing"]
+related_exercises = ["30_algorithms/dynamic_programming.go", "18_regex/regex_basics.go", "14_stdlib/strings_manipulation.go"]

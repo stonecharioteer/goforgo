@@ -1,0 +1,30 @@
+[exercise]
+name = "regex_advanced"
+category = "18_regex"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Advanced Regular Expressions"
+summary = "Master advanced regex patterns and text processing techniques in Go"
+learning_objectives = [
+  "Use named capture groups for structured data extraction",
+  "Implement complex validation patterns",
+  "Process and transform text using regex replacements",
+  "Optimize regex performance for large datasets",
+  "Build practical text processing utilities"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Named groups: (?P<name>pattern), access with SubexpNames()"
+level_2 = "Performance: compile once, use many times with regexp.Compile()"
+level_3 = "Replacement: ReplaceAllString(), validation: MatchString()"
+
+[metadata]
+tags = ["regex", "text-processing", "validation", "parsing", "performance"]
+related_exercises = ["18_regex/regex_basics.go", "18_regex/regex_parsing.go"]

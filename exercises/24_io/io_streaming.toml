@@ -1,0 +1,30 @@
+[exercise]
+name = "io_streaming"
+category = "24_io"
+difficulty = 3
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Streaming I/O and Data Processing"
+summary = "Learn streaming I/O operations, compression, and custom readers in Go"
+learning_objectives = [
+  "Process data streams line by line",
+  "Implement streaming copy operations",
+  "Work with compressed data streams",
+  "Create custom reader implementations",
+  "Build progress tracking for I/O operations"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Streaming: bufio.Scanner, io.Copy(), strings.NewReader()"
+level_2 = "Compression: gzip.NewWriter(), gzip.NewReader()"
+level_3 = "Custom readers: implement io.Reader interface"
+
+[metadata]
+tags = ["io", "streaming", "compression", "bufio", "custom-readers"]
+related_exercises = ["24_io/buffered_io.go", "17_files/file_operations.go"]

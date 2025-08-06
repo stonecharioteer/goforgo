@@ -1,0 +1,30 @@
+[exercise]
+name = "context_patterns"
+category = "20_advanced"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Context Patterns and Cancellation"
+summary = "Master advanced context patterns for cancellation, timeouts, and request scoping in Go"
+learning_objectives = [
+  "Use context for cancellation and timeout management",
+  "Pass request-scoped values through context",
+  "Implement graceful shutdown patterns",
+  "Build context-aware processing pipelines",
+  "Apply context best practices in real applications"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Context creation: context.WithTimeout(), context.WithCancel(), context.WithValue()"
+level_2 = "Cancellation: select with ctx.Done(), always defer cancel()"
+level_3 = "Values: ctx.Value(key), check context.Deadline() for remaining time"
+
+[metadata]
+tags = ["context", "cancellation", "timeout", "concurrency", "best-practices"]
+related_exercises = ["11_concurrency/goroutines_advanced.go", "20_advanced/pipeline_patterns.go"]

@@ -1,0 +1,30 @@
+[exercise]
+name = "file_permissions"
+category = "17_files"
+difficulty = 3
+estimated_time = "20m"
+go_version = "1.16+"
+
+[description]
+title = "File Permissions and Metadata"
+summary = "Learn file permissions, metadata, and system-level file operations in Go"
+learning_objectives = [
+  "Read and modify file permissions",
+  "Access file metadata and system information",
+  "Use syscalls for detailed file stats",
+  "Walk directories with permission analysis",
+  "Check file accessibility programmatically"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "File info: os.Stat(), permissions: info.Mode().Perm()"
+level_2 = "Change permissions: os.Chmod(path, mode), syscall info: syscall.Stat()"
+level_3 = "Access checks: os.Open() for read, os.OpenFile() for write"
+
+[metadata]
+tags = ["files", "permissions", "metadata", "syscall", "filesystem"]
+related_exercises = ["17_files/file_operations.go", "26_os/os_basics.go"]
