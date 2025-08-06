@@ -1,0 +1,26 @@
+[exercise]
+name = "grpc_streaming"
+category = "34_grpc"
+difficulty = 5
+estimated_time = "40m"
+
+[description]
+title = "gRPC Streaming Patterns"
+summary = "Learn gRPC streaming: server streaming, client streaming, and bidirectional streaming with real-world examples"
+learning_objectives = [
+  "Implement gRPC server streaming for real-time data delivery",
+  "Create gRPC client streaming for bulk data upload",
+  "Build bidirectional streaming for interactive communication",
+  "Handle stream lifecycle and error conditions",
+  "Manage concurrent streaming clients safely",
+  "Understand streaming performance and resource management"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Server streaming: use stream parameter to send multiple responses. Client streaming: receive in loop until io.EOF"
+level_2 = "Bidirectional streaming: use goroutines to handle send and receive concurrently"
+level_3 = "Use sync.RWMutex for thread-safe client management and proper cleanup with defer statements"

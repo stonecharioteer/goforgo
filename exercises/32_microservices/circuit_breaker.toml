@@ -1,0 +1,26 @@
+[exercise]
+name = "circuit_breaker"
+category = "32_microservices"
+difficulty = 5
+estimated_time = "40m"
+
+[description]
+title = "Circuit Breaker Pattern"
+summary = "Implement circuit breaker pattern for fault tolerance and resilience in microservice communication"
+learning_objectives = [
+  "Understand circuit breaker pattern for fault tolerance",
+  "Implement three circuit breaker states: closed, open, half-open",
+  "Create failure counting and timeout mechanisms",
+  "Handle service degradation gracefully",
+  "Build resilient microservice communication patterns",
+  "Implement thread-safe state management with mutexes"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Circuit breaker has 3 states: CLOSED (normal), OPEN (failing), HALF-OPEN (testing recovery)"
+level_2 = "Track failure count and time of last failure, transition to OPEN when maxFailures exceeded"
+level_3 = "In OPEN state, reject calls immediately. After timeout, transition to HALF-OPEN for testing"

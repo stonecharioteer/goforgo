@@ -1,0 +1,26 @@
+[exercise]
+name = "connection_pool"
+category = "33_databases"
+difficulty = 4
+estimated_time = "30m"
+
+[description]
+title = "Database Connection Pooling"
+summary = "Learn database connection pool configuration, monitoring, and optimization for concurrent applications"
+learning_objectives = [
+  "Configure database connection pool settings",
+  "Handle concurrent database access safely",
+  "Monitor connection pool statistics and health",
+  "Implement context-based timeouts for database operations",
+  "Use prepared statements efficiently with connection pools",
+  "Understand connection lifecycle and resource management"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use db.SetMaxOpenConns(), db.SetMaxIdleConns(), db.SetConnMaxLifetime() to configure the pool"
+level_2 = "Use context.WithTimeout() for database operations, and sync.WaitGroup for concurrent workers"
+level_3 = "Monitor with db.Stats() and use prepared statements with stmt.ExecContext() for efficiency"

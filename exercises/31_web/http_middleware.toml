@@ -1,0 +1,25 @@
+[exercise]
+name = "http_middleware"
+category = "31_web"
+difficulty = 4
+estimated_time = "25m"
+
+[description]
+title = "HTTP Middleware Patterns"
+summary = "Learn to create and chain HTTP middleware for logging, authentication, and CORS"
+learning_objectives = [
+  "Understand middleware pattern in Go HTTP servers",
+  "Implement logging middleware for request/response tracking",
+  "Create authentication middleware with header validation",
+  "Handle CORS preflight requests",
+  "Chain multiple middleware functions together"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Middleware functions take http.Handler and return http.Handler - they wrap the original handler"
+level_2 = "Use http.HandlerFunc to convert functions to handlers, and call next.ServeHTTP(w, r) to continue the chain"
+level_3 = "For auth middleware, check r.Header.Get(\"Authorization\") and compare with expected token format"

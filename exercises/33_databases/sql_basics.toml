@@ -1,0 +1,26 @@
+[exercise]
+name = "sql_basics"
+category = "33_databases"
+difficulty = 3
+estimated_time = "25m"
+
+[description]
+title = "SQL Database Operations"
+summary = "Learn Go's database/sql package for CRUD operations, transactions, and database connection management"
+learning_objectives = [
+  "Connect to SQLite database using database/sql",
+  "Create database schema and tables",
+  "Perform CRUD operations (Create, Read, Update, Delete)",
+  "Use prepared statements for safe SQL execution",
+  "Handle database transactions with rollback capability",
+  "Process query results and handle database errors"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Import database/sql and SQLite driver (_ \"github.com/mattn/go-sqlite3\"). Use sql.Open() to connect"
+level_2 = "Use db.Prepare() for repeated queries, db.Exec() for DDL/DML, db.Query() for SELECT statements"
+level_3 = "Handle transactions with db.Begin(), tx.Commit(), and tx.Rollback() for atomicity"

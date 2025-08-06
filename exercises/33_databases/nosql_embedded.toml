@@ -1,0 +1,26 @@
+[exercise]
+name = "nosql_embedded"
+category = "33_databases"
+difficulty = 4
+estimated_time = "35m"
+
+[description]
+title = "Embedded NoSQL Database (BoltDB)"
+summary = "Learn embedded NoSQL database operations with BoltDB including document storage, indexing, and search"
+learning_objectives = [
+  "Work with embedded NoSQL database (BoltDB)",
+  "Store and retrieve JSON documents",
+  "Create and maintain secondary indices",
+  "Implement text search functionality",
+  "Handle database transactions and consistency",
+  "Manage database buckets and key-value operations"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use bbolt.Open() to create database, db.Update() for writes, db.View() for reads"
+level_2 = "Create buckets with tx.CreateBucketIfNotExists(), store JSON with json.Marshal/Unmarshal"
+level_3 = "Build indices by storing arrays of document IDs for each tag, use strings.Contains() for search"

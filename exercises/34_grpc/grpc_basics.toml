@@ -1,0 +1,26 @@
+[exercise]
+name = "grpc_basics"
+category = "34_grpc"
+difficulty = 4
+estimated_time = "30m"
+
+[description]
+title = "gRPC Service Implementation"
+summary = "Learn gRPC service development with protocol buffers, server implementation, and client communication"
+learning_objectives = [
+  "Understand gRPC service architecture and concepts",
+  "Implement gRPC server with service methods",
+  "Create gRPC client for service communication",
+  "Handle context-based timeouts and cancellation",
+  "Work with protocol buffer message types",
+  "Implement basic CRUD operations over gRPC"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use google.golang.org/grpc package. Create server with grpc.NewServer() and client with grpc.Dial()"
+level_2 = "Implement service interface methods with context.Context parameter for timeout handling"
+level_3 = "Register service with server and use context.WithTimeout() for client calls with proper error handling"

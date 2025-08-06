@@ -1,0 +1,26 @@
+[exercise]
+name = "service_discovery"
+category = "32_microservices"
+difficulty = 4
+estimated_time = "30m"
+
+[description]
+title = "Service Discovery Registry"
+summary = "Build a service discovery system for microservices with registration, health checks, and load balancing"
+learning_objectives = [
+  "Understand service discovery patterns in microservices",
+  "Implement service registration and deregistration",
+  "Create health checking mechanisms",
+  "Build service lookup and discovery APIs",
+  "Handle concurrent access with mutex synchronization",
+  "Manage service instance lifecycle"
+]
+
+[validation]
+mode = "build"
+timeout = "30s"
+
+[hints]
+level_1 = "Use a map[string][]ServiceInstance to store services by name, with sync.RWMutex for thread safety"
+level_2 = "Implement heartbeat mechanism where services re-register periodically to stay healthy"
+level_3 = "Use goroutines for health checking background process, checking LastHeartbeat timestamps"
