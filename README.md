@@ -12,7 +12,7 @@ GoForGo helps you learn Go by fixing broken code exercises with real-time feedba
 
 ## 🎬 Demo
 
-![GoForGo in action](docs/goforgo.gif)
+[![asciicast](https://asciinema.org/a/clUw4uK605Lcbj6RVB9LpbDye.svg)](https://asciinema.org/a/clUw4uK605Lcbj6RVB9LpbDye)
 
 _Experience GoForGo's elegant interface: animated splash screen, comprehensive welcome screen, real-time file watching, progressive hints, and smart progress tracking with uniform styling across all pages._
 
