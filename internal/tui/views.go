@@ -27,29 +27,29 @@ func (m *Model) renderWelcome() string {
 
 	// Create colorful banner with gradient effect
 	banner := logoStyle.Render(logo)
-	
+
 	// Subtitle with gradient
 	subtitleStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#A855F7")).
 		Bold(true).
 		Italic(true).
 		Align(lipgloss.Center)
-	
+
 	subtitle := subtitleStyle.Render("🚀 Interactive Go Learning Platform 🚀")
 
 	// Stats section with progress - use dynamic completed count
 	progressBar := m.renderProgressBar(m.getCompletedCount(), m.getTotalCount(), 30)
-	
+
 	statsStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#10B981")).
 		Bold(true)
-	
+
 	statsText := statsStyle.Render(fmt.Sprintf("📊 Progress: %s %d/%d exercises completed", progressBar, m.getCompletedCount(), m.getTotalCount()))
 
 	// Feature highlights with emojis and colors
 	featuresStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#3B82F6"))
-	
+
 	features := featuresStyle.Render(`✨ What makes GoForGo special:
    🔥 Real-time feedback as you code
    🧠 Progressive hints that guide your learning  
@@ -60,7 +60,7 @@ func (m *Model) renderWelcome() string {
 	// Learning topics with nice formatting
 	topicsStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#F59E0B"))
-	
+
 	topics := topicsStyle.Render(fmt.Sprintf(`📚 %d exercises covering:
    • Go fundamentals & syntax        • Error handling patterns
    • Variables & data types          • Concurrency & goroutines  
@@ -74,7 +74,7 @@ func (m *Model) renderWelcome() string {
 		BorderForeground(lipgloss.Color("#EC4899")).
 		Padding(0, 1).
 		Foreground(lipgloss.Color("#EC4899"))
-	
+
 	shortcuts := shortcutsStyle.Render(`⌨️  Keyboard Shortcuts:
  Enter/Space  Start your Go journey  |  h  Progressive hints
  n / p        Next/Previous exercise |  l  List all exercises  
@@ -102,14 +102,14 @@ func (m *Model) renderWelcome() string {
 			Padding(0, 2).
 			Foreground(lipgloss.Color("#10B981")).
 			Bold(true)
-		
+
 		nextExercise := nextStyle.Render(fmt.Sprintf(`🎯 Next Exercise: %s
 📖 %s
-⭐ Difficulty: %s`, 
-			m.currentExercise.Info.Name, 
+⭐ Difficulty: %s`,
+			m.currentExercise.Info.Name,
 			m.currentExercise.Description.Title,
 			m.currentExercise.GetDifficultyString()))
-		
+
 		welcomeText += fmt.Sprintf(`%s
 
 `, nextExercise)
@@ -120,13 +120,13 @@ func (m *Model) renderWelcome() string {
 		Foreground(lipgloss.Color("#FBBF24")).
 		Bold(true).
 		Blink(true)
-	
+
 	welcomeText += ctaStyle.Render("✨ Press Enter to begin your Go journey! ✨")
 
 	// Add decorative border using text characters
 	borderStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#7C3AED"))
 	borderLine := borderStyle.Render(strings.Repeat("═", 80))
-	
+
 	welcomeText = fmt.Sprintf(`%s
 %s
 %s`, borderLine, welcomeText, borderLine)
@@ -141,7 +141,7 @@ func (m *Model) renderWelcome() string {
 	if contentWidth > 90 {
 		contentWidth = 90 // Maximum width to prevent overly wide content
 	}
-	
+
 	// Use a simpler approach without overall border to avoid width issues
 	style := lipgloss.NewStyle().
 		Width(contentWidth).
@@ -180,11 +180,11 @@ func (m *Model) renderMain() string {
 
 	// Apply consistent border styling like welcome screen
 	mainContent := content.String()
-	
+
 	// Add decorative border using text characters
 	borderStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#7C3AED"))
 	borderLine := borderStyle.Render(strings.Repeat("═", 80))
-	
+
 	borderedContent := fmt.Sprintf(`%s
 %s
 %s`, borderLine, mainContent, borderLine)
@@ -197,7 +197,7 @@ func (m *Model) renderMain() string {
 	if contentWidth > 90 {
 		contentWidth = 90 // Maximum width to prevent overly wide content
 	}
-	
+
 	style := lipgloss.NewStyle().
 		Width(contentWidth).
 		Align(lipgloss.Center).
@@ -228,7 +228,7 @@ func (m *Model) renderHeader() string {
 // renderExerciseInfo shows current exercise details
 func (m *Model) renderExerciseInfo() string {
 	ex := m.currentExercise
-	
+
 	difficulty := ex.GetDifficultyString()
 	filePath := codeStyle.Render(ex.FilePath)
 
@@ -269,7 +269,7 @@ func (m *Model) renderResults() string {
 		result.WriteString(successStyle.Render("✅ SUCCESS! Exercise completed!"))
 		result.WriteString("\n\n")
 		result.WriteString("🎉 Well done! You've mastered this concept.")
-		
+
 		if m.currentIndex < len(m.exercises)-1 {
 			result.WriteString("\n")
 			result.WriteString(statusStyle.Render("Press 'n' for the next exercise."))
@@ -311,7 +311,7 @@ func (m *Model) renderResults() string {
 func (m *Model) renderFooter() string {
 	shortcuts := []string{
 		"[n] next",
-		"[p] prev", 
+		"[p] prev",
 		"[h] hint",
 		"[l] list",
 		"[r] run",
@@ -319,12 +319,12 @@ func (m *Model) renderFooter() string {
 	}
 
 	footer := statusStyle.Render("⌨️  " + strings.Join(shortcuts, " • "))
-	
+
 	// Add file watching status
 	if m.watcherErr == nil {
 		footer += "\n" + statusStyle.Render("👁️  Watching for file changes...")
 	} else {
-		footer += "\n" + errorStyle.Render("⚠️  File watcher error: " + m.watcherErr.Error())
+		footer += "\n" + errorStyle.Render("⚠️  File watcher error: "+m.watcherErr.Error())
 	}
 
 	return footer
@@ -335,19 +335,19 @@ func (m *Model) renderProgressBar(completed, total, width int) string {
 	if total == 0 {
 		return strings.Repeat("─", width)
 	}
-	
+
 	progress := float64(completed) / float64(total)
 	filledWidth := int(progress * float64(width))
 	emptyWidth := width - filledWidth
-	
+
 	// Use different characters for visual appeal
 	filled := strings.Repeat("█", filledWidth)
 	empty := strings.Repeat("░", emptyWidth)
-	
+
 	// Color the progress bar
 	filledStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#10B981"))
 	emptyStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#6B7280"))
-	
+
 	return fmt.Sprintf("[%s%s]", filledStyle.Render(filled), emptyStyle.Render(empty))
 }
 
@@ -379,11 +379,11 @@ func (m *Model) renderSplash() string {
   ╚██████▔▒╚██████▔▒██║     ╚██████▔▒██║  ██▒╚██████▔▒╚██████▔▒
    ╚═════▒  ╚═════▒ ╚═╝      ╚═════▒ ╚═╝  ╚═▒ ╚═════▒  ╚═════▒`,
 	}
-	
+
 	// Color gradients for animation
 	colors := []string{
 		"#FF6B6B", // Red
-		"#4ECDC4", // Teal  
+		"#4ECDC4", // Teal
 		"#45B7D1", // Blue
 		"#96CEB4", // Green
 		"#FECA57", // Yellow
@@ -391,36 +391,36 @@ func (m *Model) renderSplash() string {
 		"#54A0FF", // Light Blue
 		"#5F27CD", // Purple
 	}
-	
+
 	// Select frame and color based on animation frame
 	frameIndex := m.splashFrame % len(frames)
 	colorIndex := m.splashFrame % len(colors)
-	
+
 	logoStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color(colors[colorIndex])).
 		Bold(true).
 		Align(lipgloss.Center)
-	
+
 	logo := logoStyle.Render(frames[frameIndex])
-	
+
 	// Animated subtitle with loading dots
 	dots := strings.Repeat(".", (m.splashFrame%4)+1)
 	loadingText := fmt.Sprintf("Loading your Go learning experience%s", dots)
-	
+
 	subtitleStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("#A855F7")).
 		Italic(true).
 		Align(lipgloss.Center)
-	
+
 	subtitle := subtitleStyle.Render(loadingText)
-	
+
 	// Create pulsing effect with different opacity
 	content := fmt.Sprintf(`%s
 
 %s
 
 🚀 Interactive Go Tutorial Platform 🚀`, logo, subtitle)
-	
+
 	// Center and style the splash consistently with other views
 	contentWidth := m.width - 10
 	if contentWidth < 50 {
@@ -429,12 +429,12 @@ func (m *Model) renderSplash() string {
 	if contentWidth > 90 {
 		contentWidth = 90
 	}
-	
+
 	style := lipgloss.NewStyle().
 		Width(contentWidth).
 		Align(lipgloss.Center).
 		Padding(1, 0)
-	
+
 	return style.Render(content)
 }
 
@@ -447,7 +447,7 @@ func (m *Model) renderHint() string {
 	// Build progressive hints based on current hint level
 	var hints []string
 	maxLevel := m.getMaxHintLevel()
-	
+
 	if m.currentHintLevel >= 1 && m.currentExercise.Hints.Level1 != "" {
 		hints = append(hints, fmt.Sprintf("💡 Hint 1:\n%s", m.currentExercise.Hints.Level1))
 	}
@@ -457,14 +457,14 @@ func (m *Model) renderHint() string {
 	if m.currentHintLevel >= 3 && m.currentExercise.Hints.Level3 != "" {
 		hints = append(hints, fmt.Sprintf("💡 Hint 3:\n%s", m.currentExercise.Hints.Level3))
 	}
-	
+
 	var hintText string
 	if len(hints) == 0 {
 		hintText = "No hints available for this exercise."
 	} else {
 		hintText = strings.Join(hints, "\n\n")
 	}
-	
+
 	// Show progression info
 	var progressInfo string
 	if maxLevel > 1 {
@@ -494,7 +494,7 @@ func (m *Model) renderHint() string {
 	// Apply consistent border styling
 	borderStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#F59E0B"))
 	borderLine := borderStyle.Render(strings.Repeat("═", 80))
-	
+
 	borderedContent := fmt.Sprintf(`%s
 %s
 %s`, borderLine, content, borderLine)
@@ -507,7 +507,7 @@ func (m *Model) renderHint() string {
 	if contentWidth > 90 {
 		contentWidth = 90
 	}
-	
+
 	style := lipgloss.NewStyle().
 		Width(contentWidth).
 		Align(lipgloss.Center).
@@ -524,7 +524,7 @@ func (m *Model) renderExerciseList() string {
 	header := headerStyle.Render("📚 Exercise List")
 	content.WriteString(header)
 	content.WriteString("\n")
-	
+
 	// Navigation instructions
 	navInstructions := statusStyle.Render("Use ↑↓/jk to navigate, Enter to select, Esc to return")
 	content.WriteString(navInstructions)
@@ -535,7 +535,7 @@ func (m *Model) renderExerciseList() string {
 	totalExercises := len(m.exercises)
 	startIndex := m.listScrollOffset
 	endIndex := min(startIndex+listHeight, totalExercises)
-	
+
 	// Progress indicator
 	progressText := fmt.Sprintf("Exercises %d-%d of %d", startIndex+1, endIndex, totalExercises)
 	content.WriteString(statusStyle.Render(progressText))
@@ -544,14 +544,14 @@ func (m *Model) renderExerciseList() string {
 	// Calculate max widths for dynamic sizing based on ALL exercises, not just visible ones
 	maxWidths := []int{1, 1, 12, 8, 9, 6} // Min widths: selector, #, EXERCISE NAME, CATEGORY, DIFFICULTY, STATUS
 	headers := []string{" ", "#", "EXERCISE NAME", "CATEGORY", "DIFFICULTY", "STATUS"}
-	
+
 	// Update max widths based on headers
 	for i, header := range headers {
 		if len(header) > maxWidths[i] {
 			maxWidths[i] = len(header)
 		}
 	}
-	
+
 	// Calculate column widths based on ALL exercises for consistent sizing
 	for _, ex := range m.exercises {
 		// Exercise number (use total count for max width)
@@ -559,7 +559,7 @@ func (m *Model) renderExerciseList() string {
 		if len(exerciseNum) > maxWidths[1] {
 			maxWidths[1] = len(exerciseNum)
 		}
-		
+
 		// Exercise name with potential current marker
 		exerciseName := ex.Info.Name
 		if ex == m.currentExercise {
@@ -568,110 +568,110 @@ func (m *Model) renderExerciseList() string {
 		if len(exerciseName) > maxWidths[2] {
 			maxWidths[2] = len(exerciseName)
 		}
-		
+
 		// Category
 		topic := m.getExerciseTopic(ex)
 		if len(topic) > maxWidths[3] {
 			maxWidths[3] = len(topic)
 		}
-		
+
 		// Difficulty (check all possible difficulty strings)
 		var difficulty string
 		switch ex.Info.Difficulty {
 		case 1:
-			difficulty = "⭐ Beginner"
+			difficulty = "Beginner"
 		case 2:
-			difficulty = "⭐⭐ Easy"
+			difficulty = "Easy"
 		case 3:
-			difficulty = "⭐⭐⭐ Medium"
+			difficulty = "Medium"
 		case 4:
-			difficulty = "⭐⭐⭐⭐ Hard"
+			difficulty = "Hard"
 		case 5:
-			difficulty = "⭐⭐⭐⭐⭐ Expert"
+			difficulty = "Expert"
 		default:
 			difficulty = "Unknown"
 		}
 		if len(difficulty) > maxWidths[4] {
 			maxWidths[4] = len(difficulty)
 		}
-		
+
 		// Status - "Incomplete" is longer than "Complete"
 		if len("Incomplete") > maxWidths[5] {
 			maxWidths[5] = len("Incomplete")
 		}
 	}
-	
+
 	// Selection indicator width (1 for arrow)
 	if maxWidths[0] < 1 {
 		maxWidths[0] = 1
 	}
-	
+
 	// Prepare visible row data for rendering
 	type rowData struct {
-		selection string
-		number string
-		name string
-		category string
+		selection  string
+		number     string
+		name       string
+		category   string
 		difficulty string
-		status string
+		status     string
 	}
-	
+
 	var rows []rowData
 	for i := startIndex; i < endIndex; i++ {
 		ex := m.exercises[i]
-		
+
 		// Selection indicator
 		selectionIndicator := " "
 		if i == m.listSelectedIndex {
 			selectionIndicator = "►"
 		}
-		
+
 		// Exercise number
 		exerciseNum := fmt.Sprintf("%d", i+1)
-		
+
 		// Exercise name with current marker
 		exerciseName := ex.Info.Name
 		if ex == m.currentExercise {
 			exerciseName += " (current)"
 		}
-		
+
 		// Category
 		topic := m.getExerciseTopic(ex)
-		
+
 		// Difficulty
 		var difficulty string
 		switch ex.Info.Difficulty {
 		case 1:
-			difficulty = "⭐ Beginner"
+			difficulty = "Beginner"
 		case 2:
-			difficulty = "⭐⭐ Easy"
+			difficulty = "Easy"
 		case 3:
-			difficulty = "⭐⭐⭐ Medium"
+			difficulty = "Medium"
 		case 4:
-			difficulty = "⭐⭐⭐⭐ Hard"
+			difficulty = "Hard"
 		case 5:
-			difficulty = "⭐⭐⭐⭐⭐ Expert"
+			difficulty = "Expert"
 		default:
 			difficulty = "Unknown"
 		}
-		
+
 		// Status
 		status := "Incomplete"
 		if ex.Completed {
 			status = "Complete"
 		}
-		
+
 		row := rowData{
-			selection: selectionIndicator,
-			number: exerciseNum,
-			name: exerciseName,
-			category: topic,
+			selection:  selectionIndicator,
+			number:     exerciseNum,
+			name:       exerciseName,
+			category:   topic,
 			difficulty: difficulty,
-			status: status,
+			status:     status,
 		}
 		rows = append(rows, row)
 	}
-	
+
 	// Add 10% padding to each column width
 	for i := range maxWidths {
 		maxWidths[i] = int(float64(maxWidths[i]) * 1.1)
@@ -679,7 +679,7 @@ func (m *Model) renderExerciseList() string {
 			maxWidths[i] = 3
 		}
 	}
-	
+
 	// Create table with dynamic column widths
 	t := table.New().
 		Border(lipgloss.NormalBorder()).
@@ -694,7 +694,7 @@ func (m *Model) renderExerciseList() string {
 					Align(lipgloss.Center).
 					Width(maxWidths[col])
 			}
-			
+
 			// Check if this row is selected
 			actualIndex := startIndex + row - 1
 			if actualIndex == m.listSelectedIndex {
@@ -703,7 +703,7 @@ func (m *Model) renderExerciseList() string {
 					Bold(true).
 					Width(maxWidths[col])
 			}
-			
+
 			// Column-specific colors for regular rows
 			baseStyle := lipgloss.NewStyle().Width(maxWidths[col])
 			switch col {
@@ -747,15 +747,15 @@ func (m *Model) renderExerciseList() string {
 				return baseStyle.Foreground(lipgloss.Color("#E5E7EB")) // Light gray
 			}
 		})
-	
+
 	// Add headers
 	t.Row(headers...)
-	
+
 	// Add exercise rows
 	for _, row := range rows {
 		t.Row(row.selection, row.number, row.name, row.category, row.difficulty, row.status)
 	}
-	
+
 	// Render the table
 	content.WriteString(t.Render())
 	content.WriteString("\n")
@@ -772,7 +772,7 @@ func (m *Model) renderExerciseList() string {
 			Render("── End of exercises ──")
 		content.WriteString(endIndicator)
 	}
-	
+
 	// Footer with additional controls
 	content.WriteString("\n\n")
 	footerText := "Navigation: ↑↓/jk=move  PgUp/PgDn=page  Home/End=jump  Enter=select  Esc=back"
@@ -782,7 +782,7 @@ func (m *Model) renderExerciseList() string {
 	listContent := content.String()
 	borderStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#7C3AED"))
 	borderLine := borderStyle.Render(strings.Repeat("═", 80))
-	
+
 	borderedContent := fmt.Sprintf(`%s
 %s
 %s`, borderLine, listContent, borderLine)
@@ -795,7 +795,7 @@ func (m *Model) renderExerciseList() string {
 	if contentWidth > 90 {
 		contentWidth = 90
 	}
-	
+
 	style := lipgloss.NewStyle().
 		Width(contentWidth).
 		Align(lipgloss.Center).
@@ -834,86 +834,21 @@ func (m *Model) getSimpleDifficulty(difficulty string) string {
 
 // getExerciseTopic extracts a topic tag from the exercise
 func (m *Model) getExerciseTopic(ex interface{}) string {
-	// Access the exercise's category and info through the model's exercises slice
-	// Since we can't directly access ex.Info.Category due to import removal,
-	// we'll extract topic from the exercise name patterns
-	
 	// Find the exercise in our slice to get its properties
 	for _, exercise := range m.exercises {
 		if exercise == ex {
-			// Extract topic from category
+			// Extract topic from category using dynamic string splitting
 			category := exercise.Info.Category
-			switch {
-			case strings.HasPrefix(category, "01_"):
-				return "basics"
-			case strings.HasPrefix(category, "02_"):
-				return "variables"
-			case strings.HasPrefix(category, "03_"):
-				return "functions"
-			case strings.HasPrefix(category, "04_"):
-				return "control"
-			case strings.HasPrefix(category, "05_"):
-				return "arrays"
-			case strings.HasPrefix(category, "06_"):
-				return "slices"
-			case strings.HasPrefix(category, "07_"):
-				return "maps"
-			case strings.HasPrefix(category, "08_"):
-				return "structs"
-			case strings.HasPrefix(category, "09_"):
-				return "interfaces"
-			case strings.HasPrefix(category, "10_"):
-				return "errors"
-			case strings.HasPrefix(category, "11_"):
-				return "concurrency"
-			case strings.HasPrefix(category, "12_"):
-				return "generics"
-			case strings.HasPrefix(category, "13_"):
-				return "testing"
-			case strings.HasPrefix(category, "14_"):
-				return "stdlib"
-			case strings.HasPrefix(category, "15_"):
-				return "json"
-			case strings.HasPrefix(category, "16_"):
-				return "http"
-			case strings.HasPrefix(category, "17_"):
-				return "files"
-			case strings.HasPrefix(category, "18_"):
-				return "regex"
-			case strings.HasPrefix(category, "19_"):
-				return "reflection"
-			case strings.HasPrefix(category, "20_"):
-				return "advanced"
-			case strings.HasPrefix(category, "21_"):
-				return "crypto"
-			case strings.HasPrefix(category, "22_"):
-				return "networking"
-			case strings.HasPrefix(category, "23_"):
-				return "encoding"
-			case strings.HasPrefix(category, "24_"):
-				return "io"
-			case strings.HasPrefix(category, "25_"):
-				return "paths"
-			case strings.HasPrefix(category, "26_"):
-				return "os"
-			case strings.HasPrefix(category, "27_"):
-				return "math"
-			case strings.HasPrefix(category, "28_"):
-				return "sorting"
-			case strings.HasPrefix(category, "29_"):
-				return "data-struct"
-			case strings.HasPrefix(category, "30_"):
-				return "algorithms"
-			case strings.HasPrefix(category, "31_"):
-				return "web"
-			default:
-				return "misc"
+			parts := strings.SplitN(category, "_", 2)
+			if len(parts) >= 2 {
+				return parts[1]
 			}
+			// Fallback: return the whole category if no underscore found
+			return category
 		}
 	}
 	return "unknown"
 }
-
 
 // renderCompleted shows completion screen
 func (m *Model) renderCompleted() string {
@@ -958,3 +893,4 @@ func min(a, b int) int {
 	}
 	return b
 }
+
