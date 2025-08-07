@@ -560,11 +560,8 @@ func (m *Model) renderExerciseList() string {
 			maxWidths[1] = len(exerciseNum)
 		}
 
-		// Exercise name with potential current marker
+		// Exercise name (no current marker needed, will use color)
 		exerciseName := ex.Info.Name
-		if ex == m.currentExercise {
-			exerciseName += " (current)"
-		}
 		if len(exerciseName) > maxWidths[2] {
 			maxWidths[2] = len(exerciseName)
 		}
@@ -629,11 +626,8 @@ func (m *Model) renderExerciseList() string {
 		// Exercise number
 		exerciseNum := fmt.Sprintf("%d", i+1)
 
-		// Exercise name with current marker
+		// Exercise name (no current marker text, will use color highlighting)
 		exerciseName := ex.Info.Name
-		if ex == m.currentExercise {
-			exerciseName += " (current)"
-		}
 
 		// Category
 		topic := m.getExerciseTopic(ex)
@@ -700,6 +694,14 @@ func (m *Model) renderExerciseList() string {
 			if actualIndex == m.listSelectedIndex {
 				return lipgloss.NewStyle().
 					Foreground(lipgloss.Color("#A855F7")).
+					Bold(true).
+					Width(maxWidths[col])
+			}
+
+			// Check if this row is the current exercise (highlight in green)
+			if actualIndex < len(m.exercises) && m.exercises[actualIndex] == m.currentExercise {
+				return lipgloss.NewStyle().
+					Foreground(lipgloss.Color("#10B981")).
 					Bold(true).
 					Width(maxWidths[col])
 			}
