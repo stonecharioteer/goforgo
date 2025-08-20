@@ -41,6 +41,15 @@ type Model struct {
 	listScrollOffset  int // Scroll offset for list view
 	listViewHeight    int // Available height for list items
 	
+	// Filter state
+	filterMode bool   // Whether we're in filter mode
+	filterText string // Current filter text
+	
+	// Output view state
+	showingOutput    bool // Whether we're showing the output view
+	outputScrollPos  int  // Current scroll position in output view
+	outputViewHeight int  // Available height for output content
+	
 	// Progress and statistics
 	// Counts are now calculated dynamically via exerciseManager methods
 	
@@ -227,42 +236,102 @@ func (m *Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 		return m, nil
 
+	case "s":
+		// Show output view
+		if !m.showingList && !m.showingHint && !m.showingOutput && m.lastResult != nil {
+			m.showingOutput = true
+			m.outputScrollPos = 0
+			m.outputViewHeight = max(m.height-8, 10) // Reserve space for header/footer
+			return m, nil
+		}
+		return m, nil
+
 	case "up", "k":
-		if m.showingList {
+		if m.showingList && !m.filterMode {
 			return m, m.moveListSelection(-1)
+		}
+		if m.showingOutput {
+			return m, m.scrollOutput(-1)
 		}
 		return m, nil
 
 	case "down", "j":
-		if m.showingList {
+		if m.showingList && !m.filterMode {
 			return m, m.moveListSelection(1)
+		}
+		if m.showingOutput {
+			return m, m.scrollOutput(1)
 		}
 		return m, nil
 
 	case "page_up":
-		if m.showingList {
+		if m.showingList && !m.filterMode {
 			return m, m.moveListSelection(-m.listViewHeight)
+		}
+		if m.showingOutput {
+			return m, m.scrollOutput(-m.outputViewHeight)
 		}
 		return m, nil
 
 	case "page_down":
-		if m.showingList {
+		if m.showingList && !m.filterMode {
 			return m, m.moveListSelection(m.listViewHeight)
+		}
+		if m.showingOutput {
+			return m, m.scrollOutput(m.outputViewHeight)
 		}
 		return m, nil
 
 	case "home":
-		if m.showingList {
+		if m.showingList && !m.filterMode {
 			m.listSelectedIndex = 0
 			m.ensureSelectedVisible()
+			return m, nil
+		}
+		if m.showingOutput {
+			m.outputScrollPos = 0
 			return m, nil
 		}
 		return m, nil
 
 	case "end":
-		if m.showingList {
-			m.listSelectedIndex = len(m.exercises) - 1
+		if m.showingList && !m.filterMode {
+			filteredExercises := m.getFilteredExercises()
+			m.listSelectedIndex = len(filteredExercises) - 1
 			m.ensureSelectedVisible()
+			return m, nil
+		}
+		if m.showingOutput {
+			return m, m.scrollToBottom()
+		}
+		return m, nil
+
+	case "backspace":
+		// Handle backspace in filter mode
+		if m.filterMode && len(m.filterText) > 0 {
+			m.filterText = m.filterText[:len(m.filterText)-1]
+			return m, nil
+		}
+		return m, nil
+
+	default:
+		// Handle text input in filter mode
+		if m.filterMode && len(msg.String()) == 1 {
+			char := msg.String()
+			// Only allow alphanumeric characters, underscore, and space
+			if (char >= "a" && char <= "z") || (char >= "A" && char <= "Z") || 
+			   (char >= "0" && char <= "9") || char == "_" || char == " " {
+				m.filterText += char
+				return m, nil
+			}
+		}
+		return m, nil
+
+	case "/":
+		// Enter filter mode when in list view
+		if m.showingList && !m.filterMode {
+			m.filterMode = true
+			m.filterText = ""
 			return m, nil
 		}
 		return m, nil
@@ -279,18 +348,58 @@ func (m *Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 			return m, nil
 		}
 		if m.showingList && msg.String() == "enter" {
+			if m.filterMode {
+				// Apply filter and exit filter mode
+				m.filterMode = false
+				// Reset selection to first filtered item
+				m.listSelectedIndex = 0
+				m.listScrollOffset = 0
+				return m, nil
+			}
 			// Select the highlighted exercise
-			if m.listSelectedIndex >= 0 && m.listSelectedIndex < len(m.exercises) {
-				m.currentIndex = m.listSelectedIndex
-				m.currentExercise = m.exercises[m.currentIndex]
+			filteredExercises := m.getFilteredExercises()
+			if m.listSelectedIndex >= 0 && m.listSelectedIndex < len(filteredExercises) {
+				selectedExercise := filteredExercises[m.listSelectedIndex]
+				// Find the actual index in the full exercise list
+				for i, ex := range m.exercises {
+					if ex == selectedExercise {
+						m.currentIndex = i
+						m.currentExercise = ex
+						break
+					}
+				}
 				m.currentHintLevel = 0 // Reset hint level for new exercise
 				m.showingList = false
+				m.filterMode = false // Reset filter when exiting list
+				m.filterText = ""
 				return m, m.runCurrentExercise()
+			}
+		}
+		if msg.String() == "esc" {
+			if m.filterMode {
+				// Exit filter mode
+				m.filterMode = false
+				m.filterText = ""
+				return m, nil
+			} else if m.showingOutput {
+				// Exit output view
+				m.showingOutput = false
+				m.outputScrollPos = 0
+				return m, nil
+			} else if m.showingList && m.filterText != "" {
+				// Clear filter if in list view with active filter
+				m.filterText = ""
+				m.listSelectedIndex = 0
+				m.listScrollOffset = 0
+				return m, nil
 			}
 		}
 		// Dismiss hint or list
 		m.showingHint = false
 		m.showingList = false
+		m.showingOutput = false
+		m.filterMode = false // Reset filter when exiting list
+		m.filterText = ""
 		m.currentHintLevel = 0  // Reset hint level when dismissing
 		return m, nil
 	}
@@ -318,6 +427,10 @@ func (m *Model) View() string {
 
 	if m.showingHint {
 		return m.renderHint()
+	}
+
+	if m.showingOutput {
+		return m.renderOutput()
 	}
 
 	return m.renderMain()
@@ -518,13 +631,14 @@ func (m *Model) splashTick() tea.Cmd {
 
 // moveListSelection moves the selection in the list view
 func (m *Model) moveListSelection(delta int) tea.Cmd {
+	filteredExercises := m.getFilteredExercises()
 	newIndex := m.listSelectedIndex + delta
 	
 	// Clamp to valid range (no wrapping)
 	if newIndex < 0 {
 		newIndex = 0
-	} else if newIndex >= len(m.exercises) {
-		newIndex = len(m.exercises) - 1
+	} else if newIndex >= len(filteredExercises) {
+		newIndex = len(filteredExercises) - 1
 	}
 	
 	m.listSelectedIndex = newIndex
@@ -535,6 +649,7 @@ func (m *Model) moveListSelection(delta int) tea.Cmd {
 
 // ensureSelectedVisible adjusts scroll offset to keep selected item visible
 func (m *Model) ensureSelectedVisible() {
+	filteredExercises := m.getFilteredExercises()
 	if m.listSelectedIndex < m.listScrollOffset {
 		// Selected item is above visible area
 		m.listScrollOffset = m.listSelectedIndex
@@ -543,8 +658,85 @@ func (m *Model) ensureSelectedVisible() {
 		m.listScrollOffset = m.listSelectedIndex - m.listViewHeight + 1
 	}
 	
-	// Ensure scroll offset doesn't go negative
+	// Ensure scroll offset doesn't go negative or exceed filtered exercise count
 	if m.listScrollOffset < 0 {
 		m.listScrollOffset = 0
 	}
+	if len(filteredExercises) > 0 && m.listScrollOffset >= len(filteredExercises) {
+		m.listScrollOffset = len(filteredExercises) - 1
+	}
+}
+
+// getFilteredExercises returns exercises filtered by the current filter text
+func (m *Model) getFilteredExercises() []*exercise.Exercise {
+	if m.filterText == "" {
+		return m.exercises
+	}
+	
+	var filtered []*exercise.Exercise
+	filterLower := strings.ToLower(m.filterText)
+	
+	for _, ex := range m.exercises {
+		// Check exercise name
+		if strings.Contains(strings.ToLower(ex.Info.Name), filterLower) {
+			filtered = append(filtered, ex)
+			continue
+		}
+		
+		// Check exercise title
+		if strings.Contains(strings.ToLower(ex.Description.Title), filterLower) {
+			filtered = append(filtered, ex)
+			continue
+		}
+		
+		// Check category
+		if strings.Contains(strings.ToLower(ex.Info.Category), filterLower) {
+			filtered = append(filtered, ex)
+			continue
+		}
+		
+		// Check difficulty
+		difficulty := ex.GetDifficultyString()
+		if strings.Contains(strings.ToLower(difficulty), filterLower) {
+			filtered = append(filtered, ex)
+			continue
+		}
+	}
+	
+	return filtered
+}
+
+// scrollOutput scrolls the output view by the given delta
+func (m *Model) scrollOutput(delta int) tea.Cmd {
+	if m.lastResult == nil {
+		return nil
+	}
+	
+	// Split output into lines for scrolling
+	outputLines := strings.Split(m.lastResult.Output, "\n")
+	maxScroll := max(0, len(outputLines)-m.outputViewHeight)
+	
+	m.outputScrollPos += delta
+	
+	// Clamp scroll position
+	if m.outputScrollPos < 0 {
+		m.outputScrollPos = 0
+	} else if m.outputScrollPos > maxScroll {
+		m.outputScrollPos = maxScroll
+	}
+	
+	return nil
+}
+
+// scrollToBottom scrolls the output view to the bottom
+func (m *Model) scrollToBottom() tea.Cmd {
+	if m.lastResult == nil {
+		return nil
+	}
+	
+	outputLines := strings.Split(m.lastResult.Output, "\n")
+	maxScroll := max(0, len(outputLines)-m.outputViewHeight)
+	m.outputScrollPos = maxScroll
+	
+	return nil
 }

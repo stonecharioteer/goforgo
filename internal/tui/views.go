@@ -315,6 +315,7 @@ func (m *Model) renderFooter() string {
 		"[h] hint",
 		"[l] list",
 		"[r] run",
+		"[s] output",
 		"[q] quit",
 	}
 
@@ -525,19 +526,39 @@ func (m *Model) renderExerciseList() string {
 	content.WriteString(header)
 	content.WriteString("\n")
 
-	// Navigation instructions
-	navInstructions := statusStyle.Render("Use ↑↓/jk to navigate, Enter to select, Esc to return")
-	content.WriteString(navInstructions)
+	// Filter state display
+	if m.filterMode {
+		filterPrompt := fmt.Sprintf("Filter: %s_", m.filterText)
+		content.WriteString(hintStyle.Render(filterPrompt))
+		content.WriteString("\n")
+		content.WriteString(statusStyle.Render("Type to filter, Enter to apply, Esc to cancel"))
+	} else if m.filterText != "" {
+		filterStatus := fmt.Sprintf("Filter active: '%s' (press / to modify)", m.filterText)
+		content.WriteString(hintStyle.Render(filterStatus))
+		content.WriteString("\n")
+		content.WriteString(statusStyle.Render("Use ↑↓/jk to navigate, Enter to select, Esc to return, / to filter"))
+	} else {
+		content.WriteString(statusStyle.Render("Use ↑↓/jk to navigate, Enter to select, Esc to return, / to filter"))
+	}
 	content.WriteString("\n\n")
 
+	// Get filtered exercises
+	filteredExercises := m.getFilteredExercises()
+	
 	// Calculate list dimensions
 	listHeight := m.listViewHeight
-	totalExercises := len(m.exercises)
+	totalExercises := len(filteredExercises)
 	startIndex := m.listScrollOffset
 	endIndex := min(startIndex+listHeight, totalExercises)
 
 	// Progress indicator
-	progressText := fmt.Sprintf("Exercises %d-%d of %d", startIndex+1, endIndex, totalExercises)
+	var progressText string
+	if m.filterText != "" {
+		progressText = fmt.Sprintf("Showing %d-%d of %d filtered exercises (total: %d)", 
+			startIndex+1, endIndex, totalExercises, len(m.exercises))
+	} else {
+		progressText = fmt.Sprintf("Exercises %d-%d of %d", startIndex+1, endIndex, totalExercises)
+	}
 	content.WriteString(statusStyle.Render(progressText))
 	content.WriteString("\n\n")
 
@@ -552,10 +573,10 @@ func (m *Model) renderExerciseList() string {
 		}
 	}
 
-	// Calculate column widths based on ALL exercises for consistent sizing
-	for _, ex := range m.exercises {
-		// Exercise number (use total count for max width)
-		exerciseNum := fmt.Sprintf("%d", len(m.exercises))
+	// Calculate column widths based on ALL filtered exercises for consistent sizing
+	for i, ex := range filteredExercises {
+		// Exercise number (use position in filtered list)
+		exerciseNum := fmt.Sprintf("%d", i+1)
 		if len(exerciseNum) > maxWidths[1] {
 			maxWidths[1] = len(exerciseNum)
 		}
@@ -615,7 +636,7 @@ func (m *Model) renderExerciseList() string {
 
 	var rows []rowData
 	for i := startIndex; i < endIndex; i++ {
-		ex := m.exercises[i]
+		ex := filteredExercises[i]
 
 		// Selection indicator
 		selectionIndicator := " "
@@ -623,7 +644,7 @@ func (m *Model) renderExerciseList() string {
 			selectionIndicator = "►"
 		}
 
-		// Exercise number
+		// Exercise number (position in filtered list)
 		exerciseNum := fmt.Sprintf("%d", i+1)
 
 		// Exercise name (no current marker text, will use color highlighting)
@@ -699,7 +720,7 @@ func (m *Model) renderExerciseList() string {
 			}
 
 			// Check if this row is the current exercise (highlight in green)
-			if actualIndex < len(m.exercises) && m.exercises[actualIndex] == m.currentExercise {
+			if actualIndex < len(filteredExercises) && filteredExercises[actualIndex] == m.currentExercise {
 				return lipgloss.NewStyle().
 					Foreground(lipgloss.Color("#10B981")).
 					Bold(true).
@@ -765,8 +786,18 @@ func (m *Model) renderExerciseList() string {
 	// Add minimal spacing
 	content.WriteString("\n")
 
-	// End-of-list indicator when at bottom
-	if endIndex >= totalExercises {
+	// Handle case where no exercises match filter
+	if totalExercises == 0 && m.filterText != "" {
+		content.WriteString("\n")
+		noResultsMsg := lipgloss.NewStyle().
+			Foreground(lipgloss.Color("#EF4444")).
+			Italic(true).
+			Render(fmt.Sprintf("No exercises match filter '%s'", m.filterText))
+		content.WriteString(noResultsMsg)
+		content.WriteString("\n")
+		clearFilterMsg := statusStyle.Render("Press Esc to clear filter or / to modify")
+		content.WriteString(clearFilterMsg)
+	} else if endIndex >= totalExercises && totalExercises > 0 {
 		content.WriteString("\n")
 		endIndicator := lipgloss.NewStyle().
 			Foreground(lipgloss.Color("#6B7280")).
@@ -777,7 +808,14 @@ func (m *Model) renderExerciseList() string {
 
 	// Footer with additional controls
 	content.WriteString("\n\n")
-	footerText := "Navigation: ↑↓/jk=move  PgUp/PgDn=page  Home/End=jump  Enter=select  Esc=back"
+	var footerText string
+	if m.filterMode {
+		footerText = "Filter mode: Type to search  Enter=apply  Esc=cancel  Backspace=delete"
+	} else if m.filterText != "" {
+		footerText = "Navigation: ↑↓/jk=move  Enter=select  /=filter  Esc=clear filter or back"
+	} else {
+		footerText = "Navigation: ↑↓/jk=move  PgUp/PgDn=page  Home/End=jump  Enter=select  /=filter  Esc=back"
+	}
 	content.WriteString(statusStyle.Render(footerText))
 
 	// Apply consistent border styling
@@ -879,6 +917,126 @@ Thank you for using GoForGo! 🎊`
 		Padding(4, 0)
 
 	return style.Render(successStyle.Render(completion))
+}
+
+// renderOutput shows a scrollable view of the exercise output
+func (m *Model) renderOutput() string {
+	var content strings.Builder
+
+	// Header
+	header := headerStyle.Render("📋 Exercise Output")
+	content.WriteString(header)
+	content.WriteString("\n")
+
+	// Exercise info
+	if m.currentExercise != nil {
+		exerciseInfo := fmt.Sprintf("Exercise: %s", m.currentExercise.Info.Name)
+		content.WriteString(statusStyle.Render(exerciseInfo))
+		content.WriteString("\n\n")
+	}
+
+	// Check if we have output to display
+	if m.lastResult == nil {
+		content.WriteString(statusStyle.Render("No output available. Run an exercise first (press 'r')."))
+		content.WriteString("\n\n")
+		content.WriteString(statusStyle.Render("Press Esc to return"))
+	} else {
+		// Show result status
+		if m.lastResult.Success {
+			content.WriteString(successStyle.Render("✅ Exercise completed successfully"))
+		} else {
+			content.WriteString(errorStyle.Render("❌ Exercise failed"))
+		}
+		content.WriteString("\n\n")
+
+		// Show error if present
+		if m.lastResult.Error != "" {
+			content.WriteString(errorStyle.Render("Error:"))
+			content.WriteString("\n")
+			content.WriteString(codeStyle.Render(m.lastResult.Error))
+			content.WriteString("\n\n")
+		}
+
+		// Show scrollable output
+		if m.lastResult.Output != "" {
+			outputLines := strings.Split(m.lastResult.Output, "\n")
+			totalLines := len(outputLines)
+			
+			// Calculate visible range
+			startLine := m.outputScrollPos
+			endLine := min(startLine+m.outputViewHeight, totalLines)
+			
+			// Show scroll position info
+			scrollInfo := fmt.Sprintf("Output (lines %d-%d of %d)", 
+				startLine+1, endLine, totalLines)
+			content.WriteString(statusStyle.Render(scrollInfo))
+			content.WriteString("\n\n")
+			
+			// Show visible output lines
+			if startLine < totalLines {
+				visibleLines := outputLines[startLine:endLine]
+				outputContent := strings.Join(visibleLines, "\n")
+				
+				// Style the output in a code block
+				outputStyle := lipgloss.NewStyle().
+					Background(lipgloss.Color("#F3F4F6")).
+					Foreground(lipgloss.Color("#1F2937")).
+					Padding(1, 2).
+					Width(m.width - 20) // Leave some margin
+				
+				content.WriteString(outputStyle.Render(outputContent))
+			}
+		} else {
+			content.WriteString(statusStyle.Render("No output produced by the exercise."))
+		}
+		
+		content.WriteString("\n\n")
+		
+		// Scroll indicators
+		if m.lastResult.Output != "" {
+			outputLines := strings.Split(m.lastResult.Output, "\n")
+			totalLines := len(outputLines)
+			maxScroll := max(0, totalLines-m.outputViewHeight)
+			
+			if m.outputScrollPos > 0 {
+				content.WriteString(statusStyle.Render("↑ More content above (scroll up)"))
+				content.WriteString("\n")
+			}
+			if m.outputScrollPos < maxScroll {
+				content.WriteString(statusStyle.Render("↓ More content below (scroll down)"))
+				content.WriteString("\n")
+			}
+		}
+		
+		// Footer with controls
+		footerText := "Navigation: ↑↓/jk=scroll  PgUp/PgDn=page  Home/End=jump  Esc=back"
+		content.WriteString(statusStyle.Render(footerText))
+	}
+
+	// Apply consistent border styling
+	outputContent := content.String()
+	borderStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#10B981"))
+	borderLine := borderStyle.Render(strings.Repeat("═", 80))
+
+	borderedContent := fmt.Sprintf(`%s
+%s
+%s`, borderLine, outputContent, borderLine)
+
+	// Center and style consistently
+	contentWidth := m.width - 10
+	if contentWidth < 50 {
+		contentWidth = 50
+	}
+	if contentWidth > 90 {
+		contentWidth = 90
+	}
+
+	style := lipgloss.NewStyle().
+		Width(contentWidth).
+		Align(lipgloss.Center).
+		Padding(1, 0)
+
+	return style.Render(borderedContent)
 }
 
 // Helper functions
