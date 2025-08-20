@@ -16,7 +16,7 @@ learning_objectives = [
 ]
 
 [validation]
-mode = "build"
+mode = "run"
 timeout = "30s"
 
 [hints]

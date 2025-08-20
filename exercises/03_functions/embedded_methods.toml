@@ -15,7 +15,7 @@ learning_objectives = [
 ]
 
 [validation]
-mode = "build"
+mode = "run"
 timeout = "30s"
 required_files = ["embedded_methods.go"]
 

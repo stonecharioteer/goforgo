@@ -335,6 +335,11 @@ func (em *ExerciseManager) GetCompletedExerciseCount() int {
 	return count
 }
 
+// GetCompletedExercises returns a map of completed exercise names
+func (em *ExerciseManager) GetCompletedExercises() map[string]bool {
+	return em.progress.CompletedExercises
+}
+
 // GetProgressStats returns completed count, total count, and percentage
 func (em *ExerciseManager) GetProgressStats() (completed int, total int, percentage float64) {
 	completed = em.GetCompletedExerciseCount()
