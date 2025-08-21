@@ -1,0 +1,71 @@
+[exercise]
+name = "rune_vs_byte"
+category = "47_go_gotchas"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Rune vs Byte Unicode Handling"
+summary = "Master Go's unique UTF-8 string handling and rune/byte distinction"
+learning_objectives = [
+  "Understand UTF-8 byte sequences vs Unicode code points",
+  "Use proper string length and indexing for Unicode text",
+  "Handle safe string slicing without breaking UTF-8",
+  "Master rune vs byte iteration patterns",
+  "Implement Unicode-aware string manipulation"
+]
+
+[validation]
+mode = "run"
+timeout = "30s"
+
+[hints]
+level_1 = """Go's Unicode handling with runes vs bytes is unique and frequently confuses developers from other languages:
+
+**Core Concepts**:
+- **string**: UTF-8 encoded byte sequence (not array of characters!)
+- **rune**: Unicode code point (alias for int32)
+- **byte**: Single byte (alias for uint8)
+
+**The Gotchas**:
+
+1. **Length Confusion**:
+   - `len(string)` returns byte count, not character count
+   - Multi-byte UTF-8 characters count as multiple bytes
+   - Use `len([]rune(s))` or `utf8.RuneCountInString(s)` for character count
+
+2. **Indexing Returns Bytes**:
+   - `string[i]` returns a byte, not a character
+   - Indexing into multi-byte sequences returns invalid UTF-8
+   - Never index UTF-8 strings byte-wise for character access
+
+3. **Slicing Can Break UTF-8**:
+   - `s[:n]` slices by bytes, may cut multi-byte characters
+   - Always validate with `utf8.ValidString()` after byte slicing
+   - Convert to `[]rune` for safe character-based slicing
+
+4. **Range Iteration**:
+   - `for i, r := range string` iterates over runes (correct)
+   - `for i, b := range []byte(string)` iterates over bytes
+   - Index in range doesn't increment by 1 for multi-byte chars
+
+5. **Rune vs Byte Literals**:
+   - `'A'` can be byte or rune depending on context
+   - Unicode literals like `'世'` must be runes (>255)
+   - Converting large runes to byte causes overflow
+
+6. **Unicode Normalization**:
+   - Same visual character can have different encodings
+   - `"é"` vs `"é"` (composed vs decomposed)
+   - Byte-wise equality fails for normalized equivalent strings
+
+**Why Go is Different**: Most languages either use fixed-width encodings (UCS-2/UTF-16) or treat strings as arrays of characters. Go's UTF-8 everywhere approach requires understanding the byte/rune distinction.
+
+Fix the string manipulation bugs and understand Unicode properly!"""
+level_2 = "Use len([]rune(s)) for character count, not len(s) which returns bytes"
+level_3 = "Convert to []rune for safe character-based string operations"
+
+[metadata]
+tags = ["unicode", "utf8", "runes", "bytes", "strings", "gotchas"]
+related_exercises = ["03_strings/string_basics.go"]

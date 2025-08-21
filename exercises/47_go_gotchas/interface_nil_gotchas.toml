@@ -1,0 +1,63 @@
+[exercise]
+name = "interface_nil_gotchas"
+category = "47_go_gotchas"
+difficulty = 5
+estimated_time = "35m"
+go_version = "1.16+"
+
+[description]
+title = "Interface Nil Gotchas"
+summary = "Master Go's confusing nil interface vs nil concrete value behavior"
+learning_objectives = [
+  "Understand interface (type, value) pair storage",
+  "Distinguish nil interface from interface with nil value",
+  "Fix common error handling bugs with interfaces",
+  "Use proper nil checks for interface concrete values",
+  "Avoid interface comparison traps"
+]
+
+[validation]
+mode = "run"
+timeout = "30s"
+
+[hints]
+level_1 = """Go's interface nil behavior is one of the most confusing aspects for developers coming from other languages:
+
+**Core Concept**: Interfaces store (type, value) pairs, not just values.
+
+**The Gotchas**:
+
+1. **nil interface vs interface with nil value**:
+   - `var i Interface` → (nil, nil) → i == nil is true
+   - `var p *Type; i = p` → (*Type, nil) → i == nil is FALSE!
+
+2. **Function returns**:
+   - Returning nil pointer as interface returns (Type, nil), not (nil, nil)
+   - Always return explicit `nil` when you want a nil interface
+
+3. **Error handling trap**:
+   ```go
+   func bad() error {
+       var err *CustomError  // nil pointer
+       return err            // Returns (CustomError, nil) - NOT nil!
+   }
+   ```
+
+4. **Comparison behavior**:
+   - Interfaces with same (type, value) are equal
+   - Different types with nil values are not equal
+   - Interface comparison includes type information
+
+5. **Nil checks**:
+   - `interface == nil` only works for truly nil interfaces
+   - Use type assertions or reflection to check nil concrete values
+
+**Why Go is different**: Most languages have nullable references where null is null. Go's interfaces maintain type information even when the concrete value is nil, enabling method calls on nil receivers but creating this confusion.
+
+Fix the bugs and understand this Go-specific behavior!"""
+level_2 = "Always return explicit nil from interface-returning functions when you want nil"
+level_3 = "Use type assertions or reflection to check nil concrete values in interfaces"
+
+[metadata]
+tags = ["interfaces", "nil", "gotchas", "errors", "types"]
+related_exercises = ["09_interfaces/interface_basics.go"]
