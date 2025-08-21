@@ -1,0 +1,56 @@
+[exercise]
+name = "slice_gotchas"
+category = "47_go_gotchas"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Slice Gotchas and Surprises"
+summary = "Understand Go's unique slice behaviors that surprise other language developers"
+learning_objectives = [
+  "Distinguish between nil and empty slices",
+  "Understand shared underlying array behavior",
+  "Handle append() capacity surprises",
+  "Prevent memory leaks with proper slicing",
+  "Master slice copying and capacity management"
+]
+
+[validation]
+mode = "run"
+timeout = "30s"
+
+[hints]
+level_1 = """Go slices have several unique behaviors that surprise developers from other languages:
+
+1. **nil vs empty slice**: 
+   - `var s []int` creates a nil slice
+   - `s := []int{}` creates an empty but non-nil slice
+   - Both have len() == 0, but only nil slice == nil
+   - Always use `len(s) == 0` to check emptiness
+
+2. **Shared underlying arrays**:
+   - Slices created with [start:end] share the same underlying array
+   - Modifying one slice can affect others unexpectedly
+   - This is different from Python list slicing which creates copies
+
+3. **Append capacity behavior**:
+   - append() may or may not create a new underlying array
+   - If capacity allows, it modifies the existing array
+   - Multiple slices from same array can interfere with each other
+
+4. **Memory leaks with slicing**:
+   - `largeslice[:5]` keeps the entire underlying array in memory
+   - Use `copy()` or `append([]T(nil), slice...)` to avoid leaks
+
+5. **Capacity doubling**:
+   - When capacity is exceeded, Go typically doubles the capacity
+   - This is different from languages with fixed-size arrays
+
+Fix the compilation errors and logical bugs to understand these Go-specific behaviors."""
+level_2 = "Use len(s) == 0 to check for empty slices, not == nil comparison"
+level_3 = "Use copy() to avoid memory leaks when slicing large arrays"
+
+[metadata]
+tags = ["slices", "memory", "gotchas", "arrays", "capacity"]
+related_exercises = ["04_slices/slice_basics.go"]

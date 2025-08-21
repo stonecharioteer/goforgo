@@ -1,0 +1,62 @@
+[exercise]
+name = "range_loop_traps"
+category = "47_go_gotchas"
+difficulty = 4
+estimated_time = "30m"
+go_version = "1.16+"
+
+[description]
+title = "Range Loop Variable Traps"
+summary = "Avoid common pitfalls with Go's range loop variable behavior"
+learning_objectives = [
+  "Understand range loop variable reuse behavior",
+  "Fix goroutine capture bugs with range variables",
+  "Avoid taking addresses of range loop variables",
+  "Handle map iteration randomization properly",
+  "Master string vs byte iteration differences"
+]
+
+[validation]
+mode = "run"
+timeout = "30s"
+
+[hints]
+level_1 = """Go's range loops have several unique behaviors that frequently trap developers:
+
+1. **Loop Variable Reuse**: 
+   - Range loop variables are reused across iterations
+   - Capturing them in goroutines captures the same memory location
+   - Fix: Pass as parameter or create local copy
+
+2. **Taking Addresses**: 
+   - &loopVar always points to the same memory location
+   - All pointers end up pointing to the last iteration value
+   - Fix: Take address of a copy or use slice index
+
+3. **Modifying Values**:
+   - Range gives you a copy of the value, not a reference
+   - Modifying the copy doesn't change the original
+   - Fix: Use index-based access for modifications
+
+4. **Map Iteration Order**:
+   - Go intentionally randomizes map iteration order
+   - Same map will have different iteration orders across runs
+   - Fix: Collect keys and sort if consistent order needed
+
+5. **Channel Ranging**:
+   - Range over channel blocks until channel is closed
+   - Forgetting to close causes deadlock
+   - Fix: Always close channels when done sending
+
+6. **String Ranging**:
+   - Iterates over runes (Unicode code points), not bytes
+   - Index jumps by multiple bytes for multi-byte UTF-8 characters
+   - Different from C/Java where strings are byte arrays
+
+These behaviors are Go-specific and differ from most other languages!"""
+level_2 = "Always capture loop variables in goroutines by passing as parameters"
+level_3 = "Use index-based access for modifying slice elements in range loops"
+
+[metadata]
+tags = ["loops", "range", "goroutines", "pointers", "gotchas"]
+related_exercises = ["05_loops/for_range.go"]

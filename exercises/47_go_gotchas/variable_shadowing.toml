@@ -1,0 +1,46 @@
+[exercise]
+name = "variable_shadowing"
+category = "47_go_gotchas"
+difficulty = 4
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Variable Shadowing Gotchas"
+summary = "Master Go's unique variable scoping and shadowing rules"
+learning_objectives = [
+  "Understand Go's block-based scoping rules",
+  "Identify variable shadowing with := operator",
+  "Fix common shadowing bugs in loops and conditionals",
+  "Distinguish between assignment (=) and declaration (:=)",
+  "Handle error scoping in if statements properly"
+]
+
+[validation]
+mode = "run"
+timeout = "30s"
+
+[hints]
+level_1 = """Go's variable shadowing rules are stricter and more explicit than many other languages:
+
+1. Short variable declaration (:=) creates new variables in the current scope
+2. Variables can be shadowed in inner scopes (if blocks, for loops, etc.)
+3. Multiple assignment with := creates new variables if any name is new to the scope
+4. Range loop variables are redeclared in each iteration's scope
+
+Common gotchas:
+- `name := ...` in an if block creates a new variable, doesn't reassign outer `name`
+- Range variables `for i, val := range` shadow any outer variables with same names
+- Error handling patterns can accidentally create scoped variables instead of assigning to outer ones
+- Unlike Python or JavaScript, Go's scoping is block-based and more predictable but stricter
+
+Fix the bugs by either:
+- Using different variable names to avoid shadowing
+- Using assignment (=) instead of declaration (:=) where appropriate
+- Moving variable declarations to appropriate scopes"""
+level_2 = "Use different variable names to avoid shadowing"
+level_3 = "Use assignment (=) instead of declaration (:=) where appropriate"
+
+[metadata]
+tags = ["scoping", "variables", "shadowing", "gotchas"]
+related_exercises = ["02_variables/variables.go"]

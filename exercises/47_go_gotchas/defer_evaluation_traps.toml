@@ -1,0 +1,66 @@
+[exercise]
+name = "defer_evaluation_traps"
+category = "47_go_gotchas"
+difficulty = 4
+estimated_time = "25m"
+go_version = "1.16+"
+
+[description]
+title = "Defer Evaluation Timing Traps"
+summary = "Understand Go's unique defer argument evaluation and execution timing"
+learning_objectives = [
+  "Master immediate argument evaluation in defer statements",
+  "Understand LIFO execution order of deferred functions",
+  "Use closures vs parameters correctly in defer",
+  "Handle named return value modification with defer",
+  "Implement proper resource cleanup patterns"
+]
+
+[validation]
+mode = "run"
+timeout = "30s"
+
+[hints]
+level_1 = """Go's defer statement has unique evaluation timing that surprises developers from other languages:
+
+**Key Behaviors**:
+
+1. **Immediate Argument Evaluation**:
+   - `defer fmt.Println(x)` evaluates `x` immediately, not when defer runs
+   - This is different from lambdas/closures in other languages
+   - Use closures `defer func() { fmt.Println(x) }()` to capture by reference
+
+2. **LIFO Execution Order**:
+   - Defers execute in Last In, First Out order
+   - First deferred function runs last
+   - Critical for resource cleanup patterns
+
+3. **Named Return Value Modification**:
+   - Defers can modify named return values after return statement
+   - `func f() (result int) { defer func() { result = 10 }(); return 5 }` returns 10
+   - This enables cleanup and error handling patterns
+
+4. **Loop Variable Capture**:
+   - `for i := range items { defer func() { use(i) }() }` captures same variable
+   - All defers see the final value of i
+   - Fix: Pass as parameter or create local copy
+
+5. **Panic Behavior**:
+   - Defers run even during panic (before stack unwinding)
+   - Essential for resource cleanup in error scenarios
+   - Execution order still LIFO
+
+6. **Resource Cleanup Patterns**:
+   - Defer immediately after resource acquisition
+   - Handle nil resources in defer closures
+   - Common pattern: `resource := acquire(); defer cleanup(resource)`
+
+**Why Go is Different**: Most languages evaluate closure arguments when the closure executes. Go evaluates defer arguments immediately but delays execution, creating this timing confusion.
+
+Understand the evaluation timing and execution order!"""
+level_2 = "Use closures to capture variables by reference in defer statements"
+level_3 = "Pass loop variables as parameters to avoid capture bugs"
+
+[metadata]
+tags = ["defer", "evaluation", "timing", "cleanup", "gotchas"]
+related_exercises = ["08_functions/function_defer.go"]
