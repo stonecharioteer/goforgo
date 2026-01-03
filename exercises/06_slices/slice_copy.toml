@@ -3,7 +3,7 @@ name = "slice_copy"
 category = "06_slices"
 difficulty = 2
 estimated_time = "10m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Slice Copying"

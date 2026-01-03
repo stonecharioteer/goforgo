@@ -3,7 +3,7 @@ name = "tcp_client_server"
 category = "22_net"
 difficulty = 4
 estimated_time = "35m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "TCP Client-Server Communication"

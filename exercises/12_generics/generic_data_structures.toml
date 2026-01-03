@@ -3,7 +3,7 @@ name = "generic_data_structures"
 category = "12_generics"
 difficulty = 3
 estimated_time = "25m"
-go_version = "1.18+"
+go_version = "1.18"
 
 [description]
 title = "Generic Data Structures"

@@ -3,7 +3,7 @@ name = "range_loops"
 category = "04_control_flow"
 difficulty = 2
 estimated_time = "10m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Range Loops for Collections"

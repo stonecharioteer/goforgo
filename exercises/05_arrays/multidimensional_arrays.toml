@@ -3,7 +3,7 @@ name = "multidimensional_arrays"
 category = "05_arrays"
 difficulty = 3
 estimated_time = "10m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Multidimensional Arrays"

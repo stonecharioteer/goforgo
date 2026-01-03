@@ -3,7 +3,7 @@ name = "type_switches"
 category = "04_control_flow"
 difficulty = 3
 estimated_time = "10m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Type Switches and Interface Handling"

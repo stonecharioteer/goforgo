@@ -3,7 +3,7 @@ name = "regexp_advanced"
 category = "14_stdlib"
 difficulty = 4
 estimated_time = "35m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Advanced Regular Expressions"

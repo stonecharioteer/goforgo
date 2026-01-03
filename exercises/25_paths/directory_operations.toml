@@ -3,7 +3,7 @@ name = "directory_operations"
 category = "25_paths"
 difficulty = 4
 estimated_time = "30m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Directory Operations"

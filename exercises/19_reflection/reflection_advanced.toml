@@ -3,7 +3,7 @@ name = "reflection_advanced"
 category = "19_reflection"
 difficulty = 5
 estimated_time = "40m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Advanced Reflection"

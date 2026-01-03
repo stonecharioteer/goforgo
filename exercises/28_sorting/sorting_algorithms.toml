@@ -3,7 +3,7 @@ name = "sorting_algorithms"
 category = "28_sorting"
 difficulty = 4
 estimated_time = "35m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Sorting Algorithms"

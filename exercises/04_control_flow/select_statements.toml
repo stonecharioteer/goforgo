@@ -3,7 +3,7 @@ name = "select_statements"
 category = "04_control_flow"
 difficulty = 4
 estimated_time = "12m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Select Statements for Channel Operations"

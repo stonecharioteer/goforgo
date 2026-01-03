@@ -3,7 +3,7 @@ name = "closures"
 category = "03_functions"
 difficulty = 4
 estimated_time = "12m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Closures and Anonymous Functions"

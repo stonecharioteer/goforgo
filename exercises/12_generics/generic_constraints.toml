@@ -3,7 +3,7 @@ name = "generic_constraints"
 category = "12_generics"
 difficulty = 4
 estimated_time = "25m"
-go_version = "1.18+"
+go_version = "1.18"
 
 [description]
 title = "Advanced Generic Constraints"

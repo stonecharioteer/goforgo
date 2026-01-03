@@ -3,7 +3,7 @@ name = "time_operations"
 category = "14_stdlib"
 difficulty = 2
 estimated_time = "18m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Time Operations"

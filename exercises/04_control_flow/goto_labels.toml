@@ -3,7 +3,7 @@ name = "goto_labels"
 category = "04_control_flow"
 difficulty = 2
 estimated_time = "6m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Goto and Labels"

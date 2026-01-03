@@ -3,7 +3,7 @@ name = "io_interfaces"
 category = "24_io"
 difficulty = 4
 estimated_time = "30m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "IO Interfaces and Patterns"

@@ -3,7 +3,7 @@ name = "struct_methods"
 category = "08_structs"
 difficulty = 2
 estimated_time = "12m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Struct Methods"

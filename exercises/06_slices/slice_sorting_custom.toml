@@ -3,7 +3,7 @@ name = "slice_sorting_custom"
 category = "06_slices"
 difficulty = 3
 estimated_time = "18m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Custom Slice Sorting with sort.Slice"

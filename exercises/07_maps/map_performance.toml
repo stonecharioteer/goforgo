@@ -3,7 +3,7 @@ name = "map_performance"
 category = "07_maps"
 difficulty = 4
 estimated_time = "20m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Map Performance and Optimization"

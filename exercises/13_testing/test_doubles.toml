@@ -3,7 +3,7 @@ name = "test_doubles"
 category = "13_testing"
 difficulty = 4
 estimated_time = "30m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Test Doubles"

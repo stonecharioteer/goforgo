@@ -3,7 +3,7 @@ name = "search_algorithms"
 category = "28_sorting"
 difficulty = 3
 estimated_time = "25m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Search Algorithms"

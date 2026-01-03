@@ -3,7 +3,7 @@ name = "pattern_matching"
 category = "30_algorithms"
 difficulty = 4
 estimated_time = "45m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "String Pattern Matching Algorithms"

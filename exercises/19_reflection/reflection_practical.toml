@@ -3,7 +3,7 @@ name = "reflection_practical"
 category = "19_reflection"
 difficulty = 4
 estimated_time = "35m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Practical Reflection Applications"

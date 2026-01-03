@@ -3,7 +3,7 @@ name = "environment_variables"
 category = "26_os"
 difficulty = 3
 estimated_time = "25m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Environment Variables"

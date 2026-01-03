@@ -3,7 +3,7 @@ name = "regex_basics"
 category = "18_regex"
 difficulty = 3
 estimated_time = "22m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Regular Expressions"

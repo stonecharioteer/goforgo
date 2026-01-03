@@ -3,7 +3,7 @@ name = "dynamic_programming"
 category = "30_algorithms"
 difficulty = 5
 estimated_time = "50m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Dynamic Programming"

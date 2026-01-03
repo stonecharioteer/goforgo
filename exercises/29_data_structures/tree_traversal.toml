@@ -3,7 +3,7 @@ name = "tree_traversal"
 category = "29_data_structures"
 difficulty = 4
 estimated_time = "40m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Binary Tree Traversal and Operations"

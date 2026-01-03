@@ -3,7 +3,7 @@ name = "json_advanced"
 category = "23_encoding"
 difficulty = 4
 estimated_time = "30m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Advanced JSON Processing"

@@ -3,7 +3,7 @@ name = "sync_primitives"
 category = "11_concurrency"
 difficulty = 3
 estimated_time = "18m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Synchronization Primitives"

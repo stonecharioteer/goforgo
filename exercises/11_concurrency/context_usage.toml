@@ -3,7 +3,7 @@ name = "context_usage"
 category = "11_concurrency"
 difficulty = 3
 estimated_time = "22m"
-go_version = "1.7+"
+go_version = "1.7"
 
 [description]
 title = "Context Usage Patterns"

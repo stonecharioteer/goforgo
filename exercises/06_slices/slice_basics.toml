@@ -3,7 +3,7 @@ name = "slice_basics"
 category = "06_slices"
 difficulty = 1
 estimated_time = "7m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Slice Basics"

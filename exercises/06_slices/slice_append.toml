@@ -3,7 +3,7 @@ name = "slice_append"
 category = "06_slices"
 difficulty = 2
 estimated_time = "8m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Slice Append Operations"
