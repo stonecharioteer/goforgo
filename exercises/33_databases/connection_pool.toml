@@ -1,5 +1,6 @@
 [exercise]
 name = "connection_pool"
+order = 142
 category = "33_databases"
 difficulty = 4
 estimated_time = "30m"

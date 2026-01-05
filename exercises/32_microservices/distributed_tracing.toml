@@ -1,5 +1,6 @@
 [exercise]
 name = "distributed_tracing"
+order = 140
 category = "32_microservices"
 difficulty = 4
 estimated_time = "35m"

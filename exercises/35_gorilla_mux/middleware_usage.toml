@@ -1,5 +1,6 @@
 [exercise]
 name = "middleware_usage"
+order = 148
 category = "35_gorilla_mux"
 difficulty = 3
 estimated_time = "25m"

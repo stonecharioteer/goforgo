@@ -1,5 +1,6 @@
 [exercise]
 name = "basic_routing"
+order = 162
 category = "40_gin_web"
 difficulty = 2
 title = "Gin Basic Routing"

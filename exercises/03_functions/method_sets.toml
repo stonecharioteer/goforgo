@@ -1,9 +1,10 @@
 [exercise]
 name = "method_sets"
+order = 30
 category = "03_functions"
 difficulty = 3
 estimated_time = "8m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Method Sets and Type Promotion"

@@ -1,5 +1,6 @@
 [exercise]
 name = "structured_logging"
+order = 166
 category = "41_logrus_logging"
 difficulty = 2
 title = "Logrus Structured Logging"

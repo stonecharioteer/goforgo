@@ -1,9 +1,10 @@
 [exercise]
 name = "file_watching"
+order = 93
 category = "17_files"
 difficulty = 4
 estimated_time = "30m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "File System Monitoring"

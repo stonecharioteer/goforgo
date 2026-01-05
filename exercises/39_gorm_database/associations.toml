@@ -1,5 +1,6 @@
 [exercise]
 name = "associations"
+order = 161
 category = "39_gorm_database"
 difficulty = 3
 estimated_time = "25m"

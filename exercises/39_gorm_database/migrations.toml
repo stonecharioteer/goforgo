@@ -1,5 +1,6 @@
 [exercise]
 name = "migrations"
+order = 160
 category = "39_gorm_database"
 difficulty = 3
 title = "GORM Migrations"

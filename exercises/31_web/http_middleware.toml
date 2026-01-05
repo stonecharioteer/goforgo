@@ -1,5 +1,6 @@
 [exercise]
 name = "http_middleware"
+order = 136
 category = "31_web"
 difficulty = 4
 estimated_time = "25m"

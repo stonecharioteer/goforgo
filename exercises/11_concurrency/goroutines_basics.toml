@@ -1,9 +1,10 @@
 [exercise]
 name = "goroutines_basics"
+order = 69
 category = "11_concurrency"
 difficulty = 2
 estimated_time = "12m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Goroutines Basics"

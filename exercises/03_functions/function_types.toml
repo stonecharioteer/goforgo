@@ -1,9 +1,10 @@
 [exercise]
 name = "function_types"
+order = 26
 category = "03_functions"
 difficulty = 3
 estimated_time = "10m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Functions as First-Class Values"

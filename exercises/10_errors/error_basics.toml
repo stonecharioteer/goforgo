@@ -1,9 +1,10 @@
 [exercise]
 name = "error_basics"
+order = 66
 category = "10_errors"
 difficulty = 2
 estimated_time = "10m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Error Handling Basics"

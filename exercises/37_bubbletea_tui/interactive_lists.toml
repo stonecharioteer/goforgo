@@ -1,5 +1,6 @@
 [exercise]
 name = "interactive_lists"
+order = 154
 category = "37_bubbletea_tui"
 difficulty = 3
 estimated_time = "25m"

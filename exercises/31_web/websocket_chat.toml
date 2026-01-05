@@ -1,5 +1,6 @@
 [exercise]
 name = "websocket_chat"
+order = 137
 category = "31_web"
 difficulty = 5
 estimated_time = "35m"

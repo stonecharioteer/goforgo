@@ -1,9 +1,10 @@
 [exercise]
 name = "json_basics"
+order = 85
 category = "15_json"
 difficulty = 2
 estimated_time = "16m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "JSON Basics"

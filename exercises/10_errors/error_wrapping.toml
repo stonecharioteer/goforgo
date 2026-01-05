@@ -1,9 +1,10 @@
 [exercise]
 name = "error_wrapping"
+order = 68
 category = "10_errors"
 difficulty = 3
 estimated_time = "20m"
-go_version = "1.13+"
+go_version = "1.13"
 
 [description]
 title = "Error Wrapping and Unwrapping"

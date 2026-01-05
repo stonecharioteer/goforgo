@@ -1,5 +1,6 @@
 [exercise]
 name = "custom_formatters"
+order = 167
 category = "41_logrus_logging"
 difficulty = 3
 title = "Logrus Custom Formatters"

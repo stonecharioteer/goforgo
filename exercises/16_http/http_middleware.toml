@@ -1,9 +1,10 @@
 [exercise]
 name = "http_middleware"
+order = 90
 category = "16_http"
 difficulty = 4
 estimated_time = "25m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "HTTP Middleware and Routing"

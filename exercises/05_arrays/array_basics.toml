@@ -1,9 +1,10 @@
 [exercise]
 name = "array_basics"
+order = 42
 category = "05_arrays"
 difficulty = 1
 estimated_time = "5m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Array Basics"

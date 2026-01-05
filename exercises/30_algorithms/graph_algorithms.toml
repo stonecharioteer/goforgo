@@ -1,9 +1,10 @@
 [exercise]
 name = "graph_algorithms"
+order = 133
 category = "30_algorithms"
 difficulty = 5
 estimated_time = "45m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Graph Algorithms"

@@ -1,5 +1,6 @@
 [exercise]
 name = "consumers"
+order = 169
 category = "42_kafka"
 difficulty = 2
 estimated_time = "25m"

@@ -1,9 +1,10 @@
 [exercise]
 name = "testing_basics"
+order = 77
 category = "13_testing"
 difficulty = 2
 estimated_time = "20m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Testing Basics"

@@ -1,9 +1,10 @@
 [exercise]
 name = "signal_handling"
+order = 122
 category = "26_os"
 difficulty = 4
 estimated_time = "30m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Signal Handling"

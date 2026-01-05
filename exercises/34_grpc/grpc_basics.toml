@@ -1,5 +1,6 @@
 [exercise]
 name = "grpc_basics"
+order = 144
 category = "34_grpc"
 difficulty = 4
 estimated_time = "30m"

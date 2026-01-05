@@ -1,9 +1,10 @@
 [exercise]
 name = "interface_empty"
+order = 63
 category = "09_interfaces"
 difficulty = 2
 estimated_time = "15m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Empty Interface and Type Assertions"

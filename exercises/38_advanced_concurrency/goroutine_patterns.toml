@@ -1,5 +1,6 @@
 [exercise]
 name = "goroutine_patterns"
+order = 157
 category = "38_advanced_concurrency"
 difficulty = 4
 estimated_time = "35m"

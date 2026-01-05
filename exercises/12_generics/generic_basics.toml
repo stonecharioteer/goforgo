@@ -1,9 +1,10 @@
 [exercise]
 name = "generic_basics"
+order = 74
 category = "12_generics"
 difficulty = 2
 estimated_time = "15m"
-go_version = "1.18+"
+go_version = "1.18"
 
 [description]
 title = "Generics Basics"

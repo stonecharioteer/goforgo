@@ -1,9 +1,10 @@
 [exercise]
 name = "http_client_advanced"
+order = 110
 category = "22_net"
 difficulty = 5
 estimated_time = "40m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Advanced HTTP Client"

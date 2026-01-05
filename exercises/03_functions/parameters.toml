@@ -1,9 +1,10 @@
 [exercise]
 name = "parameters"
+order = 21
 category = "03_functions"
 difficulty = 1
 estimated_time = "5m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Function Parameters"

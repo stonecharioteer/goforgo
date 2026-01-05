@@ -1,5 +1,6 @@
 [exercise]
 name = "service_discovery"
+order = 139
 category = "32_microservices"
 difficulty = 4
 estimated_time = "30m"

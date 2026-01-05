@@ -1,9 +1,10 @@
 [exercise]
 name = "slice_tricks" 
+order = 52
 category = "06_slices"
 difficulty = 3
 estimated_time = "15m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Advanced Slice Operations"

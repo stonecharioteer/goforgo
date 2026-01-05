@@ -1,9 +1,10 @@
 [exercise]
 name = "json_streaming"
+order = 86
 category = "15_json"
 difficulty = 3
 estimated_time = "20m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "JSON Streaming"

@@ -1,9 +1,10 @@
 [exercise]
 name = "filepath_operations"
+order = 118
 category = "25_paths"
 difficulty = 2
 estimated_time = "20m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Filepath Operations"

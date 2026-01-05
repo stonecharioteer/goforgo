@@ -1,9 +1,10 @@
 [exercise]
 name = "base64_encoding"
+order = 111
 category = "23_encoding"
 difficulty = 2
 estimated_time = "15m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Base64 Encoding"

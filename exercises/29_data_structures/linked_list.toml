@@ -1,9 +1,10 @@
 [exercise]
 name = "linked_list"
+order = 129
 category = "29_data_structures"
 difficulty = 4
 estimated_time = "35m"
-go_version = "1.16+"
+go_version = "1.16"
 
 [description]
 title = "Linked List Implementation"
