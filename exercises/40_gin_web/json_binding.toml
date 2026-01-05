@@ -1,5 +1,6 @@
 [exercise]
 name = "json_binding"
+order = 163
 category = "40_gin_web"
 difficulty = 3
 title = "Gin JSON Binding"

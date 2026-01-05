@@ -1,5 +1,6 @@
 [exercise]
 name = "map_advanced"
+order = 55
 category = "07_maps"
 difficulty = 3
 estimated_time = "15m"

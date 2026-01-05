@@ -1,5 +1,6 @@
 [exercise]
 name = "context_usage"
+order = 71
 category = "11_concurrency"
 difficulty = 3
 estimated_time = "22m"

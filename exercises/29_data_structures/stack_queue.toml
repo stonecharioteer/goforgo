@@ -1,5 +1,6 @@
 [exercise]
 name = "stack_queue"
+order = 130
 category = "29_data_structures"
 difficulty = 3
 estimated_time = "25m"

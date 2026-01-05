@@ -1,5 +1,6 @@
 [exercise]
 name = "basic_model"
+order = 153
 category = "37_bubbletea_tui"
 difficulty = 2
 estimated_time = "20m"

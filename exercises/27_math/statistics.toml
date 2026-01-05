@@ -1,5 +1,6 @@
 [exercise]
 name = "statistics"
+order = 125
 category = "27_math"
 difficulty = 3
 estimated_time = "25m"

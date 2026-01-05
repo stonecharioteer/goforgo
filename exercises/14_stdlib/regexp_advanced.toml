@@ -1,5 +1,6 @@
 [exercise]
 name = "regexp_advanced"
+order = 84
 category = "14_stdlib"
 difficulty = 4
 estimated_time = "35m"

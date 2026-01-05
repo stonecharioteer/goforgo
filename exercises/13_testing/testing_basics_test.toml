@@ -1,5 +1,6 @@
 [exercise]
 name = "testing_basics_test"
+order = 78
 category = "13_testing"
 difficulty = 2
 estimated_time = "15m"

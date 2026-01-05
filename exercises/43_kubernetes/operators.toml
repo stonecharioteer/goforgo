@@ -1,5 +1,6 @@
 [exercise]
 name = "operators"
+order = 175
 category = "43_kubernetes"
 difficulty = 3
 title = "Kubernetes Operators"

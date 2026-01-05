@@ -1,5 +1,6 @@
 [exercise]
 name = "io_interfaces"
+order = 115
 category = "24_io"
 difficulty = 4
 estimated_time = "30m"

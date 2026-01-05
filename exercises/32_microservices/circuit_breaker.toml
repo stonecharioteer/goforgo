@@ -1,5 +1,6 @@
 [exercise]
 name = "circuit_breaker"
+order = 138
 category = "32_microservices"
 difficulty = 5
 estimated_time = "40m"

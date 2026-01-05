@@ -1,5 +1,6 @@
 [exercise]
 name = "struct_embedding"
+order = 60
 category = "08_structs"
 difficulty = 3
 estimated_time = "15m"

@@ -1,5 +1,6 @@
 [exercise]
 name = "advanced_sync"
+order = 156
 category = "38_advanced_concurrency"
 difficulty = 5
 estimated_time = "45m"

@@ -1,5 +1,6 @@
 [exercise]
 name = "file_permissions"
+order = 92
 category = "17_files"
 difficulty = 3
 estimated_time = "20m"

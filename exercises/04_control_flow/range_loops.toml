@@ -1,5 +1,6 @@
 [exercise]
 name = "range_loops"
+order = 35
 category = "04_control_flow"
 difficulty = 2
 estimated_time = "10m"

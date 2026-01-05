@@ -1,5 +1,6 @@
 [exercise]
 name = "pipeline_patterns"
+order = 101
 category = "20_advanced"
 difficulty = 4
 estimated_time = "30m"

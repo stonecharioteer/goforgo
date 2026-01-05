@@ -1,5 +1,6 @@
 [exercise]
 name = "path_manipulation"
+order = 117
 category = "25_paths"
 difficulty = 3
 estimated_time = "25m"

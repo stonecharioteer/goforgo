@@ -1,5 +1,6 @@
 [exercise]
 name = "subcommands"
+order = 152
 category = "36_cobra_cli"
 difficulty = 3
 estimated_time = "25m"

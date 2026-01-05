@@ -1,5 +1,6 @@
 [exercise]
 name = "defer_statements"
+order = 38
 category = "04_control_flow"
 difficulty = 3
 estimated_time = "10m"

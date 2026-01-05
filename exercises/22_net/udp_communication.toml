@@ -1,5 +1,6 @@
 [exercise]
 name = "udp_communication"
+order = 108
 category = "22_net"
 difficulty = 3
 estimated_time = "25m"

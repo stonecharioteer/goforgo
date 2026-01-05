@@ -1,5 +1,6 @@
 [exercise]
 name = "function_definition"
+order = 20
 category = "03_functions"
 difficulty = 1
 estimated_time = "3m"

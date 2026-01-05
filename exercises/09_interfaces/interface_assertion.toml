@@ -1,5 +1,6 @@
 [exercise]
 name = "interface_assertion"
+order = 65
 category = "09_interfaces"
 difficulty = 3
 estimated_time = "18m"

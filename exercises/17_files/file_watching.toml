@@ -1,5 +1,6 @@
 [exercise]
 name = "file_watching"
+order = 93
 category = "17_files"
 difficulty = 4
 estimated_time = "30m"

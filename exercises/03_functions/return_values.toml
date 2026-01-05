@@ -1,5 +1,6 @@
 [exercise]
 name = "return_values"
+order = 22
 category = "03_functions"
 difficulty = 2
 estimated_time = "7m"

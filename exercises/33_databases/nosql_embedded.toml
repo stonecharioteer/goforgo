@@ -1,5 +1,6 @@
 [exercise]
 name = "nosql_embedded"
+order = 143
 category = "33_databases"
 difficulty = 4
 estimated_time = "35m"

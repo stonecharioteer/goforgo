@@ -1,5 +1,6 @@
 [exercise]
 name = "tree_traversal"
+order = 131
 category = "29_data_structures"
 difficulty = 4
 estimated_time = "40m"

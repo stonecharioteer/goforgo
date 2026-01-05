@@ -1,5 +1,6 @@
 [exercise]
 name = "interface_basics"
+order = 62
 category = "09_interfaces"
 difficulty = 2
 estimated_time = "12m"

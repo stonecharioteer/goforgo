@@ -1,5 +1,6 @@
 [exercise]
 name = "strings_manipulation"
+order = 82
 category = "14_stdlib"
 difficulty = 2
 estimated_time = "15m"

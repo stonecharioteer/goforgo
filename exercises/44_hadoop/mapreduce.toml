@@ -1,5 +1,6 @@
 [exercise]
 name = "mapreduce"
+order = 177
 category = "44_hadoop"
 difficulty = 2
 estimated_time = "25m"

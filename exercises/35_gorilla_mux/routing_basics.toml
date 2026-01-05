@@ -1,5 +1,6 @@
 [exercise]
 name = "routing_basics"
+order = 147
 category = "35_gorilla_mux"
 difficulty = 2
 estimated_time = "20m"

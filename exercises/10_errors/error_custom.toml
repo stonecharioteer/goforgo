@@ -1,5 +1,6 @@
 [exercise]
 name = "error_custom"
+order = 67
 category = "10_errors"
 difficulty = 3
 estimated_time = "18m"

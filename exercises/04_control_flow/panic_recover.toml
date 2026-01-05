@@ -1,5 +1,6 @@
 [exercise]
 name = "panic_recover"
+order = 39
 category = "04_control_flow"
 difficulty = 4
 estimated_time = "15m"

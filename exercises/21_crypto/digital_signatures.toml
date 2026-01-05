@@ -1,5 +1,6 @@
 [exercise]
 name = "digital_signatures"
+order = 105
 category = "21_crypto"
 difficulty = 4
 estimated_time = "30m"

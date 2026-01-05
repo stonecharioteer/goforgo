@@ -1,5 +1,6 @@
 [exercise]
 name = "sync_primitives"
+order = 72
 category = "11_concurrency"
 difficulty = 3
 estimated_time = "18m"

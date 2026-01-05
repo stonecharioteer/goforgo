@@ -1,5 +1,6 @@
 [exercise]
 name = "type_switches"
+order = 37
 category = "04_control_flow"
 difficulty = 3
 estimated_time = "10m"

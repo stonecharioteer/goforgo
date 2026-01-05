@@ -1,5 +1,6 @@
 [exercise]
 name = "tcp_client_server"
+order = 109
 category = "22_net"
 difficulty = 4
 estimated_time = "35m"

@@ -1,5 +1,6 @@
 [exercise]
 name = "if_statements"
+order = 32
 category = "04_control_flow"
 difficulty = 1
 estimated_time = "5m"

@@ -1,5 +1,6 @@
 [exercise]
 name = "sql_basics"
+order = 141
 category = "33_databases"
 difficulty = 3
 estimated_time = "25m"

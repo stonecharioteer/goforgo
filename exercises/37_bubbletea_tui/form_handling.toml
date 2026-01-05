@@ -1,5 +1,6 @@
 [exercise]
 name = "form_handling"
+order = 155
 category = "37_bubbletea_tui"
 difficulty = 4
 estimated_time = "30m"

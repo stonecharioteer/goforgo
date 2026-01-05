@@ -1,5 +1,6 @@
 [exercise]
 name = "design_patterns"
+order = 102
 category = "20_advanced"
 difficulty = 5
 estimated_time = "45m"

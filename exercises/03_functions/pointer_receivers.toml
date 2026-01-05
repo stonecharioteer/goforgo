@@ -1,5 +1,6 @@
 [exercise]
 name = "pointer_receivers"
+order = 28
 category = "03_functions"
 difficulty = 3
 estimated_time = "10m"

@@ -1,5 +1,6 @@
 [exercise]
 name = "http_client"
+order = 88
 category = "16_http"
 difficulty = 3
 estimated_time = "20m"

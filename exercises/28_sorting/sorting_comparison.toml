@@ -1,5 +1,6 @@
 [exercise]
 name = "sorting_comparison"
+order = 128
 category = "28_sorting"
 difficulty = 3
 estimated_time = "25m"

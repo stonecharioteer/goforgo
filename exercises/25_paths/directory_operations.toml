@@ -1,5 +1,6 @@
 [exercise]
 name = "directory_operations"
+order = 119
 category = "25_paths"
 difficulty = 4
 estimated_time = "30m"

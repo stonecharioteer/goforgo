@@ -1,5 +1,6 @@
 [exercise]
 name = "parameters"
+order = 21
 category = "03_functions"
 difficulty = 1
 estimated_time = "5m"

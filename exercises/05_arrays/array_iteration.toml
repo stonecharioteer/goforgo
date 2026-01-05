@@ -1,5 +1,6 @@
 [exercise]
 name = "array_iteration"
+order = 43
 category = "05_arrays"
 difficulty = 2
 estimated_time = "8m"

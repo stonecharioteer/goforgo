@@ -1,5 +1,6 @@
 [exercise]
 name = "encryption_aes"
+order = 104
 category = "21_crypto"
 difficulty = 4
 estimated_time = "25m"

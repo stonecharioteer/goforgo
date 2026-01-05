@@ -1,5 +1,6 @@
 [exercise]
 name = "grpc_streaming"
+order = 145
 category = "34_grpc"
 difficulty = 5
 estimated_time = "40m"

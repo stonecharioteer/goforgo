@@ -1,5 +1,6 @@
 [exercise]
 name = "break_continue"
+order = 36
 category = "04_control_flow"
 difficulty = 3
 estimated_time = "12m"

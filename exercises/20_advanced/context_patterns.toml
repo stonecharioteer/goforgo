@@ -1,5 +1,6 @@
 [exercise]
 name = "context_patterns"
+order = 100
 category = "20_advanced"
 difficulty = 4
 estimated_time = "30m"

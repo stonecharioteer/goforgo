@@ -1,5 +1,6 @@
 [exercise]
 name = "embedded_methods"
+order = 29
 category = "03_functions"
 difficulty = 4
 estimated_time = "12m"

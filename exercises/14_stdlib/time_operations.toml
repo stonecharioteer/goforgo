@@ -1,5 +1,6 @@
 [exercise]
 name = "time_operations"
+order = 83
 category = "14_stdlib"
 difficulty = 2
 estimated_time = "18m"

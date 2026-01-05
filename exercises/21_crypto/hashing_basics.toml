@@ -1,5 +1,6 @@
 [exercise]
 name = "hashing_basics"
+order = 103
 category = "21_crypto"
 difficulty = 2
 estimated_time = "12m"

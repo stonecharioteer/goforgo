@@ -1,5 +1,6 @@
 [exercise]
 name = "pattern_matching"
+order = 132
 category = "30_algorithms"
 difficulty = 4
 estimated_time = "45m"

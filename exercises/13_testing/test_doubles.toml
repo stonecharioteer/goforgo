@@ -1,5 +1,6 @@
 [exercise]
 name = "test_doubles"
+order = 81
 category = "13_testing"
 difficulty = 4
 estimated_time = "30m"

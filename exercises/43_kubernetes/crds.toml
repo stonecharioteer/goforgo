@@ -1,5 +1,6 @@
 [exercise]
 name = "crds"
+order = 174
 category = "43_kubernetes"
 difficulty = 3
 title = "Kubernetes Custom Resource Definitions"

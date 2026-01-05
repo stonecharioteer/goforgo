@@ -1,5 +1,6 @@
 [exercise]
 name = "map_patterns"
+order = 56
 category = "07_maps"
 difficulty = 3
 estimated_time = "25m"

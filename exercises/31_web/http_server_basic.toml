@@ -1,5 +1,6 @@
 [exercise]
 name = "http_server_basic"
+order = 135
 category = "31_web"
 difficulty = 3
 estimated_time = "25m"

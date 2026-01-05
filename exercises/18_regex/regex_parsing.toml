@@ -1,5 +1,6 @@
 [exercise]
 name = "regex_parsing"
+order = 95
 category = "18_regex"
 difficulty = 4
 estimated_time = "25m"

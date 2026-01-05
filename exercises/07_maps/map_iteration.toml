@@ -1,5 +1,6 @@
 [exercise]
 name = "map_iteration"
+order = 54
 category = "07_maps"
 difficulty = 2
 estimated_time = "10m"

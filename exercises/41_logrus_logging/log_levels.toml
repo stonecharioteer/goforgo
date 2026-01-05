@@ -1,5 +1,6 @@
 [exercise]
 name = "log_levels"
+order = 165
 category = "41_logrus_logging"
 difficulty = 2
 title = "Logrus Log Levels"

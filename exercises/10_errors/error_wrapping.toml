@@ -1,5 +1,6 @@
 [exercise]
 name = "error_wrapping"
+order = 68
 category = "10_errors"
 difficulty = 3
 estimated_time = "20m"

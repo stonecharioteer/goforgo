@@ -1,5 +1,6 @@
 [exercise]
 name = "searching"
+order = 183
 category = "46_elasticsearch"
 difficulty = 2
 estimated_time = "25m"

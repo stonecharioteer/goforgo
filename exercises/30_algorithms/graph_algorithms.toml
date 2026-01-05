@@ -1,5 +1,6 @@
 [exercise]
 name = "graph_algorithms"
+order = 133
 category = "30_algorithms"
 difficulty = 5
 estimated_time = "45m"

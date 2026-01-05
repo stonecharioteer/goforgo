@@ -1,5 +1,6 @@
 [exercise]
 name = "channels_basics"
+order = 70
 category = "11_concurrency"
 difficulty = 2
 estimated_time = "15m"

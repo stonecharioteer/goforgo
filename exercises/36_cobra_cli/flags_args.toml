@@ -1,5 +1,6 @@
 [exercise]
 name = "flags_args"
+order = 151
 category = "36_cobra_cli"
 difficulty = 3
 estimated_time = "25m"

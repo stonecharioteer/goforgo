@@ -1,5 +1,6 @@
 [exercise]
 name = "struct_tags"
+order = 61
 category = "08_structs"
 difficulty = 3
 estimated_time = "18m"

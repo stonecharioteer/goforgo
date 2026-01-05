@@ -1,5 +1,6 @@
 [exercise]
 name = "middleware_chain"
+order = 164
 category = "40_gin_web"
 difficulty = 3
 title = "Gin Middleware Chain"

@@ -1,5 +1,6 @@
 [exercise]
 name = "buffered_io"
+order = 114
 category = "24_io"
 difficulty = 3
 estimated_time = "25m"

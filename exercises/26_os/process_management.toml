@@ -1,5 +1,6 @@
 [exercise]
 name = "process_management"
+order = 121
 category = "26_os"
 difficulty = 4
 estimated_time = "30m"

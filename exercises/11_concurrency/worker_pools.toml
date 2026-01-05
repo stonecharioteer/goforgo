@@ -1,5 +1,6 @@
 [exercise]
 name = "worker_pools"
+order = 73
 category = "11_concurrency"
 difficulty = 4
 estimated_time = "25m"

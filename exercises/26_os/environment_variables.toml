@@ -1,5 +1,6 @@
 [exercise]
 name = "environment_variables"
+order = 120
 category = "26_os"
 difficulty = 3
 estimated_time = "25m"

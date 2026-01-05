@@ -1,5 +1,6 @@
 [exercise]
 name = "generic_constraints"
+order = 75
 category = "12_generics"
 difficulty = 4
 estimated_time = "25m"

@@ -1,5 +1,6 @@
 [exercise]
 name = "struct_basics"
+order = 58
 category = "08_structs"
 difficulty = 1
 estimated_time = "10m"

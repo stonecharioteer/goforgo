@@ -1,5 +1,6 @@
 [exercise]
 name = "dynamic_programming"
+order = 134
 category = "30_algorithms"
 difficulty = 5
 estimated_time = "50m"

@@ -1,5 +1,6 @@
 [exercise]
 name = "basic_client"
+order = 171
 category = "43_kubernetes"
 difficulty = 2
 title = "Kubernetes Basic Client"

@@ -1,5 +1,6 @@
 [exercise]
 name = "goto_labels"
+order = 41
 category = "04_control_flow"
 difficulty = 2
 estimated_time = "6m"

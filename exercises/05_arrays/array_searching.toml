@@ -1,5 +1,6 @@
 [exercise]
 name = "array_searching"
+order = 44
 category = "05_arrays"
 difficulty = 3
 estimated_time = "12m"

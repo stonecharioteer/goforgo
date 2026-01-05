@@ -1,5 +1,6 @@
 [exercise]
 name = "json_basics"
+order = 85
 category = "15_json"
 difficulty = 2
 estimated_time = "16m"

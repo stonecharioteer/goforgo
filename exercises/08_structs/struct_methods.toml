@@ -1,5 +1,6 @@
 [exercise]
 name = "struct_methods"
+order = 59
 category = "08_structs"
 difficulty = 2
 estimated_time = "12m"

@@ -1,5 +1,6 @@
 [exercise]
 name = "methods_basics"
+order = 27
 category = "03_functions"
 difficulty = 2
 estimated_time = "8m"

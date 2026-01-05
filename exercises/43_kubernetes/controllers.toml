@@ -1,5 +1,6 @@
 [exercise]
 name = "controllers"
+order = 173
 category = "43_kubernetes"
 difficulty = 3
 title = "Kubernetes Controllers"

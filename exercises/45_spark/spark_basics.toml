@@ -1,5 +1,6 @@
 [exercise]
 name = "spark_basics"
+order = 179
 category = "45_spark"
 difficulty = 2
 title = "Apache Spark Basics"

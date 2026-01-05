@@ -1,5 +1,6 @@
 [exercise]
 name = "deployment_automation"
+order = 172
 category = "43_kubernetes"
 difficulty = 3
 estimated_time = "45m"

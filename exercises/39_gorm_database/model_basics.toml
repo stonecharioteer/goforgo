@@ -1,5 +1,6 @@
 [exercise]
 name = "model_basics"
+order = 159
 category = "39_gorm_database"
 difficulty = 2
 title = "GORM Model Basics"

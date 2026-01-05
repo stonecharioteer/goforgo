@@ -1,5 +1,6 @@
 [exercise]
 name = "signal_handling"
+order = 122
 category = "26_os"
 difficulty = 4
 estimated_time = "30m"

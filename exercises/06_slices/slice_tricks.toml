@@ -1,5 +1,6 @@
 [exercise]
 name = "slice_tricks" 
+order = 52
 category = "06_slices"
 difficulty = 3
 estimated_time = "15m"
