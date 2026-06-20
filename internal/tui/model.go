@@ -73,6 +73,9 @@ type Model struct {
 	autoAdvance    bool // When true, auto-advance to next exercise on success
 	showingSuccess bool // True during the success crossfade screen
 
+	// Skip TODO check mode
+	skipTodoCheck bool // When true, TODO comments do not block exercise completion
+
 	// Messages and status
 	statusMessage string
 	updateNotice  string
@@ -270,6 +273,20 @@ func (m *Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 				m.statusMessage = "Auto-advance: OFF"
 			}
 			return m, nil
+		}
+		return m, nil
+
+	case "t":
+		// Toggle skip-TODO-check mode
+		if m.viewMode == ViewMain {
+			m.skipTodoCheck = !m.skipTodoCheck
+			m.runner.SkipTodoCheck = m.skipTodoCheck
+			if m.skipTodoCheck {
+				m.statusMessage = "Skip TODO check: ON"
+			} else {
+				m.statusMessage = "Skip TODO check: OFF"
+			}
+			return m, m.runCurrentExercise()
 		}
 		return m, nil
 

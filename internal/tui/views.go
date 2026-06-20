@@ -356,6 +356,11 @@ func (m *Model) renderFooter() string {
 		autoAdvanceLabel = "[a] auto-adv:ON"
 	}
 
+	skipTodoLabel := "[t] skip-todo"
+	if m.skipTodoCheck {
+		skipTodoLabel = "[t] skip-todo:ON"
+	}
+
 	shortcuts := []string{
 		"[n] next",
 		"[p] prev",
@@ -364,6 +369,7 @@ func (m *Model) renderFooter() string {
 		"[r] run",
 		"[s] output",
 		autoAdvanceLabel,
+		skipTodoLabel,
 		"[q] quit",
 	}
 
