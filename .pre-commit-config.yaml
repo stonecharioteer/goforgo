@@ -19,9 +19,15 @@ repos:
         language: system
         pass_filenames: false
 
+      - id: govulncheck
+        name: govulncheck cmd and internal (advisory)
+        entry: bash -c 'go run golang.org/x/vuln/cmd/govulncheck@latest ./cmd/... ./internal/... || { echo "govulncheck reported vulnerabilities; review output above"; exit 0; }'
+        language: system
+        pass_filenames: false
+
       - id: go-test
-        name: focused Go tests
-        entry: go test ./internal/analysis ./internal/checks ./internal/cli ./internal/exercise ./internal/runner ./internal/tui ./internal/watcher
+        name: Go tests
+        entry: go test ./cmd/... ./internal/...
         language: system
         pass_filenames: false
 
@@ -33,13 +39,20 @@ repos:
 
       - id: exercise-integrity
         name: exercise integrity check
-        entry: bash ./scripts/check_exercises.sh
+        entry: go run ./cmd/check-exercises
         language: system
         pass_filenames: false
 
       - id: conventional-commit-msg
         name: conventional commit message
         entry: >-
-          bash -c 'msg_file="$1"; if grep -Eq "^(Merge|Revert)" "$msg_file"; then exit 0; fi; if ! grep -Eq "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([A-Za-z0-9._-]+\))?!?: .+" "$msg_file"; then echo "Commit message must follow Conventional Commits, for example: feat: add exercise checks"; exit 1; fi' --
+          bash -c 'msg_file="$1"; subject=$(head -n 1 "$msg_file"); if printf "%s" "$subject" | grep -Eq "^(Merge|Revert)"; then exit 0; fi; if ! printf "%s" "$subject" | grep -Eq "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([A-Za-z0-9._-]+\))?!?: .+"; then echo "Commit message must follow Conventional Commits, for example: feat: add exercise checks"; exit 1; fi' --
+        language: system
+        stages: [commit-msg]
+
+      - id: no-claude-attribution
+        name: reject Claude attribution
+        entry: >-
+          bash -c 'msg_file="$1"; if grep -Eiq "(co-authored-by:.*claude|generated with .*claude|claude code)" "$msg_file"; then echo "Commit messages must not include Claude attribution or Generated with Claude Code footers."; exit 1; fi' --
         language: system
         stages: [commit-msg]

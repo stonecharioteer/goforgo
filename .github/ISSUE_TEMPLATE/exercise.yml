@@ -1,0 +1,35 @@
+name: Exercise proposal
+description: Propose a new exercise or changes to an existing exercise
+title: "feat: add <exercise> exercise"
+labels:
+  - exercise
+body:
+  - type: input
+    id: category
+    attributes:
+      label: Category
+      placeholder: 10_errors
+    validations:
+      required: true
+  - type: input
+    id: exercise
+    attributes:
+      label: Exercise name
+      placeholder: error_basics
+    validations:
+      required: true
+  - type: textarea
+    id: objective
+    attributes:
+      label: Learning objective
+      description: What should learners practice?
+    validations:
+      required: true
+  - type: checkboxes
+    id: triplet
+    attributes:
+      label: Exercise triplet checklist
+      options:
+        - label: Exercise file under exercises/<category>/<name>.go
+        - label: Solution file under solutions/<category>/<name>.go
+        - label: TOML metadata under exercises/<category>/<name>.toml

@@ -9,10 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **GitHub checks and local pre-commit hooks** *(2026-06-30 10:26:54 IST)*: Added CI for formatting, module tidiness, linting, focused tests, CLI build, exercise integrity, and conventional PR titles, plus matching `uvx pre-commit` setup documentation.
+- **Repository quality automation** *(2026-06-30 11:50:14 IST)*: Added Dependabot, advisory govulncheck scanning, PR/issue templates, release builds, branch-protection guidance, CODEOWNERS review requirements, explicit golangci-lint configuration, conventional commit message checks, and Claude attribution rejection in commit-msg hooks.
+- **Go exercise integrity checker** *(2026-06-30 11:50:14 IST)*: Replaced the shell implementation with a Go validator that checks triplets, orphaned solutions, TOML metadata, category minimums, and duplicate exercise ordering.
 
 ### Fixed
 - **Lint compliance** *(2026-06-30 10:26:54 IST)*: Cleaned up lint findings in command output handling, resource cleanup, TUI key handling, and unused code so the new lint check passes.
 - **Portable exercise checker** *(2026-06-30 10:26:54 IST)*: Updated `scripts/check_exercises.sh` to run on older Bash versions without associative arrays or `bc`.
+- **Integration test gating** *(2026-06-30 11:50:14 IST)*: Moved Testcontainers-dependent validation coverage behind the `integration` build tag and added a separate manual/weekly workflow.
+- **Generic exercise ordering** *(2026-06-30 11:50:14 IST)*: Fixed a duplicate order value in the generics category surfaced by the stricter exercise validator.
 
 ## [0.9.4] - 2026-04-07
 

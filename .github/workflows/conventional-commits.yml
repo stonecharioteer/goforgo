@@ -1,7 +1,7 @@
 name: Conventional Commits
 
 on:
-  pull_request_target:
+  pull_request:
     types:
       - opened
       - edited
@@ -12,6 +12,32 @@ permissions:
   pull-requests: read
 
 jobs:
+  conventional-commit-messages:
+    name: Check commit messages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate commit messages
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const allowed = /^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([A-Za-z0-9._-]+\))?!?: .+$/;
+            const { owner, repo } = context.repo;
+            const pull_number = context.payload.pull_request.number;
+            const commits = await github.paginate(github.rest.pulls.listCommits, {
+              owner,
+              repo,
+              pull_number,
+              per_page: 100,
+            });
+
+            const invalid = commits
+              .map((commit) => commit.commit.message.split("\n", 1)[0])
+              .filter((subject) => !allowed.test(subject) && !subject.startsWith("Merge ") && !subject.startsWith("Revert "));
+
+            if (invalid.length > 0) {
+              core.setFailed(`Commit messages must follow Conventional Commits. Invalid subjects:\n${invalid.map((subject) => `- ${subject}`).join("\n")}`);
+            }
+
   semantic-pr-title:
     name: Check PR title
     runs-on: ubuntu-latest
