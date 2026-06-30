@@ -1,6 +1,6 @@
 [exercise]
 name = "generic_basics"
-order = 2
+order = 1
 category = "12_generics"
 difficulty = 2
 estimated_time = "15m"

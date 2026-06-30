@@ -2,7 +2,7 @@
 
 [![Go Version](https://img.shields.io/badge/Go-1.24%2B-blue.svg)](https://golang.org/dl/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://img.shields.io/badge/Build-Passing-green.svg)](#building-from-source)
+[![CI](https://github.com/stonecharioteer/goforgo/actions/workflows/ci.yml/badge.svg)](https://github.com/stonecharioteer/goforgo/actions/workflows/ci.yml)
 
 **Interactive Go tutorial CLI inspired by Rustlings** 📚
 

@@ -16,7 +16,7 @@ jobs:
     name: Go checks
     runs-on: ubuntu-latest
     env:
-      GO_PACKAGES: ./internal/analysis ./internal/checks ./internal/cli ./internal/exercise ./internal/runner ./internal/tui ./internal/watcher
+      GO_PACKAGES: ./cmd/... ./internal/...
       LINT_PACKAGES: ./cmd/... ./internal/...
 
     steps:
@@ -46,11 +46,15 @@ jobs:
       - name: Lint
         run: go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.4.0 run $LINT_PACKAGES
 
-      - name: Run focused tests
+      - name: Check vulnerabilities (advisory)
+        continue-on-error: true
+        run: go run golang.org/x/vuln/cmd/govulncheck@latest ./cmd/... ./internal/...
+
+      - name: Run tests
         run: go test $GO_PACKAGES
 
       - name: Build CLI
         run: go build -o ./bin/goforgo ./cmd/goforgo
 
       - name: Check exercise integrity
-        run: ./scripts/check_exercises.sh
+        run: go run ./cmd/check-exercises

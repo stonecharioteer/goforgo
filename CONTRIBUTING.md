@@ -11,7 +11,9 @@ uvx pre-commit install --hook-type pre-commit --hook-type commit-msg
 uvx pre-commit run --all-files
 ```
 
-The hooks check formatting, module tidiness, linting, focused Go tests, CLI build, exercise integrity, and conventional commit messages.
+The hooks check formatting, module tidiness, linting, vulnerability scanning, Go tests for buildable packages, CLI build, exercise integrity, conventional commit messages, and disallowed AI attribution footers.
+
+The repository intentionally stores incomplete learner exercises under `exercises/` and standalone reference programs under `solutions/`. CI and pre-commit therefore test the buildable application packages rather than running `go test ./...` across those content directories.
 
 ## Commit messages and PR titles
 
@@ -24,3 +26,9 @@ ci: add GitHub Actions checks
 ```
 
 Allowed types are `build`, `chore`, `ci`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, and `test`.
+
+Do not include `Generated with Claude Code` or `Co-authored-by: Claude` attribution in commit messages.
+
+## Maintainer notes
+
+A PR is ready to merge only after all required checks pass and `@stonecharioteer` has reviewed it. See [docs/branch-protection.md](docs/branch-protection.md) for the recommended branch protection settings for `main`.
