@@ -73,12 +73,16 @@ func runSync(cmd *cobra.Command, args []string) error {
 
 		if result.Success {
 			if !ex.Completed {
-				em.MarkExerciseCompleted(ex.Info.Name)
+				if err := em.MarkExerciseCompleted(ex.Info.Name); err != nil {
+					return fmt.Errorf("failed to mark exercise %q complete: %w", ex.Info.Name, err)
+				}
 			}
 			completed++
 		} else {
 			if ex.Completed {
-				em.UnmarkExerciseCompleted(ex.Info.Name)
+				if err := em.UnmarkExerciseCompleted(ex.Info.Name); err != nil {
+					return fmt.Errorf("failed to unmark exercise %q complete: %w", ex.Info.Name, err)
+				}
 			}
 		}
 	}

@@ -33,12 +33,15 @@ func runSelfUpdate(cmd *cobra.Command, args []string) error {
 	}
 
 	if !isNewer {
-		fmt.Fprintf(cmd.OutOrStdout(), "✅ goforgo is up to date (%s)\n", version)
-		return nil
+		return writeCommandOutput(cmd, "✅ goforgo is up to date (%s)\n", version)
 	}
 
-	fmt.Fprintf(cmd.OutOrStdout(), "🔔 Update available: %s (current: %s)\n", latest, version)
-	fmt.Fprintf(cmd.OutOrStdout(), "   Will run: %s\n", updateInstallCmd)
+	if err := writeCommandOutput(cmd, "🔔 Update available: %s (current: %s)\n", latest, version); err != nil {
+		return err
+	}
+	if err := writeCommandOutput(cmd, "   Will run: %s\n", updateInstallCmd); err != nil {
+		return err
+	}
 
 	if selfUpdateCheck {
 		return nil
@@ -50,12 +53,13 @@ func runSelfUpdate(cmd *cobra.Command, args []string) error {
 			return err
 		}
 		if !ok {
-			fmt.Fprintln(cmd.OutOrStdout(), "Update cancelled.")
-			return nil
+			return writeCommandOutput(cmd, "Update cancelled.\n")
 		}
 	}
 
-	fmt.Fprintln(cmd.OutOrStdout(), "Updating goforgo...")
+	if err := writeCommandOutput(cmd, "Updating goforgo...\n"); err != nil {
+		return err
+	}
 	goCmd := exec.Command("go", "install", "github.com/stonecharioteer/goforgo/cmd/goforgo@latest")
 	goCmd.Stdout = cmd.OutOrStdout()
 	goCmd.Stderr = cmd.ErrOrStderr()
@@ -64,12 +68,13 @@ func runSelfUpdate(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("self-update failed: %w", err)
 	}
 
-	fmt.Fprintln(cmd.OutOrStdout(), "✅ Update complete. Run 'goforgo --version' to verify.")
-	return nil
+	return writeCommandOutput(cmd, "✅ Update complete. Run 'goforgo --version' to verify.\n")
 }
 
 func askForConfirmation(cmd *cobra.Command) (bool, error) {
-	fmt.Fprint(cmd.OutOrStdout(), "Proceed with update? [y/N]: ")
+	if err := writeCommandOutput(cmd, "Proceed with update? [y/N]: "); err != nil {
+		return false, err
+	}
 
 	reader := bufio.NewReader(os.Stdin)
 	line, err := reader.ReadString('\n')
@@ -79,6 +84,13 @@ func askForConfirmation(cmd *cobra.Command) (bool, error) {
 
 	answer := strings.TrimSpace(strings.ToLower(line))
 	return answer == "y" || answer == "yes", nil
+}
+
+func writeCommandOutput(cmd *cobra.Command, format string, args ...any) error {
+	if _, err := fmt.Fprintf(cmd.OutOrStdout(), format, args...); err != nil {
+		return fmt.Errorf("failed to write command output: %w", err)
+	}
+	return nil
 }
 
 func init() {

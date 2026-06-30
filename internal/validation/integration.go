@@ -12,9 +12,9 @@ import (
 
 // UniversalRunner extends the existing runner with universal validation capabilities
 type UniversalRunner struct {
-	legacyRunner    *runner.Runner
+	legacyRunner     *runner.Runner
 	testOrchestrator *TestOrchestrator
-	workingDir      string
+	workingDir       string
 }
 
 // NewUniversalRunner creates a new universal runner that can handle both legacy and universal validation
@@ -29,7 +29,7 @@ func NewUniversalRunner(workingDir string) *UniversalRunner {
 // ValidateExercise determines which validation approach to use and executes it
 func (ur *UniversalRunner) ValidateExercise(ctx context.Context, ex *exercise.Exercise) (*ValidationResult, error) {
 	log.Printf("🎯 Universal validation starting for exercise: %s", ex.Info.Name)
-	
+
 	// Check if exercise uses universal validation mode
 	if ur.shouldUseUniversalValidation(ex) {
 		log.Printf("📦 Using universal validation system")
@@ -62,7 +62,7 @@ func (ur *UniversalRunner) validateWithLegacySystem(ctx context.Context, ex *exe
 	if err != nil {
 		return nil, fmt.Errorf("legacy validation failed: %w", err)
 	}
-	
+
 	// Convert legacy result to universal result format
 	return ur.convertLegacyResult(legacyResult, ex), nil
 }
@@ -77,7 +77,7 @@ func (ur *UniversalRunner) convertLegacyResult(legacyResult *runner.Result, ex *
 		Environment:       make(map[string]string),
 		Error:             legacyResult.Error,
 	}
-	
+
 	// Convert validation details to rule results
 	ruleName := fmt.Sprintf("legacy_%s", ex.Validation.Mode)
 	ruleResult := &RuleResult{
@@ -89,41 +89,41 @@ func (ur *UniversalRunner) convertLegacyResult(legacyResult *runner.Result, ex *
 		Error:    legacyResult.Error,
 		Details:  ur.convertLegacyValidationDetails(legacyResult.Validation),
 	}
-	
+
 	universalResult.ValidationResults[ruleName] = ruleResult
-	
+
 	return universalResult
 }
 
 // convertLegacyValidationDetails converts legacy validation details to universal format
 func (ur *UniversalRunner) convertLegacyValidationDetails(validation runner.ValidationResult) map[string]interface{} {
 	details := make(map[string]interface{})
-	
+
 	details["build_success"] = validation.BuildSuccess
 	if validation.BuildOutput != "" {
 		details["build_output"] = validation.BuildOutput
 	}
-	
+
 	if validation.TestOutput != "" {
 		details["test_success"] = validation.TestSuccess
 		details["test_output"] = validation.TestOutput
 	}
-	
+
 	if validation.RunOutput != "" {
 		details["run_success"] = validation.RunSuccess
 		details["run_output"] = validation.RunOutput
 	}
-	
+
 	if validation.StaticOutput != "" {
 		details["static_success"] = validation.StaticSuccess
 		details["static_output"] = validation.StaticOutput
 	}
-	
+
 	if validation.TodoOutput != "" {
 		details["todo_check"] = validation.TodoCheck
 		details["todo_output"] = validation.TodoOutput
 	}
-	
+
 	return details
 }
 
@@ -138,16 +138,16 @@ func (ur *UniversalRunner) FormatValidationResult(result *ValidationResult) stri
 	if result.Success {
 		return "✅ Exercise validation passed!"
 	}
-	
+
 	output := "❌ Exercise validation failed:\n\n"
-	
+
 	// Show service failures
 	for serviceName, serviceResult := range result.ServiceResults {
 		if !serviceResult.Started || !serviceResult.Ready {
 			output += fmt.Sprintf("🔴 Service %s (%s): %s\n", serviceName, serviceResult.ServiceType, serviceResult.Error)
 		}
 	}
-	
+
 	// Show rule failures
 	for ruleName, ruleResult := range result.ValidationResults {
 		if !ruleResult.Passed {
@@ -157,23 +157,23 @@ func (ur *UniversalRunner) FormatValidationResult(result *ValidationResult) stri
 			}
 		}
 	}
-	
+
 	if result.Error != "" {
 		output += fmt.Sprintf("\n⚠️ Overall error: %s\n", result.Error)
 	}
-	
+
 	return output
 }
 
 // GetValidationSummary returns a summary of the validation result
 func (ur *UniversalRunner) GetValidationSummary(result *ValidationResult) map[string]interface{} {
 	summary := make(map[string]interface{})
-	
+
 	summary["success"] = result.Success
 	summary["duration"] = result.Duration.String()
 	summary["services_count"] = len(result.ServiceResults)
 	summary["rules_count"] = len(result.ValidationResults)
-	
+
 	// Count successful services
 	successfulServices := 0
 	for _, serviceResult := range result.ServiceResults {
@@ -182,7 +182,7 @@ func (ur *UniversalRunner) GetValidationSummary(result *ValidationResult) map[st
 		}
 	}
 	summary["successful_services"] = successfulServices
-	
+
 	// Count successful rules
 	successfulRules := 0
 	for _, ruleResult := range result.ValidationResults {
@@ -191,10 +191,10 @@ func (ur *UniversalRunner) GetValidationSummary(result *ValidationResult) map[st
 		}
 	}
 	summary["successful_rules"] = successfulRules
-	
+
 	// Environment variable count
 	summary["environment_vars"] = len(result.Environment)
-	
+
 	return summary
 }
 

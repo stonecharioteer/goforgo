@@ -14,10 +14,10 @@ import (
 // Exercise represents a single GoForGo exercise
 type Exercise struct {
 	// File paths
-	FilePath     string `toml:"-"`         // Path to the .go file
-	MetadataPath string `toml:"-"`         // Path to the .toml file
-	SolutionPath string `toml:"-"`         // Path to the solution file
-	TestFilePath string `toml:"-"`         // Path to the _test.go file
+	FilePath     string `toml:"-"` // Path to the .go file
+	MetadataPath string `toml:"-"` // Path to the .toml file
+	SolutionPath string `toml:"-"` // Path to the solution file
+	TestFilePath string `toml:"-"` // Path to the _test.go file
 
 	// Metadata from TOML file
 	Info        ExerciseInfo        `toml:"exercise"`
@@ -31,14 +31,13 @@ type Exercise struct {
 	Attempts    int       `toml:"-"`
 }
 
-
 // ExerciseInfo contains basic exercise information
 type ExerciseInfo struct {
 	Name          string `toml:"name"`
 	Category      string `toml:"category"`
-	Order         int    `toml:"order"`         // Exercise order within category
-	Difficulty    int    `toml:"difficulty"`    // 1-5 scale
-	EstimatedTime string `toml:"estimated_time"` // e.g., "5m", "15m"
+	Order         int    `toml:"order"`                // Exercise order within category
+	Difficulty    int    `toml:"difficulty"`           // 1-5 scale
+	EstimatedTime string `toml:"estimated_time"`       // e.g., "5m", "15m"
 	GoVersion     string `toml:"go_version,omitempty"` // Minimum Go version required
 }
 
@@ -51,8 +50,8 @@ type ExerciseDescription struct {
 
 // ExerciseValidation contains validation configuration
 type ExerciseValidation struct {
-	Mode           string   `toml:"mode"`           // "build", "test", "run", "static"
-	Timeout        string   `toml:"timeout"`        // e.g., "30s"
+	Mode           string   `toml:"mode"`                      // "build", "test", "run", "static"
+	Timeout        string   `toml:"timeout"`                   // e.g., "30s"
 	ExpectedOutput string   `toml:"expected_output,omitempty"` // Expected program output
 	StaticCheck    string   `toml:"static_check,omitempty"`    // Name of the static analysis check
 	RequiredFiles  []string `toml:"required_files,omitempty"`
@@ -92,10 +91,10 @@ func NewExerciseManager(basePath string) *ExerciseManager {
 			CompletedExercises: make(map[string]bool),
 		},
 	}
-	
+
 	// Load existing progress
 	em.loadProgress()
-	
+
 	return em
 }
 
@@ -174,7 +173,7 @@ func (em *ExerciseManager) loadExercise(metadataPath string) (*Exercise, error) 
 
 	// Check if the Go file exists
 	if _, err := os.Stat(exercise.FilePath); os.IsNotExist(err) {
-		return nil, fmt.Errorf("Go file not found at %s", exercise.FilePath)
+		return nil, fmt.Errorf("go file not found at %s", exercise.FilePath)
 	}
 
 	// Determine solution path
@@ -278,11 +277,15 @@ func (em *ExerciseManager) saveProgress() error {
 	if err != nil {
 		return fmt.Errorf("failed to create progress file: %w", err)
 	}
-	defer file.Close()
 
 	encoder := toml.NewEncoder(file)
 	if err := encoder.Encode(em.progress); err != nil {
+		_ = file.Close()
 		return fmt.Errorf("failed to encode progress: %w", err)
+	}
+
+	if err := file.Close(); err != nil {
+		return fmt.Errorf("failed to close progress file: %w", err)
 	}
 
 	return nil
@@ -300,7 +303,7 @@ func (em *ExerciseManager) MarkExerciseCompleted(exerciseName string) error {
 
 	// Update progress tracking
 	em.progress.CompletedExercises[exerciseName] = true
-	
+
 	// Set next exercise as current
 	nextExercise := em.GetNextExercise()
 	if nextExercise != nil {
@@ -371,23 +374,23 @@ func (em *ExerciseManager) GetProgressStats() (completed int, total int, percent
 // This counts .toml metadata files to ensure consistency with how exercises are actually loaded
 func CountExercisesInDirectory(exercisesPath string) (int, error) {
 	count := 0
-	
+
 	if _, err := os.Stat(exercisesPath); os.IsNotExist(err) {
 		return 0, fmt.Errorf("exercises directory not found at %s", exercisesPath)
 	}
-	
+
 	err := filepath.Walk(exercisesPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
-		
+
 		// Count .toml metadata files (same logic as LoadExercises)
 		if !info.IsDir() && strings.HasSuffix(path, ".toml") {
 			count++
 		}
-		
+
 		return nil
 	})
-	
+
 	return count, err
 }

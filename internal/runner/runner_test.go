@@ -12,7 +12,7 @@ import (
 func TestRunner_ValidateExercise_ExpectedOutput(t *testing.T) {
 	// Create a temporary directory for testing
 	tempDir := t.TempDir()
-	
+
 	// Create a test exercise
 	ex := &exercise.Exercise{
 		FilePath: filepath.Join(tempDir, "hello.go"),
@@ -117,7 +117,7 @@ func main() {
 
 func TestRunner_ValidateExercise_BuildMode(t *testing.T) {
 	tempDir := t.TempDir()
-	
+
 	ex := &exercise.Exercise{
 		FilePath: filepath.Join(tempDir, "test.go"),
 		Info: exercise.ExerciseInfo{
@@ -157,7 +157,7 @@ func main() {
 
 func TestRunner_Timeout(t *testing.T) {
 	tempDir := t.TempDir()
-	
+
 	ex := &exercise.Exercise{
 		FilePath: filepath.Join(tempDir, "timeout.go"),
 		Info: exercise.ExerciseInfo{

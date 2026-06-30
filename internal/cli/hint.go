@@ -49,9 +49,9 @@ func showHint(cmd *cobra.Command, args []string) error {
 	fmt.Printf("💡 Hint for exercise: %s\n", ex.String())
 	fmt.Printf("📁 File: %s\n", ex.FilePath)
 	fmt.Printf("⭐ Difficulty: %s\n\n", ex.GetDifficultyString())
-	
+
 	fmt.Printf("📖 Description: %s\n\n", ex.Description.Summary)
-	
+
 	// Show learning objectives if available
 	if len(ex.Description.LearningObjectives) > 0 {
 		fmt.Println("🎯 Learning Objectives:")
@@ -63,7 +63,7 @@ func showHint(cmd *cobra.Command, args []string) error {
 
 	// Show the hint
 	fmt.Printf("💡 Hint: %s\n\n", ex.GetHint())
-	
+
 	fmt.Printf("🔧 Edit %s and run 'goforgo run %s' to test your solution.\n", ex.FilePath, ex.Info.Name)
 
 	return nil

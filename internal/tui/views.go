@@ -931,34 +931,6 @@ func (m *Model) renderExerciseList() string {
 	return style.Render(borderedContent)
 }
 
-// getDifficultyStyle returns appropriate styling for difficulty level
-func (m *Model) getDifficultyStyle(difficulty string) lipgloss.Style {
-	if strings.Contains(difficulty, "Beginner") {
-		return lipgloss.NewStyle().Foreground(lipgloss.Color("#3fb950")) // Green
-	} else if strings.Contains(difficulty, "Easy") {
-		return lipgloss.NewStyle().Foreground(lipgloss.Color("#58a6ff")) // Blue
-	} else if strings.Contains(difficulty, "Medium") {
-		return lipgloss.NewStyle().Foreground(lipgloss.Color("#d29922")) // Orange
-	} else if strings.Contains(difficulty, "Hard") {
-		return lipgloss.NewStyle().Foreground(lipgloss.Color("#f85149")) // Red
-	}
-	return lipgloss.NewStyle().Foreground(lipgloss.Color("#8b949e")) // Gray
-}
-
-// getSimpleDifficulty extracts just the difficulty level without stars
-func (m *Model) getSimpleDifficulty(difficulty string) string {
-	if strings.Contains(difficulty, "Beginner") {
-		return "Beginner"
-	} else if strings.Contains(difficulty, "Easy") {
-		return "Easy"
-	} else if strings.Contains(difficulty, "Medium") {
-		return "Medium"
-	} else if strings.Contains(difficulty, "Hard") {
-		return "Hard"
-	}
-	return "Unknown"
-}
-
 // getExerciseTopic extracts a topic tag from the exercise
 func (m *Model) getExerciseTopic(ex interface{}) string {
 	// Find the exercise in our slice to get its properties

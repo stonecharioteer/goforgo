@@ -31,7 +31,7 @@ func NewTestOrchestrator() *TestOrchestrator {
 // ValidateExercise performs comprehensive validation of an exercise using the universal system
 func (to *TestOrchestrator) ValidateExercise(ctx context.Context, ex *exercise.Exercise, workingDir string) (*ValidationResult, error) {
 	start := time.Now()
-	
+
 	log.Printf("🚀 Starting universal validation for exercise: %s", ex.Info.Name)
 
 	result := &ValidationResult{
@@ -73,7 +73,9 @@ func (to *TestOrchestrator) ValidateExercise(ctx context.Context, ex *exercise.E
 		if err := to.startServices(timeoutCtx, request, result); err != nil {
 			result.Error = fmt.Sprintf("Failed to start services: %v", err)
 			result.Duration = time.Since(start)
-			to.cleanup(context.Background(), result)
+			if cleanupErr := to.cleanup(context.Background(), result); cleanupErr != nil {
+				log.Printf("Warning: cleanup failed: %v", cleanupErr)
+			}
 			return result, nil
 		}
 	}
@@ -83,7 +85,9 @@ func (to *TestOrchestrator) ValidateExercise(ctx context.Context, ex *exercise.E
 	if err := to.buildExercise(timeoutCtx, request); err != nil {
 		result.Error = fmt.Sprintf("Failed to build exercise: %v", err)
 		result.Duration = time.Since(start)
-		to.cleanup(context.Background(), result)
+		if cleanupErr := to.cleanup(context.Background(), result); cleanupErr != nil {
+			log.Printf("Warning: cleanup failed: %v", cleanupErr)
+		}
 		return result, nil
 	}
 
@@ -93,7 +97,9 @@ func (to *TestOrchestrator) ValidateExercise(ctx context.Context, ex *exercise.E
 		if err := to.executeValidationRules(timeoutCtx, request, result); err != nil {
 			result.Error = fmt.Sprintf("Failed to execute validation rules: %v", err)
 			result.Duration = time.Since(start)
-			to.cleanup(context.Background(), result)
+			if cleanupErr := to.cleanup(context.Background(), result); cleanupErr != nil {
+				log.Printf("Warning: cleanup failed: %v", cleanupErr)
+			}
 			return result, nil
 		}
 	}
@@ -117,20 +123,20 @@ func (to *TestOrchestrator) startServices(ctx context.Context, request *Validati
 	var wg sync.WaitGroup
 	var mu sync.Mutex
 	serviceErrors := make(chan error, len(request.Services))
-	
+
 	for _, serviceSpec := range request.Services {
 		wg.Add(1)
 		go func(spec ServiceSpec) {
 			defer wg.Done()
-			
+
 			serviceStart := time.Now()
 			serviceResult := &ServiceResult{
 				ServiceName: spec.Name,
 				ServiceType: spec.Type,
 			}
-			
+
 			log.Printf("  🐳 Starting %s service: %s", spec.Type, spec.Name)
-			
+
 			service, err := to.serviceRegistry.CreateService(ctx, spec)
 			if err != nil {
 				serviceResult.Error = fmt.Sprintf("Failed to create service: %v", err)
@@ -141,7 +147,7 @@ func (to *TestOrchestrator) startServices(ctx context.Context, request *Validati
 				serviceErrors <- err
 				return
 			}
-			
+
 			if err := service.Start(ctx); err != nil {
 				serviceResult.Error = fmt.Sprintf("Failed to start service: %v", err)
 				serviceResult.Duration = time.Since(serviceStart)
@@ -152,7 +158,7 @@ func (to *TestOrchestrator) startServices(ctx context.Context, request *Validati
 				return
 			}
 			serviceResult.Started = true
-			
+
 			// Wait for service to be ready
 			log.Printf("  ⏳ Waiting for %s to be ready...", spec.Name)
 			ready, err := service.IsReady(ctx)
@@ -166,7 +172,7 @@ func (to *TestOrchestrator) startServices(ctx context.Context, request *Validati
 				return
 			}
 			serviceResult.Ready = ready
-			
+
 			if !ready {
 				serviceResult.Error = "Service did not become ready within timeout"
 				serviceResult.Duration = time.Since(serviceStart)
@@ -176,7 +182,7 @@ func (to *TestOrchestrator) startServices(ctx context.Context, request *Validati
 				serviceErrors <- fmt.Errorf("service %s not ready", spec.Name)
 				return
 			}
-			
+
 			// Get connection info and inject into environment
 			connInfo := service.GetConnectionInfo()
 			serviceResult.Connection = connInfo
@@ -186,24 +192,24 @@ func (to *TestOrchestrator) startServices(ctx context.Context, request *Validati
 			// Add connection info to environment
 			to.injectServiceEnvironment(spec.Name, connInfo, result.Environment)
 			mu.Unlock()
-			
+
 			log.Printf("  ✅ Service %s ready in %v", spec.Name, serviceResult.Duration)
 		}(serviceSpec)
 	}
-	
+
 	wg.Wait()
 	close(serviceErrors)
-	
+
 	// Check for any service errors
 	var errors []string
 	for err := range serviceErrors {
 		errors = append(errors, err.Error())
 	}
-	
+
 	if len(errors) > 0 {
 		return fmt.Errorf("service startup failed: %s", strings.Join(errors, "; "))
 	}
-	
+
 	return nil
 }
 
@@ -216,14 +222,14 @@ func (to *TestOrchestrator) buildExercise(ctx context.Context, request *Validati
 func (to *TestOrchestrator) executeValidationRules(ctx context.Context, request *ValidationRequest, result *ValidationResult) error {
 	// Build dependency graph
 	dependencyGraph := to.buildDependencyGraph(request.Rules)
-	
+
 	// Execute rules in topological order
 	for _, batch := range dependencyGraph {
 		if err := to.executeBatch(ctx, batch, request, result); err != nil {
 			return err
 		}
 	}
-	
+
 	return nil
 }
 
@@ -239,14 +245,14 @@ func (to *TestOrchestrator) executeBatch(ctx context.Context, batch []Validation
 	var wg sync.WaitGroup
 	var mu sync.Mutex
 	ruleErrors := make(chan error, len(batch))
-	
+
 	for _, ruleSpec := range batch {
 		wg.Add(1)
 		go func(spec ValidationRuleSpec) {
 			defer wg.Done()
-			
+
 			log.Printf("  🔍 Executing rule: %s (%s)", spec.Name, spec.Type)
-			
+
 			validator, exists := to.validatorRegistry.Get(spec.Type)
 			if !exists {
 				err := fmt.Errorf("unknown validation rule type: %s", spec.Type)
@@ -261,7 +267,7 @@ func (to *TestOrchestrator) executeBatch(ctx context.Context, batch []Validation
 				ruleErrors <- err
 				return
 			}
-			
+
 			ruleRequest := &ValidationRuleRequest{
 				WorkingDir:       request.WorkingDir,
 				ExerciseFilePath: request.Exercise.FilePath,
@@ -270,7 +276,7 @@ func (to *TestOrchestrator) executeBatch(ctx context.Context, batch []Validation
 				Config:           spec.Config,
 				Timeout:          request.Timeout,
 			}
-			
+
 			ruleResult, err := validator.Validate(ctx, ruleRequest)
 			if err != nil {
 				ruleResult = &RuleResult{
@@ -280,11 +286,11 @@ func (to *TestOrchestrator) executeBatch(ctx context.Context, batch []Validation
 					Error:    err.Error(),
 				}
 			}
-			
+
 			mu.Lock()
 			result.ValidationResults[spec.Name] = ruleResult
 			mu.Unlock()
-			
+
 			if ruleResult.Passed {
 				log.Printf("  ✅ Rule %s passed in %v", spec.Name, ruleResult.Duration)
 			} else {
@@ -292,10 +298,10 @@ func (to *TestOrchestrator) executeBatch(ctx context.Context, batch []Validation
 			}
 		}(ruleSpec)
 	}
-	
+
 	wg.Wait()
 	close(ruleErrors)
-	
+
 	return nil
 }
 
@@ -310,7 +316,7 @@ func (to *TestOrchestrator) parseEnhancedConfig(ex *exercise.Exercise) (*Enhance
 		StaticCheck:    ex.Validation.StaticCheck,
 		RequiredFiles:  ex.Validation.RequiredFiles,
 	}
-	
+
 	return enhanced, nil
 }
 
@@ -318,22 +324,22 @@ func (to *TestOrchestrator) parseTimeout(timeoutStr string) time.Duration {
 	if timeoutStr == "" {
 		return to.config.DefaultTimeout
 	}
-	
+
 	timeout, err := time.ParseDuration(timeoutStr)
 	if err != nil {
 		return to.config.DefaultTimeout
 	}
-	
+
 	return timeout
 }
 
 func (to *TestOrchestrator) injectServiceEnvironment(serviceName string, connInfo *ServiceConnectionInfo, environment map[string]string) {
 	prefix := fmt.Sprintf("SERVICE_%s_", strings.ToUpper(serviceName))
-	
+
 	environment[prefix+"HOST"] = connInfo.Host
 	environment[prefix+"PORT"] = fmt.Sprintf("%d", connInfo.Port)
 	environment[prefix+"URL"] = connInfo.URL
-	
+
 	if connInfo.Database != "" {
 		environment[prefix+"DATABASE"] = connInfo.Database
 	}
@@ -343,7 +349,7 @@ func (to *TestOrchestrator) injectServiceEnvironment(serviceName string, connInf
 	if connInfo.Password != "" {
 		environment[prefix+"PASSWORD"] = connInfo.Password
 	}
-	
+
 	// Add custom environment variables from service
 	for key, value := range connInfo.Env {
 		environment[key] = value
@@ -367,14 +373,14 @@ func (to *TestOrchestrator) determineOverallSuccess(result *ValidationResult) bo
 			return false
 		}
 	}
-	
+
 	// Check if all validation rules passed
 	for _, ruleResult := range result.ValidationResults {
 		if !ruleResult.Passed {
 			return false
 		}
 	}
-	
+
 	return true
 }
 

@@ -5,20 +5,20 @@ import "time"
 // EnhancedExerciseValidation extends the basic validation with universal validation support
 type EnhancedExerciseValidation struct {
 	// Legacy fields for backward compatibility
-	Mode           string   `toml:"mode"`           // "build", "test", "run", "static", "universal"
-	Timeout        string   `toml:"timeout"`        // e.g., "30s"
+	Mode           string   `toml:"mode"`    // "build", "test", "run", "static", "universal"
+	Timeout        string   `toml:"timeout"` // e.g., "30s"
 	ExpectedOutput string   `toml:"expected_output,omitempty"`
 	StaticCheck    string   `toml:"static_check,omitempty"`
 	RequiredFiles  []string `toml:"required_files,omitempty"`
-	
+
 	// New universal validation fields
-	Services       []ServiceSpec         `toml:"services,omitempty"`       // Required services
-	Rules          []ValidationRuleSpec  `toml:"rules,omitempty"`          // Validation rules to execute
-	Environment    map[string]string     `toml:"environment,omitempty"`    // Environment variables
-	WorkingDir     string                `toml:"working_dir,omitempty"`    // Working directory override
-	SetupScript    string                `toml:"setup_script,omitempty"`   // Setup script to run before validation
-	TeardownScript string                `toml:"teardown_script,omitempty"` // Cleanup script to run after validation
-	Parallel       bool                  `toml:"parallel,omitempty"`       // Can run validation rules in parallel
+	Services       []ServiceSpec        `toml:"services,omitempty"`        // Required services
+	Rules          []ValidationRuleSpec `toml:"rules,omitempty"`           // Validation rules to execute
+	Environment    map[string]string    `toml:"environment,omitempty"`     // Environment variables
+	WorkingDir     string               `toml:"working_dir,omitempty"`     // Working directory override
+	SetupScript    string               `toml:"setup_script,omitempty"`    // Setup script to run before validation
+	TeardownScript string               `toml:"teardown_script,omitempty"` // Cleanup script to run after validation
+	Parallel       bool                 `toml:"parallel,omitempty"`        // Can run validation rules in parallel
 }
 
 // Example TOML configurations for different exercise types:
@@ -39,7 +39,7 @@ fixtures = ["schema.sql", "seed_data.sql"]
 [[validation.rules]]
 type = "http_routes"
 name = "api_endpoints"
-config = { 
+config = {
     base_url = "http://localhost:8080",
     routes = [
         { method = "GET", path = "/api/users", expect_status = 200, expect_json = true },
@@ -82,7 +82,7 @@ config = { maxmemory = "128mb" }
 type = "http_mock"
 name = "upstream_service"
 version = "latest"
-config = { 
+config = {
     port = 9090,
     failure_rate = 0.5,
     failure_after = "10s"
@@ -122,7 +122,7 @@ config = {
 // gRPC Streaming Exercise Example:
 /*
 [validation]
-mode = "universal" 
+mode = "universal"
 timeout = "45s"
 setup_script = "compile_proto.sh"
 
@@ -162,9 +162,9 @@ timeout = "120s"
 type = "postgresql"
 name = "main_db"
 version = "15"
-config = { 
-    POSTGRES_DB = "pooltest", 
-    POSTGRES_USER = "testuser", 
+config = {
+    POSTGRES_DB = "pooltest",
+    POSTGRES_USER = "testuser",
     POSTGRES_PASSWORD = "testpass",
     max_connections = "20"
 }
@@ -200,16 +200,16 @@ type ConfigParser struct{}
 func (cp *ConfigParser) ParseEnhancedValidation(data map[string]interface{}) (*EnhancedExerciseValidation, error) {
 	// Implementation will parse the enhanced TOML format and return structured config
 	validation := &EnhancedExerciseValidation{}
-	
+
 	// Parse legacy fields for backward compatibility
 	if mode, ok := data["mode"].(string); ok {
 		validation.Mode = mode
 	}
-	
+
 	if timeout, ok := data["timeout"].(string); ok {
 		validation.Timeout = timeout
 	}
-	
+
 	// Parse new fields
 	if services, ok := data["services"].([]interface{}); ok {
 		for _, service := range services {
@@ -222,7 +222,7 @@ func (cp *ConfigParser) ParseEnhancedValidation(data map[string]interface{}) (*E
 			}
 		}
 	}
-	
+
 	if rules, ok := data["rules"].([]interface{}); ok {
 		for _, rule := range rules {
 			if ruleMap, ok := rule.(map[string]interface{}); ok {
@@ -234,47 +234,47 @@ func (cp *ConfigParser) ParseEnhancedValidation(data map[string]interface{}) (*E
 			}
 		}
 	}
-	
+
 	return validation, nil
 }
 
 func (cp *ConfigParser) parseServiceSpec(data map[string]interface{}) (*ServiceSpec, error) {
 	spec := &ServiceSpec{}
-	
+
 	if serviceType, ok := data["type"].(string); ok {
 		spec.Type = serviceType
 	}
-	
+
 	if name, ok := data["name"].(string); ok {
 		spec.Name = name
 	}
-	
+
 	if version, ok := data["version"].(string); ok {
 		spec.Version = version
 	}
-	
+
 	if config, ok := data["config"].(map[string]interface{}); ok {
 		spec.Config = config
 	}
-	
+
 	return spec, nil
 }
 
 func (cp *ConfigParser) parseRuleSpec(data map[string]interface{}) (*ValidationRuleSpec, error) {
 	spec := &ValidationRuleSpec{}
-	
+
 	if ruleType, ok := data["type"].(string); ok {
 		spec.Type = ruleType
 	}
-	
+
 	if name, ok := data["name"].(string); ok {
 		spec.Name = name
 	}
-	
+
 	if config, ok := data["config"].(map[string]interface{}); ok {
 		spec.Config = config
 	}
-	
+
 	if dependsOn, ok := data["depends_on"].([]interface{}); ok {
 		for _, dep := range dependsOn {
 			if depStr, ok := dep.(string); ok {
@@ -282,11 +282,11 @@ func (cp *ConfigParser) parseRuleSpec(data map[string]interface{}) (*ValidationR
 			}
 		}
 	}
-	
+
 	if parallel, ok := data["parallel"].(bool); ok {
 		spec.Parallel = parallel
 	}
-	
+
 	return spec, nil
 }
 

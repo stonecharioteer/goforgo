@@ -1,0 +1,45 @@
+repos:
+  - repo: local
+    hooks:
+      - id: gofmt
+        name: gofmt cmd and internal
+        entry: bash -c 'unformatted=$(gofmt -l $(find cmd internal -name "*.go" -type f)); if [ -n "$unformatted" ]; then echo "The following files need gofmt:"; echo "$unformatted"; exit 1; fi'
+        language: system
+        pass_filenames: false
+
+      - id: go-mod-tidy
+        name: go mod tidy check
+        entry: bash -c 'go mod tidy && git diff --exit-code -- go.mod go.sum'
+        language: system
+        pass_filenames: false
+
+      - id: golangci-lint
+        name: golangci-lint cmd and internal
+        entry: go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.4.0 run ./cmd/... ./internal/...
+        language: system
+        pass_filenames: false
+
+      - id: go-test
+        name: focused Go tests
+        entry: go test ./internal/analysis ./internal/checks ./internal/cli ./internal/exercise ./internal/runner ./internal/tui ./internal/watcher
+        language: system
+        pass_filenames: false
+
+      - id: go-build
+        name: build CLI
+        entry: bash -c 'mkdir -p bin && go build -o ./bin/goforgo ./cmd/goforgo'
+        language: system
+        pass_filenames: false
+
+      - id: exercise-integrity
+        name: exercise integrity check
+        entry: bash ./scripts/check_exercises.sh
+        language: system
+        pass_filenames: false
+
+      - id: conventional-commit-msg
+        name: conventional commit message
+        entry: >-
+          bash -c 'msg_file="$1"; if grep -Eq "^(Merge|Revert)" "$msg_file"; then exit 0; fi; if ! grep -Eq "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([A-Za-z0-9._-]+\))?!?: .+" "$msg_file"; then echo "Commit message must follow Conventional Commits, for example: feat: add exercise checks"; exit 1; fi' --
+        language: system
+        stages: [commit-msg]

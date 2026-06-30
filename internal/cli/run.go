@@ -58,7 +58,7 @@ func runExercise(cmd *cobra.Command, args []string) error {
 	r := validation.NewUniversalRunner(cwd)
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 	defer cancel()
-	
+
 	result, err := r.ValidateExercise(ctx, ex)
 	if err != nil {
 		return fmt.Errorf("failed to run exercise: %w", err)
@@ -67,7 +67,7 @@ func runExercise(cmd *cobra.Command, args []string) error {
 	// Display results
 	feedback := r.FormatValidationResult(result)
 	fmt.Println(feedback)
-	
+
 	// Show summary for universal validation
 	if len(result.ServiceResults) > 0 || len(result.ValidationResults) > 0 {
 		summary := r.GetValidationSummary(result)
@@ -79,7 +79,7 @@ func runExercise(cmd *cobra.Command, args []string) error {
 			fmt.Printf("   Environment Variables: %d injected\n", envVars)
 		}
 	}
-	
+
 	// Always cleanup resources when done
 	defer func() {
 		cleanupCtx, cleanupCancel := context.WithTimeout(context.Background(), 30*time.Second)
@@ -88,7 +88,7 @@ func runExercise(cmd *cobra.Command, args []string) error {
 			fmt.Printf("⚠️  Warning: Failed to cleanup resources: %v\n", err)
 		}
 	}()
-	
+
 	success := result.Success
 
 	if success {
@@ -96,9 +96,9 @@ func runExercise(cmd *cobra.Command, args []string) error {
 		if err := em.MarkExerciseCompleted(ex.Info.Name); err != nil {
 			fmt.Printf("⚠️  Warning: Failed to save progress: %v\n", err)
 		}
-		
+
 		fmt.Printf("🎯 Exercise '%s' completed! 🎉\n", ex.Info.Name)
-		
+
 		// Suggest next steps
 		nextEx := em.GetNextExercise()
 		if nextEx != nil {

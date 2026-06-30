@@ -66,21 +66,21 @@ func listExercises(cmd *cobra.Command, args []string) error {
 		for _, ex := range filteredExercises {
 			categoryExercises[ex.Info.Category] = append(categoryExercises[ex.Info.Category], ex)
 		}
-		
+
 		// Sort exercises within each category by name for consistent ordering
 		for _, exercises := range categoryExercises {
 			sort.Slice(exercises, func(i, j int) bool {
 				return exercises[i].Info.Name < exercises[j].Info.Name
 			})
 		}
-		
+
 		// Output exercises with proper numbering
 		for _, ex := range filteredExercises {
 			status := "incomplete"
 			if ex.Completed {
 				status = "complete"
 			}
-			
+
 			// Simple difficulty without stars
 			difficulty := "unknown"
 			switch ex.Info.Difficulty {
@@ -95,7 +95,7 @@ func listExercises(cmd *cobra.Command, args []string) error {
 			case 5:
 				difficulty = "expert"
 			}
-			
+
 			// Extract category number and name
 			categoryNumber := ""
 			categoryName := ex.Info.Category
@@ -106,7 +106,7 @@ func listExercises(cmd *cobra.Command, args []string) error {
 					categoryName = parts[1]
 				}
 			}
-			
+
 			// Find the exercise number within its category
 			exerciseNumber := "1"
 			categoryExerciseList := categoryExercises[ex.Info.Category]
@@ -116,15 +116,15 @@ func listExercises(cmd *cobra.Command, args []string) error {
 					break
 				}
 			}
-			
+
 			// Output: category_number|category_name|exercise_number|exercise_name|difficulty|status|title|time
-			fmt.Printf("%s|%s|%s|%s|%s|%s|%s|%s\n", 
+			fmt.Printf("%s|%s|%s|%s|%s|%s|%s|%s\n",
 				categoryNumber,
 				categoryName,
 				exerciseNumber,
 				ex.Info.Name,
-				difficulty, 
-				status, 
+				difficulty,
+				status,
 				ex.Description.Title,
 				ex.Info.EstimatedTime)
 		}
@@ -133,7 +133,7 @@ func listExercises(cmd *cobra.Command, args []string) error {
 
 	// Display header with progress using centralized counting
 	completedCount, totalCount, percentage := em.GetProgressStats()
-	fmt.Printf("GoForGo Exercises - Progress: %d/%d (%.1f%% complete)\n", 
+	fmt.Printf("GoForGo Exercises - Progress: %d/%d (%.1f%% complete)\n",
 		completedCount, totalCount, percentage)
 	fmt.Println(strings.Repeat("═", 60))
 
@@ -176,7 +176,7 @@ func listExercises(cmd *cobra.Command, args []string) error {
 
 			fmt.Printf("  %s %-20s %s\n", status, ex.Info.Name, difficultyStr)
 			fmt.Printf("      %s\n", ex.Description.Title)
-			
+
 			if ex.Info.EstimatedTime != "" {
 				fmt.Printf("      ⏱️  Estimated time: %s\n", ex.Info.EstimatedTime)
 			}
@@ -198,7 +198,7 @@ func listExercises(cmd *cobra.Command, args []string) error {
 
 func init() {
 	rootCmd.AddCommand(listCmd)
-	
+
 	// Add flags
 	listCmd.Flags().BoolVar(&listAll, "all", false, "Show all exercises including completed ones")
 	listCmd.Flags().StringVar(&listCategory, "category", "", "Filter exercises by category")

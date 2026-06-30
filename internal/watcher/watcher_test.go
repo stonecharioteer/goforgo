@@ -22,7 +22,9 @@ func TestWatcher_BasicFunctionality(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create watcher: %v", err)
 	}
-	defer w.Close()
+	defer func() {
+		_ = w.Close()
+	}()
 
 	// Add file to watch
 	err = w.Add(tempDir)
@@ -58,12 +60,14 @@ func TestWatcher_BasicFunctionality(t *testing.T) {
 
 func TestWatcher_EventTypes(t *testing.T) {
 	tempDir := t.TempDir()
-	
+
 	w, err := NewWatcher()
 	if err != nil {
 		t.Fatalf("Failed to create watcher: %v", err)
 	}
-	defer w.Close()
+	defer func() {
+		_ = w.Close()
+	}()
 
 	err = w.Add(tempDir)
 	if err != nil {
@@ -113,7 +117,7 @@ func TestWatcher_GoFileFiltering(t *testing.T) {
 			// This would be tested in the TUI model tests
 			// Here we just verify our Event type methods work
 			event := Event{Name: tc.filename}
-			
+
 			switch tc.op {
 			case "write":
 				event.Op = 2 // fsnotify.Write

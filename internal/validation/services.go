@@ -24,7 +24,7 @@ func NewServiceRegistry() *ServiceRegistry {
 // CreateService creates a service based on the provided specification
 func (sr *ServiceRegistry) CreateService(ctx context.Context, spec ServiceSpec) (Service, error) {
 	log.Printf("Creating service: %s (%s)", spec.Name, spec.Type)
-	
+
 	switch spec.Type {
 	case "postgresql":
 		return sr.createPostgreSQLService(ctx, spec)
@@ -56,7 +56,7 @@ func (sr *ServiceRegistry) RegisterService(name string, service Service) {
 func (sr *ServiceRegistry) StopAllServices(ctx context.Context) error {
 	var wg sync.WaitGroup
 	errors := make(chan error, len(sr.services))
-	
+
 	for name, service := range sr.services {
 		wg.Add(1)
 		go func(serviceName string, svc Service) {
@@ -67,20 +67,20 @@ func (sr *ServiceRegistry) StopAllServices(ctx context.Context) error {
 			}
 		}(name, service)
 	}
-	
+
 	wg.Wait()
 	close(errors)
-	
+
 	// Collect any errors
 	var errorList []error
 	for err := range errors {
 		errorList = append(errorList, err)
 	}
-	
+
 	if len(errorList) > 0 {
 		return fmt.Errorf("failed to stop some services: %v", errorList)
 	}
-	
+
 	return nil
 }
 
@@ -88,62 +88,62 @@ func (sr *ServiceRegistry) StopAllServices(ctx context.Context) error {
 
 func (sr *ServiceRegistry) createPostgreSQLService(ctx context.Context, spec ServiceSpec) (Service, error) {
 	log.Printf("Creating PostgreSQL service with spec: %+v", spec)
-	
+
 	// Use the actual testcontainers implementation
 	service := NewPostgreSQLContainer(spec.Name, spec.Version, spec.Config)
-	
+
 	sr.RegisterService(spec.Name, service)
 	return service, nil
 }
 
 func (sr *ServiceRegistry) createRedisService(ctx context.Context, spec ServiceSpec) (Service, error) {
 	log.Printf("Creating Redis service with spec: %+v", spec)
-	
+
 	// Use the actual testcontainers implementation
 	service := NewRedisContainer(spec.Name, spec.Version, spec.Config)
-	
+
 	sr.RegisterService(spec.Name, service)
 	return service, nil
 }
 
 func (sr *ServiceRegistry) createMongoDBService(ctx context.Context, spec ServiceSpec) (Service, error) {
 	log.Printf("Creating MongoDB service with spec: %+v", spec)
-	
+
 	// TODO: Implement using testcontainers-go MongoDB container
 	service := &MongoDBService{
 		name:    spec.Name,
 		version: spec.Version,
 		config:  spec.Config,
 	}
-	
+
 	sr.RegisterService(spec.Name, service)
 	return service, nil
 }
 
 func (sr *ServiceRegistry) createRabbitMQService(ctx context.Context, spec ServiceSpec) (Service, error) {
 	log.Printf("Creating RabbitMQ service with spec: %+v", spec)
-	
+
 	// TODO: Implement using testcontainers-go RabbitMQ container
 	service := &RabbitMQService{
 		name:    spec.Name,
 		version: spec.Version,
 		config:  spec.Config,
 	}
-	
+
 	sr.RegisterService(spec.Name, service)
 	return service, nil
 }
 
 func (sr *ServiceRegistry) createHTTPMockService(ctx context.Context, spec ServiceSpec) (Service, error) {
 	log.Printf("Creating HTTP Mock service with spec: %+v", spec)
-	
+
 	// TODO: Implement using testcontainers-go generic container with mock server
 	service := &HTTPMockService{
 		name:    spec.Name,
 		version: spec.Version,
 		config:  spec.Config,
 	}
-	
+
 	sr.RegisterService(spec.Name, service)
 	return service, nil
 }
@@ -257,7 +257,7 @@ func (h *HTTPMockService) GetConnectionInfo() *ServiceConnectionInfo {
 	if configPort, ok := h.config["port"].(int); ok {
 		port = configPort
 	}
-	
+
 	return &ServiceConnectionInfo{
 		Host: "localhost",
 		Port: port,

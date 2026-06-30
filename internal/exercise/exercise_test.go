@@ -9,7 +9,7 @@ import (
 
 func TestExerciseManager_ProgressTracking(t *testing.T) {
 	tempDir := t.TempDir()
-	
+
 	// Create test exercise structure
 	exerciseDir := filepath.Join(tempDir, "exercises", "01_basics")
 	err := os.MkdirAll(exerciseDir, 0755)
@@ -103,7 +103,7 @@ level_1 = "Test hint"
 
 func TestExerciseManager_GetNextExercise(t *testing.T) {
 	tempDir := t.TempDir()
-	
+
 	// Create multiple test exercises
 	exercises := []struct {
 		name     string
@@ -210,7 +210,7 @@ func TestExercise_GetHint(t *testing.T) {
 		ex.Attempts = tc.attempts
 		hint := ex.GetHint()
 		if hint != tc.expectedHint {
-			t.Errorf("For %d attempts, expected hint '%s', got '%s'", 
+			t.Errorf("For %d attempts, expected hint '%s', got '%s'",
 				tc.attempts, tc.expectedHint, hint)
 		}
 	}
@@ -238,7 +238,7 @@ func TestExercise_GetDifficultyString(t *testing.T) {
 		}
 		result := ex.GetDifficultyString()
 		if result != tc.expected {
-			t.Errorf("For difficulty %d, expected '%s', got '%s'", 
+			t.Errorf("For difficulty %d, expected '%s', got '%s'",
 				tc.difficulty, tc.expected, result)
 		}
 	}
@@ -246,9 +246,9 @@ func TestExercise_GetDifficultyString(t *testing.T) {
 
 func TestProgress_Persistence(t *testing.T) {
 	tempDir := t.TempDir()
-	
+
 	em := NewExerciseManager(tempDir)
-	
+
 	// Test initial progress
 	if len(em.progress.CompletedExercises) != 0 {
 		t.Error("Initial progress should be empty")
