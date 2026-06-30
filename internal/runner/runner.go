@@ -40,8 +40,9 @@ type ValidationResult struct {
 
 // Runner handles Go code compilation and execution
 type Runner struct {
-	workingDir string
-	timeout    time.Duration
+	workingDir    string
+	timeout       time.Duration
+	SkipTodoCheck bool
 }
 
 const maxCommandOutputBytes = 512 * 1024 // 512KB per stream
@@ -233,11 +234,11 @@ func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 	}
 
 	// Universal TODO comment check - runs after main validation if it succeeded
-	if result.Success {
+	if result.Success && !r.SkipTodoCheck {
 		todoPresent, todoOutput := r.checkForTodoComments(ex.FilePath)
 		result.Validation.TodoCheck = !todoPresent
 		result.Validation.TodoOutput = todoOutput
-		
+
 		if todoPresent {
 			result.Success = false
 			result.Output = todoOutput
