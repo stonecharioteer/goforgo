@@ -117,6 +117,59 @@ func main() {
 	}
 	
 	fmt.Println("\n=== Error Propagation ===")
-	
 	// TODO: Test parseAndValidateAge with different inputs
-	testInputs := []string{\"25\", \"-5\", \"abc\", \"200\", \"30\"}\n	for _, input := range testInputs {\n		fmt.Printf(\"Processing '%s': \", input)\n		// Process each input\n	}\n	\n	fmt.Println(\"\\n=== Named Return Values ===\\n\")\n	\n	// TODO: Test safeDivide\n	result, err = safeDivide(15, 3)\n	if err != nil {\n		fmt.Printf(\"Error: %v\\n\", err)\n	} else {\n		fmt.Printf(\"15 / 3 = %.2f\\n\", result)\n	}\n	\n	// Test with zero\n	result, err = // Try safeDivide with zero\n	if err != nil {\n		fmt.Printf(\"Safe divide error: %v\\n\", err)\n	}\n	\n	fmt.Println(\"\\n=== Error Type Checking ===\\n\")\n	\n	// TODO: Test string conversion with different inputs\n	testStrings := []string{\"123\", \"abc\", \"456\", \"12.34\"}\n	for _, s := range testStrings {\n		fmt.Printf(\"Converting '%s': \", s)\n		// Handle each string conversion\n	}\n	\n	fmt.Println(\"\\n=== Error Patterns ===\\n\")\n	\n	// TODO: Demonstrate ignoring errors (not recommended but sometimes needed)\n	num, _ := strconv.Atoi(\"123\") // Ignore error with blank identifier\n	fmt.Printf(\"Ignoring error result: %d\\n\", num)\n	\n	// TODO: Demonstrate multiple error checks\n	s1, s2 := \"10\", \"5\"\n	n1, err1 := strconv.Atoi(s1)\n	n2, err2 := strconv.Atoi(s2)\n	\n	if err1 != nil || err2 != nil {\n		fmt.Printf(\"Parsing errors: err1=%v, err2=%v\\n\", err1, err2)\n		return\n	}\n	\n	// Both parsing succeeded\n	result, err = divide(float64(n1), float64(n2))\n	if err != nil {\n		fmt.Printf(\"Division error: %v\\n\", err)\n	} else {\n		fmt.Printf(\"%s / %s = %.2f\\n\", s1, s2, result)\n	}\n}"}
+	testInputs := []string{"25", "-5", "abc", "200", "30"}
+	for _, input := range testInputs {
+		fmt.Printf("Processing '%s': ", input)
+		// Process each input
+	}
+
+	fmt.Println("\n=== Named Return Values ===\n")
+
+	// TODO: Test safeDivide
+	result, err = safeDivide(15, 3)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+	} else {
+		fmt.Printf("15 / 3 = %.2f\n", result)
+	}
+						
+	// Test with zero
+	result, err = // Try safeDivide with zero
+	if err != nil {
+		fmt.Printf("Safe divide error: %v\n", err)
+	}
+				
+	fmt.Println("\n=== Error Type Checking ===\n")
+		
+	// TODO: Test string conversion with different inputs
+	testStrings := []string{"123", "abc", "456", "12.34"}
+	for _, s := range testStrings {
+			fmt.Printf("Converting '%s': ", s)
+		// Handle each string conversion
+	}
+
+	fmt.Println("\n=== Error Patterns ===\n")
+		
+	// TODO: Demonstrate ignoring errors (not recommended but sometimes needed)
+	num, _ := strconv.Atoi("123") // Ignore error with blank identifier
+	fmt.Printf("Ignoring error result: %d\n", num)
+		
+	// TODO: Demonstrate multiple error checks
+	s1, s2 := "10", "5"
+	n1, err1 := strconv.Atoi(s1)
+	n2, err2 := strconv.Atoi(s2)
+
+	if err1 != nil || err2 != nil {
+		fmt.Printf("Parsing errors: err1=%v, err2=%v\n", err1, err2)
+		return
+	}
+				
+	// Both parsing succeeded
+	result, err = divide(float64(n1), float64(n2))
+	if err != nil {
+			fmt.Printf("Division error: %v\n", err)
+	} else {
+		fmt.Printf("%s / %s = %.2f\n", s1, s2, result)
+	}
+}
