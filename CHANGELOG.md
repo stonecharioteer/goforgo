@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **GitHub checks and local pre-commit hooks** *(2026-06-30 10:26:54 IST)*: Added CI for formatting, module tidiness, linting, focused tests, CLI build, exercise integrity, and conventional PR titles, plus matching `uvx pre-commit` setup documentation.
+
+### Fixed
+- **Lint compliance** *(2026-06-30 10:26:54 IST)*: Cleaned up lint findings in command output handling, resource cleanup, TUI key handling, and unused code so the new lint check passes.
+- **Portable exercise checker** *(2026-06-30 10:26:54 IST)*: Updated `scripts/check_exercises.sh` to run on older Bash versions without associative arrays or `bc`.
+
 ## [0.9.4] - 2026-04-07
 
 ### Changed

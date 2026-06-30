@@ -16,26 +16,26 @@ import (
 
 // Result represents the result of running an exercise
 type Result struct {
-	Success    bool          `json:"success"`
-	ExitCode   int           `json:"exit_code"`
-	Output     string        `json:"output"`
-	Error      string        `json:"error"`
-	Duration   time.Duration `json:"duration"`
+	Success    bool             `json:"success"`
+	ExitCode   int              `json:"exit_code"`
+	Output     string           `json:"output"`
+	Error      string           `json:"error"`
+	Duration   time.Duration    `json:"duration"`
 	Validation ValidationResult `json:"validation"`
 }
 
 // ValidationResult contains detailed validation information
 type ValidationResult struct {
-	BuildSuccess bool   `json:"build_success"`
-	TestSuccess  bool   `json:"test_success,omitempty"`
-	RunSuccess   bool   `json:"run_success,omitempty"`
-	StaticSuccess bool  `json:"static_success,omitempty"`
+	BuildSuccess  bool   `json:"build_success"`
+	TestSuccess   bool   `json:"test_success,omitempty"`
+	RunSuccess    bool   `json:"run_success,omitempty"`
+	StaticSuccess bool   `json:"static_success,omitempty"`
 	TodoCheck     bool   `json:"todo_check,omitempty"`
-	BuildOutput  string `json:"build_output,omitempty"`
-	TestOutput   string `json:"test_output,omitempty"`
-	RunOutput    string `json:"run_output,omitempty"`
-	StaticOutput string `json:"static_output,omitempty"`
-	TodoOutput   string `json:"todo_output,omitempty"`
+	BuildOutput   string `json:"build_output,omitempty"`
+	TestOutput    string `json:"test_output,omitempty"`
+	RunOutput     string `json:"run_output,omitempty"`
+	StaticOutput  string `json:"static_output,omitempty"`
+	TodoOutput    string `json:"todo_output,omitempty"`
 }
 
 // Runner handles Go code compilation and execution
@@ -105,7 +105,7 @@ func (r *Runner) SetTimeout(timeout time.Duration) {
 // RunExercise executes an exercise based on its validation mode
 func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 	start := time.Now()
-	
+
 	// Create a result object
 	result := &Result{
 		Validation: ValidationResult{},
@@ -120,7 +120,7 @@ func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 
 	// Change to the exercise directory
 	exerciseDir := filepath.Dir(ex.FilePath)
-	
+
 	// Ensure go.mod exists in exercise directory for module-based compilation
 	if err := r.ensureGoMod(exerciseDir, ex); err != nil {
 		result.Error = fmt.Sprintf("Failed to setup Go module: %v", err)
@@ -165,7 +165,7 @@ func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 		testSuccess, testOutput, err := r.runGoCommand(exerciseDir, "test", ex.FilePath, ex.TestFilePath)
 		result.Validation.TestSuccess = testSuccess
 		result.Validation.TestOutput = testOutput
-		
+
 		if err != nil {
 			result.Error = fmt.Sprintf("Test command failed: %v", err)
 		} else {
@@ -178,7 +178,7 @@ func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 		runSuccess, runOutput, err := r.runGoCommand(exerciseDir, "run", ex.FilePath)
 		result.Validation.RunSuccess = runSuccess
 		result.Validation.RunOutput = runOutput
-		
+
 		if err != nil {
 			result.Error = fmt.Sprintf("Run command failed: %v", err)
 		} else if runSuccess {
@@ -186,8 +186,7 @@ func (r *Runner) RunExercise(ex *exercise.Exercise) (*Result, error) {
 			if ex.Validation.ExpectedOutput != "" {
 				actualOutput := strings.TrimSpace(runOutput)
 				expectedOutput := strings.TrimSpace(ex.Validation.ExpectedOutput)
-				
-				
+
 				if actualOutput == expectedOutput {
 					result.Success = true
 					result.Output = runOutput
@@ -267,7 +266,7 @@ func (r *Runner) runGoCommand(dir, command string, args ...string) (success bool
 
 	// Run the command
 	err = cmd.Run()
-	
+
 	// Combine stdout and stderr for output
 	combinedOutput := strings.TrimSpace(stdout.String() + stderr.String())
 
@@ -276,7 +275,7 @@ func (r *Runner) runGoCommand(dir, command string, args ...string) (success bool
 		if ctx.Err() == context.DeadlineExceeded {
 			return false, combinedOutput, fmt.Errorf("command timed out after %v", r.timeout)
 		}
-		
+
 		// Command failed, but we still want to show the output
 		return false, combinedOutput, nil
 	}
@@ -287,7 +286,7 @@ func (r *Runner) runGoCommand(dir, command string, args ...string) (success bool
 // ensureGoMod creates a go.mod file in the exercise directory if it doesn't exist
 func (r *Runner) ensureGoMod(exerciseDir string, ex *exercise.Exercise) error {
 	goModPath := filepath.Join(exerciseDir, "go.mod")
-	
+
 	// Check if go.mod already exists
 	if _, err := os.Stat(goModPath); err == nil {
 		return nil // go.mod already exists

@@ -7,9 +7,9 @@ import (
 	"log"
 	"time"
 
+	_ "github.com/lib/pq"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
-	_ "github.com/lib/pq"
 )
 
 // PostgreSQLContainer wraps a testcontainers PostgreSQL instance
@@ -97,11 +97,11 @@ func (p *PostgreSQLContainer) Start(ctx context.Context) error {
 		Password: password,
 		URL:      fmt.Sprintf("postgresql://%s:%s@%s:%d/%s", username, password, host, port.Int(), database),
 		Env: map[string]string{
-			"DB_HOST":     host,
-			"DB_PORT":     port.Port(),
-			"DB_NAME":     database,
-			"DB_USER":     username,
-			"DB_PASSWORD": password,
+			"DB_HOST":      host,
+			"DB_PORT":      port.Port(),
+			"DB_NAME":      database,
+			"DB_USER":      username,
+			"DB_PASSWORD":  password,
 			"DATABASE_URL": fmt.Sprintf("postgresql://%s:%s@%s:%d/%s", username, password, host, port.Int(), database),
 		},
 	}
@@ -131,7 +131,9 @@ func (p *PostgreSQLContainer) IsReady(ctx context.Context) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	defer db.Close()
+	defer func() {
+		_ = db.Close()
+	}()
 
 	// Test the connection
 	if err := db.PingContext(ctx); err != nil {

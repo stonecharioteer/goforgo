@@ -9,7 +9,7 @@ import (
 	"log"
 
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-	apiextensionsclientset "k8s.io/apiextensions-apiserver/pkg/clientset/clientset"
+	apiextensionsclientset "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -33,7 +33,7 @@ func initClients() (kubernetes.Interface, apiextensionsclientset.Interface, dyna
 // Create a CRD with:
 // - Group: "apps.example.com"
 // - Version: "v1"
-// - Kind: "WebApp"  
+// - Kind: "WebApp"
 // - Plural: "webapps"
 // - Scope: Namespaced
 // - Schema with properties: replicas (integer), image (string), port (integer)

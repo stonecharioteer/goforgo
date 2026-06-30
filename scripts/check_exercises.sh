@@ -89,7 +89,7 @@ done < <(find ./solutions -name "*.go" -type f -print0 | sort -z)
 # Count exercises by category
 echo "📋 Exercise count by category:"
 echo "------------------------------"
-declare -A category_counts
+category_counts_file=$(mktemp)
 while IFS= read -r -d '' exercise_file; do
     rel_path="${exercise_file#./exercises/}"
     category=$(dirname "$rel_path")
@@ -105,18 +105,18 @@ while IFS= read -r -d '' exercise_file; do
     toml_file="./exercises/$category/$name.toml"
     
     if [[ -f "$solution_file" && -f "$toml_file" ]]; then
-        category_counts["$category"]=$((${category_counts["$category"]} + 1))
+        printf '%s\n' "$category" >> "$category_counts_file"
     fi
     
 done < <(find ./exercises -name "*.go" -type f -print0 | sort -z)
 
 # Display category counts
-for category in $(printf '%s\n' "${!category_counts[@]}" | sort); do
-    count=${category_counts[$category]}
+sort "$category_counts_file" | uniq -c | while read -r count category; do
     # Convert category name to readable format
-    readable_category=$(echo "$category" | sed 's/_/ /g' | sed 's/\b\w/\U&/g')
+    readable_category=$(printf '%s' "$category" | tr '_' ' ')
     printf "  %-25s: %d complete sets\n" "$readable_category" "$count"
 done
+rm -f "$category_counts_file"
 
 echo
 echo "📈 Summary Statistics"
@@ -129,7 +129,7 @@ echo "Orphaned solutions: ${#orphaned_solutions[@]}"
 
 # Calculate completion percentage
 if [[ $total_exercises -gt 0 ]]; then
-    completion_percentage=$(echo "scale=1; $complete_sets * 100 / $total_exercises" | bc -l)
+    completion_percentage=$(awk "BEGIN { printf \"%.1f\", ($complete_sets * 100) / $total_exercises }")
     echo "Completion rate: $completion_percentage%"
 fi
 

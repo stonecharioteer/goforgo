@@ -9,10 +9,10 @@ import (
 
 // TestOrchestrator is the main validation engine that orchestrates all testing
 type TestOrchestrator struct {
-	serviceRegistry *ServiceRegistry
+	serviceRegistry   *ServiceRegistry
 	validatorRegistry *ValidatorRegistry
-	resourceManager *ResourceManager
-	config *OrchestratorConfig
+	resourceManager   *ResourceManager
+	config            *OrchestratorConfig
 }
 
 // OrchestratorConfig holds configuration for the test orchestrator
@@ -26,7 +26,6 @@ type OrchestratorConfig struct {
 // ServiceRegistry manages lifecycle of supporting services (databases, queues, external APIs)
 type ServiceRegistry struct {
 	services map[string]Service
-	network  ContainerNetwork
 	config   *ServiceRegistryConfig
 }
 
@@ -60,12 +59,12 @@ type ServiceConnectionInfo struct {
 
 // ValidationRequest represents a validation request for an exercise
 type ValidationRequest struct {
-	Exercise      *exercise.Exercise
-	WorkingDir    string
-	Services      []ServiceSpec
-	Rules         []ValidationRuleSpec
-	Environment   map[string]string
-	Timeout       time.Duration
+	Exercise    *exercise.Exercise
+	WorkingDir  string
+	Services    []ServiceSpec
+	Rules       []ValidationRuleSpec
+	Environment map[string]string
+	Timeout     time.Duration
 }
 
 // ServiceSpec defines requirements for a service
@@ -88,34 +87,34 @@ type WaitCondition struct {
 
 // ValidationRuleSpec defines a validation rule to execute
 type ValidationRuleSpec struct {
-	Type     string                 `toml:"type"`     // "http_routes", "database", "process", etc.
-	Name     string                 `toml:"name"`     // unique name for this rule
-	Config   map[string]interface{} `toml:"config"`   // rule-specific configuration
-	DependsOn []string              `toml:"depends_on"` // other rules that must pass first
-	Parallel bool                   `toml:"parallel"`  // can run in parallel with others
+	Type      string                 `toml:"type"`       // "http_routes", "database", "process", etc.
+	Name      string                 `toml:"name"`       // unique name for this rule
+	Config    map[string]interface{} `toml:"config"`     // rule-specific configuration
+	DependsOn []string               `toml:"depends_on"` // other rules that must pass first
+	Parallel  bool                   `toml:"parallel"`   // can run in parallel with others
 }
 
 // ValidationResult contains the results of validation
 type ValidationResult struct {
-	Success          bool                        `json:"success"`
-	Duration         time.Duration               `json:"duration"`
-	ServiceResults   map[string]*ServiceResult   `json:"service_results"`
-	ValidationResults map[string]*RuleResult     `json:"validation_results"`
-	Environment      map[string]string           `json:"environment"`
-	Error            string                      `json:"error,omitempty"`
-	Logs             []string                    `json:"logs,omitempty"`
+	Success           bool                      `json:"success"`
+	Duration          time.Duration             `json:"duration"`
+	ServiceResults    map[string]*ServiceResult `json:"service_results"`
+	ValidationResults map[string]*RuleResult    `json:"validation_results"`
+	Environment       map[string]string         `json:"environment"`
+	Error             string                    `json:"error,omitempty"`
+	Logs              []string                  `json:"logs,omitempty"`
 }
 
 // ServiceResult contains results from service management
 type ServiceResult struct {
-	ServiceName string            `json:"service_name"`
-	ServiceType string            `json:"service_type"`
-	Started     bool              `json:"started"`
-	Ready       bool              `json:"ready"`
+	ServiceName string                 `json:"service_name"`
+	ServiceType string                 `json:"service_type"`
+	Started     bool                   `json:"started"`
+	Ready       bool                   `json:"ready"`
 	Connection  *ServiceConnectionInfo `json:"connection"`
-	Duration    time.Duration     `json:"duration"`
-	Error       string            `json:"error,omitempty"`
-	Logs        []string          `json:"logs,omitempty"`
+	Duration    time.Duration          `json:"duration"`
+	Error       string                 `json:"error,omitempty"`
+	Logs        []string               `json:"logs,omitempty"`
 }
 
 // RuleResult contains results from validation rules

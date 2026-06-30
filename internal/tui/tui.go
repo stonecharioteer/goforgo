@@ -32,7 +32,7 @@ func RunTUIWithNotice(exerciseManager *exercise.ExerciseManager, runner *runner.
 	// Handle cleanup on exit
 	defer func() {
 		if model.watcher != nil {
-			model.watcher.Close()
+			_ = model.watcher.Close()
 		}
 	}()
 

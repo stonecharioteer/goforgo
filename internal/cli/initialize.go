@@ -14,13 +14,13 @@ func InitializeExercises(baseDir string) (int, error) {
 	if err := createExerciseStructure(baseDir); err != nil {
 		return 0, fmt.Errorf("failed to create exercise structure: %w", err)
 	}
-	
+
 	// Count the exercises that were copied using the same logic as ExerciseManager
 	exerciseCount, err := exercise.CountExercisesInDirectory(filepath.Join(baseDir, "exercises"))
 	if err != nil {
 		return 0, fmt.Errorf("failed to count exercises: %w", err)
 	}
-	
+
 	return exerciseCount, nil
 }
 

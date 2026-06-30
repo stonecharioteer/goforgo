@@ -479,36 +479,6 @@ func (m *Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 		return m, nil
 
-	default:
-		key := msg.String()
-
-		// Handle text input in filter mode
-		if m.filterMode && len(key) == 1 {
-			// Only allow alphanumeric characters, underscore, and space
-			if (key >= "a" && key <= "z") || (key >= "A" && key <= "Z") ||
-				(key >= "0" && key <= "9") || key == "_" || key == " " {
-				m.filterText += key
-				return m, nil
-			}
-		}
-
-		// Handle numeric prefix for vim-style {count} motions in list/output views
-		if !m.filterMode && (m.viewMode == ViewList || m.viewMode == ViewOutput) {
-			if key >= "0" && key <= "9" && (m.pendingCount > 0 || key != "0") {
-				digit := int(key[0] - '0')
-				m.pendingCount = m.pendingCount*10 + digit
-				return m, nil
-			}
-		}
-
-		// Clear pending key if unrecognized sequence
-		if m.pendingKey != "" {
-			m.pendingKey = ""
-			m.pendingCount = 0
-		}
-
-		return m, nil
-
 	case "enter", "esc":
 		if m.viewMode == ViewSplash {
 			m.viewMode = ViewWelcome
@@ -565,9 +535,37 @@ func (m *Model) handleKeyPress(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		m.filterText = ""
 		m.currentHintLevel = 0
 		return m, nil
-	}
 
-	return m, nil
+	default:
+		key := msg.String()
+
+		// Handle text input in filter mode
+		if m.filterMode && len(key) == 1 {
+			// Only allow alphanumeric characters, underscore, and space
+			if (key >= "a" && key <= "z") || (key >= "A" && key <= "Z") ||
+				(key >= "0" && key <= "9") || key == "_" || key == " " {
+				m.filterText += key
+				return m, nil
+			}
+		}
+
+		// Handle numeric prefix for vim-style {count} motions in list/output views
+		if !m.filterMode && (m.viewMode == ViewList || m.viewMode == ViewOutput) {
+			if key >= "0" && key <= "9" && (m.pendingCount > 0 || key != "0") {
+				digit := int(key[0] - '0')
+				m.pendingCount = m.pendingCount*10 + digit
+				return m, nil
+			}
+		}
+
+		// Clear pending key if unrecognized sequence
+		if m.pendingKey != "" {
+			m.pendingKey = ""
+			m.pendingCount = 0
+		}
+
+		return m, nil
+	}
 }
 
 // View renders the TUI
@@ -943,12 +941,12 @@ func (m *Model) syncExercises() tea.Cmd {
 			}
 			if result.Success {
 				if !ex.Completed {
-					m.exerciseManager.MarkExerciseCompleted(ex.Info.Name)
+					_ = m.exerciseManager.MarkExerciseCompleted(ex.Info.Name)
 				}
 				completed++
 			} else {
 				if ex.Completed {
-					m.exerciseManager.UnmarkExerciseCompleted(ex.Info.Name)
+					_ = m.exerciseManager.UnmarkExerciseCompleted(ex.Info.Name)
 				}
 			}
 		}

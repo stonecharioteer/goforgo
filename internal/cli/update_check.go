@@ -61,7 +61,7 @@ func maybeNotifyUpdateWithConfig(w io.Writer, currentVersion string, client *htt
 	if w == nil {
 		return
 	}
-	fmt.Fprint(w, cliUpdateNotice(latest, currentVersion))
+	_, _ = fmt.Fprint(w, cliUpdateNotice(latest, currentVersion))
 }
 
 func resolveUpdateStatus(currentVersion, tagsURL string, client *http.Client) (string, bool, error) {
@@ -142,7 +142,9 @@ func fetchLatestTag(ctx context.Context, client *http.Client, tagsURL string) (s
 	if err != nil {
 		return "", err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 
 	if resp.StatusCode != http.StatusOK {
 		return "", fmt.Errorf("tags request returned status %d", resp.StatusCode)

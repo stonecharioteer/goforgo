@@ -125,7 +125,7 @@ func TestModelUpdate(t *testing.T) {
 				m.ready = true
 			},
 			wantState: func(m *Model) bool { return true }, // Any state is fine for quit
-			wantCmd:   true, // Should return tea.Quit command
+			wantCmd:   true,                                // Should return tea.Quit command
 		},
 		{
 			name: "quit on ctrl+c",
@@ -219,7 +219,7 @@ func TestModelUpdate(t *testing.T) {
 				m.isRunning = false
 			},
 			wantState: func(m *Model) bool { return true }, // State changes happen in command
-			wantCmd:   true, // Should trigger run command
+			wantCmd:   true,                                // Should trigger run command
 		},
 		{
 			name: "no run when already running",
@@ -503,7 +503,7 @@ func TestModelView(t *testing.T) {
 			tt.setupModel(model)
 
 			view := model.View()
-			
+
 			if !strings.Contains(view, tt.expectString) {
 				preview := view
 				if len(view) > 100 {

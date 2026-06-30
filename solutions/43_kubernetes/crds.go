@@ -11,7 +11,7 @@ import (
 	"time"
 
 	apiextensionsv1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-	apiextensionsclientset "k8s.io/apiextensions-apiserver/pkg/clientset/clientset"
+	apiextensionsclientset "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -109,7 +109,7 @@ func createWebAppCRD() *apiextensionsv1.CustomResourceDefinition {
 // installCRD installs the CRD in the cluster
 func installCRD(apiExtClient apiextensionsclientset.Interface, crd *apiextensionsv1.CustomResourceDefinition) error {
 	log.Printf("Installing CRD: %s", crd.Name)
-	
+
 	_, err := apiExtClient.ApiextensionsV1().CustomResourceDefinitions().Create(
 		context.Background(), crd, metav1.CreateOptions{})
 	if err != nil {
@@ -123,7 +123,7 @@ func installCRD(apiExtClient apiextensionsclientset.Interface, crd *apiextension
 // waitForCRDEstablished waits for the CRD to be established
 func waitForCRDEstablished(apiExtClient apiextensionsclientset.Interface, crdName string) error {
 	log.Printf("Waiting for CRD %s to be established...", crdName)
-	
+
 	return wait.PollImmediate(time.Second, 30*time.Second, func() (bool, error) {
 		crd, err := apiExtClient.ApiextensionsV1().CustomResourceDefinitions().Get(
 			context.Background(), crdName, metav1.GetOptions{})
@@ -200,7 +200,7 @@ func listWebAppInstances(dynamicClient dynamic.Interface, namespace string) erro
 	for _, item := range list.Items {
 		name := item.GetName()
 		spec, _ := item.Object["spec"].(map[string]interface{})
-		
+
 		fmt.Printf("- Name: %s\n", name)
 		if spec != nil {
 			fmt.Printf("  Image: %v\n", spec["image"])

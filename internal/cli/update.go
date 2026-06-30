@@ -273,7 +273,6 @@ func extractExerciseName(relPath string) string {
 	return ""
 }
 
-
 func init() {
 	rootCmd.AddCommand(updateCmd)
 }

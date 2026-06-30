@@ -20,7 +20,7 @@ func NewResourceManager() *ResourceManager {
 // RegisterService registers a service for resource management
 func (rm *ResourceManager) RegisterService(name string, service Service) {
 	rm.activeServices[name] = service
-	
+
 	// Add cleanup task for this service
 	rm.AddCleanupTask(CleanupTask{
 		Name:     fmt.Sprintf("stop_service_%s", name),
@@ -35,7 +35,7 @@ func (rm *ResourceManager) RegisterService(name string, service Service) {
 // RegisterNetwork registers a network for resource management
 func (rm *ResourceManager) RegisterNetwork(name string, network ContainerNetwork) {
 	rm.activeNetworks[name] = network
-	
+
 	// Add cleanup task for this network
 	rm.AddCleanupTask(CleanupTask{
 		Name:     fmt.Sprintf("remove_network_%s", name),
@@ -55,22 +55,22 @@ func (rm *ResourceManager) AddCleanupTask(task CleanupTask) {
 // Cleanup performs all registered cleanup tasks in priority order
 func (rm *ResourceManager) Cleanup(ctx context.Context) error {
 	log.Printf("🧹 Starting resource cleanup...")
-	
+
 	// Sort cleanup tasks by priority (lower numbers = higher priority)
 	sort.Slice(rm.cleanupTasks, func(i, j int) bool {
 		return rm.cleanupTasks[i].Priority < rm.cleanupTasks[j].Priority
 	})
-	
+
 	var errors []error
 	var wg sync.WaitGroup
 	errorsChan := make(chan error, len(rm.cleanupTasks))
-	
+
 	// Execute cleanup tasks in priority groups
 	priorityGroups := rm.groupTasksByPriority()
-	
+
 	for priority, tasks := range priorityGroups {
 		log.Printf("Cleanup: Executing priority %d tasks (%d tasks)", priority, len(tasks))
-		
+
 		// Execute all tasks in this priority group concurrently
 		for _, task := range tasks {
 			wg.Add(1)
@@ -85,28 +85,28 @@ func (rm *ResourceManager) Cleanup(ctx context.Context) error {
 				}
 			}(task)
 		}
-		
+
 		// Wait for all tasks in this priority group to complete before moving to next
 		wg.Wait()
 	}
-	
+
 	close(errorsChan)
-	
+
 	// Collect any errors
 	for err := range errorsChan {
 		errors = append(errors, err)
 	}
-	
+
 	// Clear the cleanup tasks and resources
 	rm.cleanupTasks = make([]CleanupTask, 0)
 	rm.activeServices = make(map[string]Service)
 	rm.activeNetworks = make(map[string]ContainerNetwork)
-	
+
 	if len(errors) > 0 {
 		log.Printf("❌ Cleanup completed with %d errors", len(errors))
 		return fmt.Errorf("cleanup failed with %d errors: %v", len(errors), errors)
 	}
-	
+
 	log.Printf("✅ Resource cleanup completed successfully")
 	return nil
 }
@@ -114,11 +114,11 @@ func (rm *ResourceManager) Cleanup(ctx context.Context) error {
 // groupTasksByPriority groups cleanup tasks by their priority level
 func (rm *ResourceManager) groupTasksByPriority() map[int][]CleanupTask {
 	groups := make(map[int][]CleanupTask)
-	
+
 	for _, task := range rm.cleanupTasks {
 		groups[task.Priority] = append(groups[task.Priority], task)
 	}
-	
+
 	return groups
 }
 
@@ -140,9 +140,9 @@ func (rm *ResourceManager) GetCleanupTaskCount() int {
 // ForceCleanup performs immediate cleanup of all resources without waiting
 func (rm *ResourceManager) ForceCleanup(ctx context.Context) error {
 	log.Printf("🚨 Force cleanup initiated")
-	
+
 	var errors []error
-	
+
 	// Stop all services immediately
 	for name, service := range rm.activeServices {
 		log.Printf("Force stopping service: %s", name)
@@ -150,7 +150,7 @@ func (rm *ResourceManager) ForceCleanup(ctx context.Context) error {
 			errors = append(errors, fmt.Errorf("failed to force stop service %s: %w", name, err))
 		}
 	}
-	
+
 	// Remove all networks immediately
 	for name, network := range rm.activeNetworks {
 		log.Printf("Force removing network: %s", name)
@@ -158,16 +158,16 @@ func (rm *ResourceManager) ForceCleanup(ctx context.Context) error {
 			errors = append(errors, fmt.Errorf("failed to force remove network %s: %w", name, err))
 		}
 	}
-	
+
 	// Clear resources
 	rm.activeServices = make(map[string]Service)
 	rm.activeNetworks = make(map[string]ContainerNetwork)
 	rm.cleanupTasks = make([]CleanupTask, 0)
-	
+
 	if len(errors) > 0 {
 		return fmt.Errorf("force cleanup encountered %d errors: %v", len(errors), errors)
 	}
-	
+
 	log.Printf("✅ Force cleanup completed")
 	return nil
 }

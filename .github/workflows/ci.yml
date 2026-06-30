@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Go checks
+    runs-on: ubuntu-latest
+    env:
+      GO_PACKAGES: ./internal/analysis ./internal/checks ./internal/cli ./internal/exercise ./internal/runner ./internal/tui ./internal/watcher
+      LINT_PACKAGES: ./cmd/... ./internal/...
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Check formatting
+        run: |
+          unformatted=$(gofmt -l $(find cmd internal -name '*.go' -type f))
+          if [ -n "$unformatted" ]; then
+            echo "The following files need gofmt:"
+            echo "$unformatted"
+            exit 1
+          fi
+
+      - name: Check module tidiness
+        run: |
+          go mod tidy
+          git diff --exit-code -- go.mod go.sum
+
+      - name: Lint
+        run: go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.4.0 run $LINT_PACKAGES
+
+      - name: Run focused tests
+        run: go test $GO_PACKAGES
+
+      - name: Build CLI
+        run: go build -o ./bin/goforgo ./cmd/goforgo
+
+      - name: Check exercise integrity
+        run: ./scripts/check_exercises.sh
